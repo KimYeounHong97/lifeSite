@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hansol.stdweb.log.LoggerMapper">
+    
+	<insert id="insertAccessLog" parameterType="hashMap">
+        INSERT INTO SYS_LOG_ACCESS_TB    /* log.LoggerMapper.insertAccessLog */
+            (
+            USER_ID, USER_NM
+            , COMP_CD
+            , DEPT_CD , DEPT_NM
+            , GRADE_CD , GRADE_NM
+            , ORG_CD , ORG_NM
+            , ACC_GB , SUCCESS_FL
+            , MENU_CD , MENU_NM
+            , PROGRAM_CD , PROGRAM_NM
+            , ACC_URL , ACC_PARAMS
+            , COUNTRY , ACC_IP , ACC_TYPE
+            , AGENT
+            , INPUT_DT
+            )
+        VALUES
+            (#{USER_ID}, NVL(#{USER_NM}, '')
+            , #{COMP_CD}
+            , NVL(#{DEPT_CD}, ''), NVL(#{DEPT_NM}, '')
+            , NVL(#{GRADE_CD}, ''), NVL(#{GRADE_NM}, '')
+            , NVL(#{ORG_CD}, ''), NVL(#{ORG_NM}, '')
+            , NVL(#{ACC_GB}, '') , NVL(#{SUCCESS_FL}, '')
+            , NVL(#{MENU_CD}, ''), NVL(#{MENU_NM}, '')
+            , NVL(#{PROGRAM_CD}, ''), DECODE(#{PROGRAM_CD}, null, '', (SELECT PROGRAM_NM FROM ADM_PRGM_TB WHERE PROGRAM_CD = #{PROGRAM_CD} AND COMP_CD = #{COMP_CD}))
+            , NVL(#{ACC_URL}, ''), NVL(#{ACC_PARAMS}, '')
+            , NVL(#{COUNTRY}, ''), #{ACC_IP}, NVL(#{ACC_TYPE}, '')
+            , NVL(#{AGENT}, '')
+            , sysdate)
+    </insert>
+    
+    <insert id="insertHistoryLog" parameterType="hashMap">
+        {call PROC_CHG_LOG_DETAIL(#{TARGET_ID}, #{COMP_CD}, #{JOB_TARGET}, #{JOB_GUBUN}, #{ACT_ID}, #{BIGO})}
+    </insert>
+
+    <insert id="insertUserDeleteAuthAllLog" parameterType="hashMap">
+        INSERT INTO SYS_LOG_CHG_TB ( /* log.LoggerMapper.insertUserDeleteAuthAllLog */
+            TARGET_ID, COMP_CD, JOB_TARGET, JOB_GUBUN, ACT_ID, BIGO
+        )
+        SELECT 
+            USER_ID, COMP_CD, #{JOB_TARGET}, #{JOB_GUBUN}, #{ACT_ID}, #{BIGO}
+        FROM ADM_AUTH_USER_MAPPING_TB
+        WHERE USER_ID = #{TARGET_ID}
+    </insert>
+
+    <select id="getUserAccessLog" parameterType="hashMap" resultType="hashMap">
+        SELECT      /* log.LoggerMapper.getUserAccessLog */
+              USER_ID
+            , USER_NM
+            , COMP_CD
+            , ACC_IP
+            , ACC_TYPE
+            , COUNTRY
+            , MENU_CD
+            , MENU_NM
+            , PROGRAM_CD
+            , PROGRAM_NM
+            , ACC_GB
+            , ACC_PARAMS
+            , ACC_URL
+            , DECODE(SUCCESS_FL, 'S', '성공', 'E', '실패') AS SUCCESS_FL
+            , TO_CHAR(INPUT_DT, 'YYYY-MM-DD HH24:MI:SS') AS INPUT_DT
+        FROM SYS_LOG_ACCESS_TB
+        WHERE USER_ID = #{USER_ID}
+            <if test = ' SDATE not in {null, ""} '>
+                <![CDATA[ AND TO_CHAR(INPUT_DT, 'YYYYMMDD') >= #{SDATE} ]]>
+            </if>
+            <if test = ' EDATE not in {null, ""} '>
+                <![CDATA[ AND TO_CHAR(INPUT_DT, 'YYYYMMDD') <= #{EDATE} ]]>
+            </if>
+        ORDER BY INPUT_DT DESC
+    </select>
+    
+    <select id="checkAuthByUrl" parameterType="hashMap" resultType="int">
+        SELECT  /* log.LoggerMapper.checkAuthByUrl */
+            COUNT(*)
+        FROM ADM_PRGM_TB
+        WHERE 
+            PROGRAM_URL = #{URL}
+            AND (
+                PROGRAM_CD IN (
+                    SELECT 
+                        DISTINCT PROGRAM_CD
+                    FROM 
+                        ADM_PRGM_AUTH_MAP_TB
+                    WHERE 
+                        AUTH_CD = (
+                            SELECT AUTH_CD
+                            FROM ADM_AUTH_USER_MAPPING_TB
+                            WHERE USER_ID = #{USER_ID} AND ORG_CD = NVL(#{ORG_CD}, #{COMP_CD}) AND COMP_CD = #{COMP_CD}
+                        )
+                )
+                AND COMP_CD = #{COMP_CD}
+                OR OPEN_ALL_FL = 'Y'
+            )
+    </select>
+    
+    <select id="checkAuthByPrgmcd" parameterType="hashMap" resultType="int">
+        SELECT  /* log.LoggerMapper.checkAuthByPrgmcd */
+            COUNT(*)
+        FROM
+            ADM_PRGM_TB
+        WHERE
+            PROGRAM_CD = #{CALLED_PROGRAM}
+            AND COMP_CD = #{COMP_CD}
+            AND (
+                PROGRAM_CD IN (
+                    SELECT 
+                        DISTINCT PROGRAM_CD
+                    FROM 
+                        ADM_PRGM_AUTH_MAP_TB
+                    WHERE 
+                        AUTH_CD = (
+                            SELECT AUTH_CD
+                            FROM ADM_AUTH_USER_MAPPING_TB
+                            WHERE USER_ID = #{USER_ID} AND ORG_CD = NVL(#{ORG_CD}, #{COMP_CD}) AND COMP_CD = #{COMP_CD}
+                        )
+                        AND COMP_CD = #{COMP_CD}
+                )
+                OR OPEN_ALL_FL = 'Y'
+            )
+    </select>
+
+    <insert id="insertInterfaceLog" parameterType="hashMap">
+        INSERT INTO SYS_LOG_IF_TB (      /* log.LoggerMapper.insertInterfaceLog */
+            IF_SEQ
+            , IF_NAME
+            , IF_ID
+            , PROGRAM_CD
+            , PROGRAM_KEY
+            , PARAMETERS
+            , RESULT_CODE
+            , RESULT_MESSAGE
+            , INPUT_USER_ID
+            , INPUT_DT
+            , COMP_CD)
+        VALUES (
+            SYS_IF_LOG_SEQ.nextval
+            , #{IF_NAME}
+            , #{IF_ID}
+            , NVL(#{PROGRAM_CD}, '')
+            , NVL(#{PROGRAM_KEY}, '')
+            , NVL(#{PARAMETERS}, '')
+            , NVL(#{RESULT_CODE}, '')
+            , NVL(#{RESULT_MESSAGE}, '')
+            , #{LOGIN_ID}
+            , sysdate
+            , #{COMP_CD})
+    </insert>
+</mapper>
