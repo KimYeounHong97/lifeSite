@@ -1,10 +1,255 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<th:block th:replace="fragment/config :: configFragment"></th:block>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/page/home.css}">
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:src="@{/js/page/home.js}"></script>
+</th:block>
 </head>
-<body>
-testestet
+<body data-published="August 2, 2019" data-modified="August 26, 2021"
+	class="home page-template page-template-template-home page-template-template-home-php page page-id-156 wp-custom-logo wp-embed-responsive post-image-aligned-center slideout-enabled slideout-both sticky-menu-fade no-sidebar nav-below-header contained-header separate-containers active-footer-widgets-0 nav-aligned-right header-aligned-center dropdown-hover offside-js--init"
+	itemtype="https://schema.org/WebPage" itemscope="">
+	<!-- header fragment 사용 -->
+	<th:block th:replace="fragment/header :: headerFragment"></th:block>
+	<th:block layout:fragment="content">
+		<div id="page" class="hfeed site grid-container container grid-parent">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="home-container">
+							<div class="home-header">
+								<img
+									src="https://static.life.com/wp-content/uploads/2021/06/02212621/Image-8-P.-46-47-GettyImages-50613722-scaled.jpg">
+								<div class="article-info">
+									<h1 class="entry-title">
+										<a
+											href="https://www.life.com/people/the-champ-the-beatles-and-a-tearful-girl-the-photography-of-bob-gomel/">The
+											Champ, The Beatles and a Tearful Girl: The Photography of Bob
+											Gomel</a>
+									</h1>
+								</div>
+							</div>
+							<article id="post-156"
+								class="post-156 page type-page status-publish"
+								itemtype="https://schema.org/CreativeWork" itemscope="">
+								<div class="inside-article">
+									<div class="entry-content" itemprop="text">
+										<div class="home-card-container">
+											<div class="article-card">
+												<a
+													href="https://www.life.com/arts-entertainment/ladies-and-gentlemen-the-rolling-stones/"><img
+													width="520" height="351"
+													src="https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-768x519.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="" loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-scaled.jpg 2560w, https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-300x203.jpg 300w, https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-1024x692.jpg 1024w, https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-768x519.jpg 768w, https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-1536x1038.jpg 1536w, https://static.life.com/wp-content/uploads/2021/08/25185757/Stones01-2048x1383.jpg 2048w"
+													sizes="(max-width: 520px) 100vw, 520px"></a> <span><a
+													href="arts-entertainment">arts &amp; entertainment</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/arts-entertainment/ladies-and-gentlemen-the-rolling-stones/">Ladies
+														and Gentlemen, the Rolling Stones!</a>
+												</h3>
+											</div>
+											<div class="article-card">
+												<a
+													href="https://www.life.com/people/hubert-alyea-the-science-teacher-you-wish-you-had/"><img
+													width="520" height="336"
+													src="https://static.life.com/wp-content/uploads/migrated/2012/12/16_112469470-768x496.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="Hubert Alyea, 1953" loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/migrated/2012/12/16_112469470.jpg 1500w, https://static.life.com/wp-content/uploads/migrated/2012/12/16_112469470-300x194.jpg 300w, https://static.life.com/wp-content/uploads/migrated/2012/12/16_112469470-768x496.jpg 768w, https://static.life.com/wp-content/uploads/migrated/2012/12/16_112469470-1024x662.jpg 1024w"
+													sizes="(max-width: 520px) 100vw, 520px"></a> <span><a
+													href="history">history</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/people/hubert-alyea-the-science-teacher-you-wish-you-had/">The
+														Science Teacher You Wish You Had</a>
+												</h3>
+											</div>
+											<div class="article-card">
+												<a
+													href="https://www.life.com/arts-entertainment/daytona-200-rare-photos-classic-american-motorcycle-race/"><img
+													width="504" height="400"
+													src="https://static.life.com/wp-content/uploads/migrated/2012/03/0005281931-768x610.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="Number 161 Norman Teleford streamlines himself during a motorcycle race at Daytona Beach, March 1948."
+													loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/migrated/2012/03/0005281931.jpg 1500w, https://static.life.com/wp-content/uploads/migrated/2012/03/0005281931-300x238.jpg 300w, https://static.life.com/wp-content/uploads/migrated/2012/03/0005281931-768x610.jpg 768w, https://static.life.com/wp-content/uploads/migrated/2012/03/0005281931-1024x813.jpg 1024w"
+													sizes="(max-width: 504px) 100vw, 504px"></a> <span><a
+													href="arts-entertainment">arts &amp; entertainment</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/arts-entertainment/daytona-200-rare-photos-classic-american-motorcycle-race/">LIFE
+														at Daytona: Motorcycle Madness on the Florida Sands</a>
+												</h3>
+											</div>
+											<div class="article-card">
+												<a
+													href="https://www.life.com/lifestyle/life-fashion-covers-1930s/"><img
+													width="400" height="400"
+													src="https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-768x769.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="Sunglasses, United States, 1938." loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938.jpg 2065w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-300x300.jpg 300w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-1024x1024.jpg 1024w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-150x150.jpg 150w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-768x769.jpg 768w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-1536x1536.jpg 1536w, https://static.life.com/wp-content/uploads/2015/10/20165842/116159668_1938-2046x2048.jpg 2046w"
+													sizes="(max-width: 400px) 100vw, 400px"></a> <span><a
+													href="lifestyle">lifestyle</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/lifestyle/life-fashion-covers-1930s/">See
+														the Best Fashions of the 1930s</a>
+												</h3>
+											</div>
+											<div class="article-card">
+												<a
+													href="https://www.life.com/animals/celebrities-best-friends/"><img
+													width="520" height="341"
+													src="https://static.life.com/wp-content/uploads/migrated/2014/12/141214-frank-sinatra-01-768x504.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="Frank Sinatra and his dog, Ringo, at Sinatra's home in Palm Springs, California, in 1965."
+													loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/migrated/2014/12/141214-frank-sinatra-01.jpg 2322w, https://static.life.com/wp-content/uploads/migrated/2014/12/141214-frank-sinatra-01-300x197.jpg 300w, https://static.life.com/wp-content/uploads/migrated/2014/12/141214-frank-sinatra-01-768x504.jpg 768w, https://static.life.com/wp-content/uploads/migrated/2014/12/141214-frank-sinatra-01-1024x672.jpg 1024w"
+													sizes="(max-width: 520px) 100vw, 520px"></a> <span><a
+													href="animals">animals</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/animals/celebrities-best-friends/">Celebrities’
+														Best Friends</a>
+												</h3>
+											</div>
+											<div class="article-card">
+												<a
+													href="https://www.life.com/people/the-queen-of-soul-in-90s-fashion/"><img
+													width="466" height="400"
+													src="https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-768x659.jpg"
+													class="attachment-520x400 size-520x400 wp-post-image"
+													alt="" loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-scaled.jpg 2560w, https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-300x257.jpg 300w, https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-1024x879.jpg 1024w, https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-768x659.jpg 768w, https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-1536x1318.jpg 1536w, https://static.life.com/wp-content/uploads/2021/08/13153846/05870997-2048x1758.jpg 2048w"
+													sizes="(max-width: 466px) 100vw, 466px"></a> <span><a
+													href="arts-entertainment">arts &amp; entertainment</a></span>
+												<h3>
+													<a
+														href="https://www.life.com/people/the-queen-of-soul-in-90s-fashion/">The
+														‘Queen of Soul’ in ’90’s Fashion</a>
+												</h3>
+											</div>
+										</div>
+
+
+										<div class="featured-issue-container">
+											<h1>featured issue</h1>
+											<div>
+												<section>
+													<h2>LIFE: Willy Wonka &amp; The Chocolate Factory</h2>
+													<p></p>
+													<p>LIFE celebrates the 50th anniversary of the beloved
+														family classic Willy Wonka &amp; the Chocolate Factory
+														with a veritable chocolate river of stories and photos.
+														The book features a collection of gorgeous
+														behind-the-scenes photographs that reveal the merriment
+														and mayhem of the original movie set.</p>
+													<p>It also tells the improbable story of how Roald
+														Dahl’s book was ever filmed in the first place, and tracks
+														how the movie went from being an opening-day dud to a
+														staple of American childhood.&nbsp; The issue includes
+														tributes to star Gene Wilder and explains why he was the
+														perfect Wonka, and shares what became of the movie’s child
+														stars….</p>
+													<p>&nbsp;</p>
+													<p>&nbsp;</p>
+													<p></p>
+													<a
+														href="https://www.life.com/arts-entertainment/the-everlasting-magic-of-willy-wonka-the-chocolate-factory/"
+														target="_self"><button>Learn More</button></a>
+												</section>
+												<img width="331" height="450"
+													src="https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-753x1024.jpeg"
+													class="attachment-600x450 size-600x450" alt="Willy Wonka"
+													loading="lazy"
+													srcset="https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-scaled.jpeg 1883w, https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-221x300.jpeg 221w, https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-753x1024.jpeg 753w, https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-768x1044.jpeg 768w, https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-1130x1536.jpeg 1130w, https://static.life.com/wp-content/uploads/2021/08/02184219/LIFE_Wonka_Cover-1506x2048.jpeg 1506w"
+													sizes="(max-width: 331px) 100vw, 331px">
+											</div>
+										</div>
+										<div class="tag-card-container">
+											<h1>Featured Topics</h1>
+											<div
+												data-bg="url(https://static.life.com/wp-content/uploads/migrated/2013/08/world-trade-center-1973-685x1024.jpg)"
+												class="tag-card rocket-lazyload"
+												style="background-image: url(&quot;https://static.life.com/wp-content/uploads/migrated/2013/08/world-trade-center-1973-685x1024.jpg&quot;);"
+												data-was-processed="true">
+												<a class="tag-name"
+													href="https://www.life.com/tag/new-york-city/">New York
+													City</a> <a href="https://www.life.com/tag/new-york-city/"><button>View
+														More</button></a>
+											</div>
+											<div
+												data-bg="url(https://static.life.com/wp-content/uploads/migrated/2012/02/150130-jazz-giants-01-1024x813.jpg)"
+												class="tag-card rocket-lazyload"
+												style="background-image: url(&quot;https://static.life.com/wp-content/uploads/migrated/2012/02/150130-jazz-giants-01-1024x813.jpg&quot;);"
+												data-was-processed="true">
+												<a class="tag-name" href="https://www.life.com/tag/music/">Music</a>
+												<a href="https://www.life.com/tag/music/"><button>View
+														More</button></a>
+											</div>
+											<div
+												data-bg="url(https://static.life.com/wp-content/uploads/migrated/2015/08/150803-deer-15-1024x669.jpg)"
+												class="tag-card rocket-lazyload"
+												style="background-image: url(&quot;https://static.life.com/wp-content/uploads/migrated/2015/08/150803-deer-15-1024x669.jpg&quot;);"
+												data-was-processed="true">
+												<a class="tag-name" href="https://www.life.com/tag/animals/">animals</a>
+												<a href="https://www.life.com/tag/animals/"><button>View
+														More</button></a>
+											</div>
+											<div
+												data-bg="url(https://static.life.com/wp-content/uploads/migrated/2017/02/170206-prayer-pilgrimage-23-1024x677.jpg)"
+												class="tag-card rocket-lazyload"
+												style="background-image: url(&quot;https://static.life.com/wp-content/uploads/migrated/2017/02/170206-prayer-pilgrimage-23-1024x677.jpg&quot;);"
+												data-was-processed="true">
+												<a class="tag-name" href="https://www.life.com/tag/history/">History</a>
+												<a href="https://www.life.com/tag/history/"><button>View
+														More</button></a>
+											</div>
+										</div>
+
+
+									</div>
+									<!-- .entry-content -->
+
+								</div>
+								<!-- .inside-article -->
+							</article>
+							<!-- #post-## -->
+						</div>
+						<div th:if="${session.life == null}"
+							data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"
+							class="newsletter-container rocket-lazyload" style="">
+							<h2>Let's make a magazine together</h2>
+							<p>서로의 이야기를 공유하여 새로운 잡지를 만들어가봐요</p>
+							<section>
+								<button>
+									<a target="_blank" href="/join/login"
+										style="color: white; font-weight: bold;">Join With Us</a>
+								</button>
+							</section>
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+	<!-- footer fragment 사용 -->
+	<th:block th:replace="fragment/footer :: footerFragment"></th:block>
 </body>
 </html>

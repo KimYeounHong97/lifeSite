@@ -10,8 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/")
 public class LifeController {
-	@GetMapping(path = "/")
-	public String helloWorld() {
-		return "index";
-	}
+	
 }

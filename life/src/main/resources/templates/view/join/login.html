@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<th:block th:replace="fragment/config :: configFragment"></th:block>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/page/home.css}">
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:src="@{/js/page/home.js}"></script>
+</th:block>
+</head>
+<body data-published="August 2, 2019" data-modified="August 26, 2021"
+	class="home page-template page-template-template-home page-template-template-home-php page page-id-156 wp-custom-logo wp-embed-responsive post-image-aligned-center slideout-enabled slideout-both sticky-menu-fade no-sidebar nav-below-header contained-header separate-containers active-footer-widgets-0 nav-aligned-right header-aligned-center dropdown-hover offside-js--init"
+	itemtype="https://schema.org/WebPage" itemscope="">
+	<!-- header fragment 사용 -->
+	<th:block th:replace="fragment/header :: headerFragment"></th:block>
+	<th:block layout:fragment="content">
+		<div id="page" class="hfeed site grid-container container grid-parent">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="sitemap-container">
+							<div class="sitemap-header">
+								<img class="featured-image lazyloaded"
+									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+									data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+									data-was-processed="true">
+								<noscript>
+									<img class="featured-image"
+										src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
+								</noscript>
+							</div>
+						</div>
+						<div>
+							<form id="loginForm" name="loginForm" , method="post"
+								onsubmit="return false;">
+								<div class="container" style="margin: 0 auto;">
+									<label for="uname"><b>UserId</b></label> <input type="text"
+										placeholder="Enter Username" name="USER_ID" id="USER_ID"
+										required> <label for="psw"><b>Password</b></label> <input
+										type="password" placeholder="Enter Password" name="PASSWD"
+										id="PASSWD" required>
+
+									<button onclick="fnLogin();">Login</button>
+									<label> <input type="checkbox" checked="checked"
+										name="remember"> Remember me
+									</label>
+								</div>
+
+								<div class="container"
+									style="background-color: #f1f1f1; display: inline-block; width: 97%;">
+									<div style="float: left;">
+										<button type="button" style="float: left; margin-right: 10px;"
+											class="cancelbtn" onclick="fnForegot('id');">Forgot
+											id?</button>
+										<button type="button" style="float: left;" class="cancelbtn"
+											onclick="fnForegot('pwd');">Forgot pwd?</button>
+									</div>
+									<div style="float: right;">
+										<button type="button" class="cancelbtn">Join With Us</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+	<!-- footer fragment 사용 -->
+	<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+	<script>
+		function fnForegot(type) {
+			var p_url;
+			var p_name;
+			if (type == 'id') {
+				p_url = "/user/forgotId";
+				p_name = "forgot_Id";
+
+			} else if (type = 'pwd') {
+				p_url = "/user/forgotPswd";
+				p_name = "forgot_Pswd";
+			}
+			window
+					.open(
+							p_url,
+							p_name,
+							"status=no,scrollbars=yes,resizable=no,toolbar=no,width=600,height=700,top=200,left=200");
+
+		}
+
+		function fnLogin() {
+			if ($("#USER_ID").val() == "") {
+				alert("아이디를 입력해주세요");
+				return;
+			} else if ($("#PASSWD").val() == "") {
+				alert("비밀번호를 입력해주세요");
+				return;
+			} else {
+				$
+						.ajax({
+							url : "/user/login",
+							type : "POST",
+							async : false,
+							data : $("#loginForm").serialize(),
+							success : function(result) {
+								debugger;
+								if (result.status != true) {
+									if (result.message == "") {
+										alert("아이디랑 비밀번호를 확인해주세요.");
+										return;
+									} else {
+										alert(result.message);
+										return;
+									}
+
+								} else {
+									//페이지 이동
+									window.location.href = result.data;
+								}
+							},
+							error : function(jqXHR, textStatus, errorThrown) {
+								//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+								if (jqXHR.status == '401') {
+									location.href = "/common/sessionError.do";
+								} else {
+									alert("ERR=" + 'HTTP status code: '
+											+ jqXHR.status + '\n'
+											+ 'textStatus: ' + textStatus
+											+ '\n' + 'errorThrown: '
+											+ errorThrown);
+									console
+											.log('HTTP message body (jqXHR.responseText): '
+													+ '\n' + jqXHR.responseText);
+								}
+							}
+						});
+			}
+		}
+	</script>
+</body>
+</html>

@@ -59,6 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(commonIntercepter())
                              .addPathPatterns("/**")
                              .excludePathPatterns("/*") // For index.html
+                             .excludePathPatterns("/**/**") // For index.html
                              .excludePathPatterns("/css/**") // For Resources
                              .excludePathPatterns("/js/**") // For Resources
                              .excludePathPatterns("/img/**") // For Resources

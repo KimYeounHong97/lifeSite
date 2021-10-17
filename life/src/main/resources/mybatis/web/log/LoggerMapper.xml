@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hansol.stdweb.log.LoggerMapper">
+<mapper namespace="com.life.site.web.log.LoggerMapper">
     
 	<insert id="insertAccessLog" parameterType="hashMap">
         INSERT INTO SYS_LOG_ACCESS_TB    /* log.LoggerMapper.insertAccessLog */
             (
-            USER_ID, USER_NM
-            , COMP_CD
-            , DEPT_CD , DEPT_NM
-            , GRADE_CD , GRADE_NM
-            , ORG_CD , ORG_NM
-            , ACC_GB , SUCCESS_FL
-            , MENU_CD , MENU_NM
-            , PROGRAM_CD , PROGRAM_NM
+            USER_ID
+            , USER_GRADE_CD , USER_GRADE_NM
             , ACC_URL , ACC_PARAMS
-            , COUNTRY , ACC_IP , ACC_TYPE
+            , ACC_IP , ACC_TYPE
             , AGENT
+            , SUCCESS_FL
             , INPUT_DT
             )
         VALUES
-            (#{USER_ID}, NVL(#{USER_NM}, '')
-            , #{COMP_CD}
-            , NVL(#{DEPT_CD}, ''), NVL(#{DEPT_NM}, '')
-            , NVL(#{GRADE_CD}, ''), NVL(#{GRADE_NM}, '')
-            , NVL(#{ORG_CD}, ''), NVL(#{ORG_NM}, '')
-            , NVL(#{ACC_GB}, '') , NVL(#{SUCCESS_FL}, '')
-            , NVL(#{MENU_CD}, ''), NVL(#{MENU_NM}, '')
-            , NVL(#{PROGRAM_CD}, ''), DECODE(#{PROGRAM_CD}, null, '', (SELECT PROGRAM_NM FROM ADM_PRGM_TB WHERE PROGRAM_CD = #{PROGRAM_CD} AND COMP_CD = #{COMP_CD}))
-            , NVL(#{ACC_URL}, ''), NVL(#{ACC_PARAMS}, '')
-            , NVL(#{COUNTRY}, ''), #{ACC_IP}, NVL(#{ACC_TYPE}, '')
-            , NVL(#{AGENT}, '')
-            , sysdate)
+            (#{USER_ID}
+            , IFNULL(#{USER_GRADE_CD}, ''), IFNULL(#{USER_GRADE_NM}, '')
+            , IFNULL(#{ACC_URL}, ''), IFNULL(#{ACC_PARAMS}, '')
+            , #{ACC_IP}, IFNULL(#{ACC_TYPE}, '')
+            , IFNULL(#{AGENT}, '')
+            , IFNULL(#{SUCCESS_FL}, '')
+            , sysdate()
+            )
     </insert>
     
     <insert id="insertHistoryLog" parameterType="hashMap">

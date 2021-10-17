@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.user.LoginMapper">
+
+    <select id="getUserMenuList" parameterType="User" resultType="map">
+        WITH TREE AS (  /* user.LoginMapper.getUserMenuList */
+            SELECT DISTINCT
+                M.MENU_CD,
+                M.MENU_NM,
+                M.UPPER_MENU_CD,
+                M.MENU_ICON,
+                M.PROGRAM_CD,
+                M.MENU_DEPTH,
+                M.MENU_ORD,
+                DECODE(P.PROGRAM_URL, NULL, '#', P.PROGRAM_URL) AS PROGRAM_URL,
+                P.OPEN_ALL_FL
+            FROM ADM_MENU_TB M LEFT JOIN ADM_PRGM_TB P
+                ON M.PROGRAM_CD = P.PROGRAM_CD AND M.COMP_CD = P.COMP_CD
+                    AND P.DEL_FL = 'N'
+                    AND P.USE_FL = 'Y'
+            WHERE
+                    M.DEL_FL = 'N'
+                AND M.USE_FL = 'Y'
+                AND M.COMP_CD = #{COMP_CD}
+            START WITH MENU_CD IN (
+                SELECT MENU_CD
+                FROM ADM_MENU_TB
+                WHERE
+                    DEL_FL = 'N'
+                    AND USE_FL = 'Y'
+                    AND COMP_CD = #{COMP_CD}
+                    AND ( PROGRAM_CD IN (
+                        SELECT PROGRAM_CD
+                        FROM ADM_PRGM_AUTH_MAP_TB
+                        WHERE AUTH_CD = #{AUTH_CD}
+                    ) OR OPEN_ALL_FL = 'Y')
+            )
+            CONNECT BY MENU_CD = PRIOR UPPER_MENU_CD
+            ORDER SIBLINGS BY MENU_ORD DESC
+        )
+        SELECT
+            A.*,
+            DECODE(SUB, 0, 'true', 'false') AS LEAF
+        FROM (
+            SELECT T.*, (SELECT COUNT(*) FROM TREE WHERE UPPER_MENU_CD = T.MENU_CD) AS SUB
+            FROM TREE T
+            START WITH UPPER_MENU_CD IS NULL
+            CONNECT BY UPPER_MENU_CD = PRIOR MENU_CD
+            ORDER SIBLINGS BY MENU_ORD ASC
+        ) A
+    </select>
+
+    <select id="getUserPrgmList" parameterType="User" resultType="map">
+        select  /* user.LoginMapper.getUserPrgmList */
+            C.MENU_CD
+            , C.MENU_NM
+            , A.PROGRAM_CD
+            , A.PROGRAM_NM
+            , A.PROGRAM_URL
+            , B.AUTH_CD
+            , A.OPEN_ALL_FL
+            , A.PROGRAM_MANUAL
+            , B.AUTH_E as "auth-e"
+            , B.AUTH_D as "auth-d"
+            , B.AUTH_P as "auth-p"
+        from ADM_PRGM_TB A
+        left join ADM_PRGM_AUTH_MAP_TB B
+            on
+                A.COMP_CD = B.COMP_CD
+                and A.PROGRAM_CD = B.PROGRAM_CD
+        left join ADM_MENU_TB C
+            on
+                A.COMP_CD = C.COMP_CD
+                and A.PROGRAM_CD = C.PROGRAM_CD
+                and C.USE_FL = 'Y'
+                and C.DEL_FL = 'N'
+        where
+            A.COMP_CD = #{COMP_CD}
+            and A.USE_FL = 'Y'
+            and A.DEL_FL = 'N'
+            and (
+                A.OPEN_ALL_FL = 'Y' or
+                (A.OPEN_ALL_FL = 'N' and B.AUTH_CD = #{AUTH_CD})
+            )
+    </select>
+
+    <select id="selectPasswdUnchange" parameterType="string" resultType="map">
+        SELECT (      /* LoginMapper.selectPasswdUnchange */
+            SUBSTR(
+                MONTHS_BETWEEN(
+                    SYSDATE,
+                    CASE
+                        WHEN ( SELECT COUNT(*) FROM ADM_PW_HIST_TB WHERE USER_ID = #{VALUE} ) = 0
+                            THEN ( SELECT INPUT_DT FROM USER_VW WHERE USER_ID = #{VALUE} )
+                        ELSE (
+                            SELECT UPDATE_DT
+                            FROM ADM_PW_HIST_TB
+                            WHERE USER_ID = #{VALUE}
+                                AND PASSWD_CHG_SEQ IN  (
+                                    SELECT MAX(PASSWD_CHG_SEQ) FROM ADM_PW_HIST_TB WHERE USER_ID = #{VALUE}
+                                )
+                        )
+                    END
+                )
+                ,0
+                ,1
+            )
+        ) AS UNCHANGE
+        FROM DUAL
+    </select>
+
+    <select id="selectPwRuleChangeDt" parameterType="hashMap" resultType="map">
+        SELECT      /* LoginMapper.selectPwRuleChangeDt */
+            CODE_CD, ETC_FIELD01 AS VALUE
+        FROM ADM_CODE_TB
+        WHERE CODE_GRP_CD = 'SYS00005' AND CODE_CD = '030' AND USE_FL = 'Y' AND COMP_CD = #{COMP_CD} AND LANG ='ko_KR'
+    </select>
+
+    <select id="selectUserGb" parameterType="string" resultType="map">
+        SELECT      /* LoginMapper.selectUserGb */
+            USER_GB
+        FROM USER_VW
+        WHERE USER_ID = #{VALUE}
+    </select>
+
+    <select id="selectUserInfoById" parameterType="User" resultType="User">
+        SELECT       /* LoginMapper.selectUserInfoById */
+          	A.USER_ID,
+	   		A.PASSWD,
+	        B.USER_GRADE,
+	        B.USER_GRADE_NM,
+	        A.USER_GENDER,
+	        A.FAVORITE_CD,
+	        A.FAVORITE_NM,
+	        A.PHONE,
+	        A.EMAIL,
+	        A.ADDRESS,
+	        A.INPUT_DT,
+	        A.MOD_DT
+		FROM lifesite.member A , lifesite.member_grade B
+    	WHERE A.USER_ID = B.USER_ID
+    	AND A.USE_FLG = 'Y' 
+    	AND A.DEL_FLG = 'N'
+    	AND A.USER_ID = #{USER_ID}
+    </select>
+
+    <update id="updatePasswdFailCount" parameterType="hashMap">
+        UPDATE ADM_USER_TB      /* LoginMapper.updatePasswdFailCount */
+        SET PASSWD_FAIL_CNT = NVL(PASSWD_FAIL_CNT + 1, 1),
+            LOCK_FL = CASE
+                WHEN PASSWD_FAIL_CNT >= (SELECT
+                    ETC_FIELD01 AS VALUE FROM ADM_CODE_TB WHERE CODE_CD = '040' AND CODE_GRP_CD = 'SYS00005' AND LANG = 'ko_KR' AND COMP_CD = #{COMP_CD}) - 1
+                THEN 'Y'
+                ELSE 'N'
+            END
+        WHERE USER_ID = #{USER_ID}
+    </update>
+
+    <update id="updateZeroPasswdFailCount" parameterType="string">
+        UPDATE ADM_USER_TB      /* LoginMapper.updateZeroPasswdFailCount */
+        SET PASSWD_FAIL_CNT = 0
+        WHERE USER_ID = #{VALUE}
+    </update>
+</mapper>
