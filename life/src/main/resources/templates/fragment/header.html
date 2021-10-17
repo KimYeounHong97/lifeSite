@@ -1,0 +1,81 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+<meta name="description"
+	content="Experience LIFE's visual record of the 20th century by exploring the most iconic photographs from one of the most famous private photo collections in the world.">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:title"
+	content="The Most Iconic Photographs of All Time - LIFE">
+<meta property="og:description"
+	content="Experience LIFE's visual record of the 20th century by exploring the most iconic photographs from one of the most famous private photo collections in the world.">
+<meta property="og:url" content="https://www.life.com/">
+<meta property="og:site_name" content="LIFE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description"
+	content="Experience LIFE's visual record of the 20th century by exploring the most iconic photographs from one of the most famous private photo collections in the world.">
+<meta name="twitter:title"
+	content="The Most Iconic Photographs of All Time - LIFE">
+<!--headerFragment 선언-->
+<th:block th:fragment="headerFragment">
+	<!-- #site-navigation -->
+	<nav id="site-navigation"
+		class="has-branding main-navigation grid-container grid-parent sub-menu-left"
+		itemtype="https://schema.org/SiteNavigationElement" itemscope="">
+		<div class="inside-navigation">
+			<div class="navigation-branding">
+				<div class="site-logo">
+					<a href="http://localhost:8080/" title="LIFE-MAGAGINE" rel="home">
+						<img class="header-image lazyloaded" alt="LIFE"
+						src="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png"
+						title="LIFE"
+						data-lazy-srcset="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png 1x, https://www.life.com/wp-content/uploads/2019/08/logo_global.png 2x"
+						width="358" height="200"
+						data-lazy-src="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png"
+						srcset="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png 1x, https://www.life.com/wp-content/uploads/2019/08/logo_global.png 2x"
+						data-was-processed="true">
+						<noscript>
+							<img class="header-image" alt="LIFE-MAGAGINE"
+								src="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png"
+								title="LIFE-MAGAGINE"
+								srcset="https://static.life.com/wp-content/uploads/2019/08/09000230/logo_global.png 1x, https://www.life.com/wp-content/uploads/2019/08/logo_global.png 2x"
+								width="358" height="200" />
+						</noscript>
+					</a>
+				</div>
+			</div>
+			<button class="menu-toggle" aria-controls="primary-menu"
+				aria-expanded="false">
+				<span class="mobile-menu">MENU</span>
+			</button>
+			<div id="primary-menu" class="main-nav">
+				<ul id="menu-dummy-do-not-use" class=" menu sf-menu">
+					<li class="slideout-toggle menu-item-align-right"><a href="#"></a></li>
+				</ul>
+			</div>
+			<div class="nav-top-right-container blah">
+				<a th:if="${session.life == null}"
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
+					target="_blank" href="/join/login">JOIN</a>
+				<a th:unless="${session.life == null}"
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
+					href="/user/myinfo"><span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
+			</div>
+			<div class="nav-top-right-container blah">
+				<a class="nav-btn nav-latest-issue" target="_blank"
+					href="https://www.magazine.store/life-magazine/"
+					style="display: none;"><img
+					src="/wp-content/themes/generatepress-child/static/mailbox.svg"
+					data-lazy-src="/wp-content/themes/generatepress-child/static/mailbox.svg"
+					class="lazyloaded" data-was-processed="true">
+					<noscript>
+						<img
+							src="/wp-content/themes/generatepress-child/static/mailbox.svg">
+					</noscript>Latest Issue</a><a
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
+					target="_blank" href="https://www.magazine.store/life-magazine/"></a>
+			</div>
+		</div>
+		<!-- .inside-navigation -->
+	</nav>
+	<!-- #site-navigation -->
+</th:block>
+</html>

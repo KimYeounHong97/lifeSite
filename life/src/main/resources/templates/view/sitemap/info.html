@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<th:block th:replace="fragment/config :: configFragment"></th:block>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/page/home.css}">
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:src="@{/js/page/home.js}"></script>
+</th:block>
+</head>
+<body data-published="August 2, 2019" data-modified="August 26, 2021"
+	class="home page-template page-template-template-home page-template-template-home-php page page-id-156 wp-custom-logo wp-embed-responsive post-image-aligned-center slideout-enabled slideout-both sticky-menu-fade no-sidebar nav-below-header contained-header separate-containers active-footer-widgets-0 nav-aligned-right header-aligned-center dropdown-hover offside-js--init"
+	itemtype="https://schema.org/WebPage" itemscope="">
+	<!-- header fragment 사용 -->
+	<th:block th:replace="fragment/header :: headerFragment"></th:block>
+	<th:block layout:fragment="content">
+		<div id="page" class="hfeed site grid-container container grid-parent">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="sitemap-container">
+							<div class="sitemap-header">
+								<img class="featured-image lazyloaded"
+									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+									data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+									data-was-processed="true">
+								<noscript>
+									<img class="featured-image"
+										src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
+								</noscript>
+								<div class="article-info">
+									<h1 class="entry-title">SITEMAP</h1>
+								</div>
+							</div>
+
+							<ul>
+								<li><a href="/animals/">동물</a></li>
+								<li><a href="/arts-entertainment/">예술 &amp;엔터테인먼트</a></li>
+								<li><a href="/destinations/">목적지</a></li>
+								<li><a href="/history/">역사</a></li>
+								<li><a href="/lifestyle/">생활</a></li>
+								<li><a href="/nature/">자연</a></li>
+								<li><a href="/people/">사람들</a></li>
+							</ul>
+						</div>
+						<div
+							data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"
+							class="newsletter-container rocket-lazyload"
+							style="background-image: url(&quot;/wp-content/themes/generatepress-child/static/newsletter.jpg&quot;);"
+							data-was-processed="true">
+							<span th:text="${session.userId}"></span>
+							<h2>Let's make a magazine together</h2>
+							<p>서로의 이야기를 공유하여 새로운 잡지를 만들어가봐요</p>
+							<section>
+								<button>
+									<a href="/join/login" style="color: white; font-weight: bold;">Join
+										With Us</a>
+								</button>
+							</section>
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+	<!-- footer fragment 사용 -->
+	<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+</body>
+</html>

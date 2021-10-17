@@ -59,11 +59,8 @@ public class ViewController {
             @CookieValue(value=CommonConstants.COOKIE_REMEMBER_ID, required=false) Cookie cookie) throws Exception {
         if (null != cookie) {
             loginInfo.setUserId(cookie.getValue());
-            loginInfo.setRememberId(CommonConstants.STR_Y);
         }
-        else {
-            loginInfo.setRememberId(CommonConstants.STR_N);
-        }
+        
         return "index";
     }
     
@@ -101,69 +98,12 @@ public class ViewController {
 
         if (null != cookie_login_id) {
             loginInfo.setUserId(cookie_login_id.getValue());
-            loginInfo.setRememberId(CommonConstants.STR_Y);
         }
-        else {
-            loginInfo.setRememberId(CommonConstants.STR_N);
-        }
-
-        // SSO로 접속한 경우 로그인 페이지로 리다이렉션을 하지 않고 SSO 재접속 안내 페이지로 이동함.
-        if (null != cookie_type && "SSO".equals(cookie_type.getValue())) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/info");
-            dispatcher.forward(request, response);
-        }
-
+        
         model.addAttribute("timeout", true);
         return "index";
     }
 
-    /**
-     * @Date  : 2020. 12. 22.
-     * @method : getView
-     * @param request
-     * @param param
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(
-            value  = "view/page/{prgm_cd}",
-            method = {RequestMethod.POST, RequestMethod.GET})
-    public String getView(HttpServletRequest request, 
-                        @RequestParam HashMap<String, Object> param, 
-                        @PathVariable String prgm_cd, Model model) throws Exception {
-        
-        model.addAttribute(CommonConstants.Params.CALLED_PROGRAM, prgm_cd);
-        model.addAttribute("params", param);
-
-        String url = null;
-        UserVo user = SessionManager.getUser(request);
-        if (user != null) {
-            loggerService.writeAccessLog(request, user, true, prgm_cd, CommonConstants.AccessGubun.PAGE);
-        }
-
-        // 화면 정보 (소스위치, 상세권한) 가져오기
-        Map<String, Object> param2 = new HashMap<String, Object>();
-        param2.put(CommonConstants.Params.COMP_CD, user.getCOMP_CD());
-        param2.put(CommonConstants.Params.AUTH_CD, user.getAUTH_CD());
-        param2.put(CommonConstants.Params.CALLED_PROGRAM, prgm_cd);
-
-        Map<String, Object> result = viewService.getUrlByProgramCd(param2);
-        url = result.get(CommonConstants.Params.PROGRAM_URL).toString();
-        
-        // 화면별 상세 권한 정보 화면에 전달, 20210126 PSJ
-        model.addAttribute(CommonConstants.Params.AUTH_D, result.get(CommonConstants.Params.AUTH_D));
-        model.addAttribute(CommonConstants.Params.AUTH_E, result.get(CommonConstants.Params.AUTH_E));
-        model.addAttribute(CommonConstants.Params.AUTH_P, result.get(CommonConstants.Params.AUTH_P));
-
-        // 화면별 매뉴얼 url 가져오기
-        model.addAttribute(CommonConstants.Params.PROGRAM_MANUAL, result.get(CommonConstants.Params.PROGRAM_MANUAL));
-
-        // 사용자별 접근가능한 사업장 목록 가져오기, 20210326
-        param2.put(CommonConstants.Params.USER_ID, user.getUSER_ID());
-        model.addAttribute("USER_ORGS", userService.getUserOrgList(param2));
-        return url;
-    }
 
     /**
      * @Date   : 2020. 12. 07
@@ -187,38 +127,13 @@ public class ViewController {
         
         return "view/nsess/" + module + "/" + html;
     }
-
-    /**
-     * @Date   : 2020. 7. 22.
-     * @method : getUserView
-     * @desc   : 화면 return 화면 위치는 templates/user/{module}/{submodule}/{html} 로 맞춰 위치시킨다.
-     *
-     * @param html
-     * @param param
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("user/view/{module}/{html}")
-    public String getUserView(HttpServletRequest request, @PathVariable String module, @PathVariable String html, 
+    
+    @GetMapping("{module}/{html}")
+    public String getView(HttpServletRequest request, @PathVariable String module, @PathVariable String html,
                             @ModelAttribute HashMap<String, Object> param) throws Exception {
-        UserVo user = SessionManager.getUser(request);
-        if (user != null) {
-            loggerService.writeAccessLog(request, user, true, null, CommonConstants.AccessGubun.PAGE);
-        }
-
-        return "view/user/" + module + "/" + html;
+        return "view/" + module+ "/" + html ;
     }
 
-    @PostMapping("user/view/{module}/{html}")
-    public String getUserViewPost(HttpServletRequest request, @PathVariable String module, @PathVariable String html, 
-                            @ModelAttribute HashMap<String, Object> param) throws Exception {
-        UserVo user = SessionManager.getUser(request);
-        if (user != null) {
-            loggerService.writeAccessLog(request, user, true, null, CommonConstants.AccessGubun.PAGE);
-        }
-
-        return "view/user/" + module + "/" + html;
-    }
     
     /**
      * @Date   : 2020. 8. 20.
