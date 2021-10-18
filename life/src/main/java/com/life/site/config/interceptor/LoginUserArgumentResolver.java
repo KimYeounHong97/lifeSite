@@ -36,6 +36,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                                   ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) throws Exception {
-        return ((SessionLife)httpSession.getAttribute(CommonConstants.HANSOL_SESSION)).getUser();
+        return ((SessionLife)httpSession.getAttribute(CommonConstants.LIFE_SESSION)).getUser();
     }
 }

@@ -82,7 +82,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 //                        System.out.println("==== urlMap : " + urlMap.get("prgm_cd"));
                     }
 
-                    log.debug(" ======> 세션 USER\t: " + member.getUSER_ID() + " / " + member.getUSER_NM());
+                    log.debug(" ======> 세션 USER\t: " + member.getUSER_ID() + " / ");
                     String sessionCreateIp = SessionManager.getUserIp(request);
 
                     // Session 생성 IP가 없으면 안된다.
