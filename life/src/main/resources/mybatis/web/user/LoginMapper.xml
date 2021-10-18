@@ -123,6 +123,13 @@
         FROM USER_VW
         WHERE USER_ID = #{VALUE}
     </select>
+    
+    <select id="selectFindUserIdByEmail" parameterType="string" resultType="map">
+        SELECT      /* LoginMapper.selectFindUserIdByEmail */
+           USER_ID , EMAIL , INPUT_DT
+		FROM lifesite.member
+		WHERE EMAIL = #{VALUE}
+    </select>
 
     <select id="selectUserInfoById" parameterType="User" resultType="User">
         SELECT       /* LoginMapper.selectUserInfoById */

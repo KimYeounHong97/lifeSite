@@ -27,6 +27,8 @@ public interface LoginMapper {
     public Map<String, Object> selectPwRuleChangeDt(Map<String, Object> param);
     
     public Map<String, Object> selectUserGb(String userId);
+    
+    public Map<String, Object> selectFindUserIdByEmail(String email);
 
     public UserVo selectUserInfoById(UserVo user);
 

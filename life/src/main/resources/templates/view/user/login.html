@@ -5,31 +5,24 @@
 	layout:decorator="~{/layout/default_layout}">
 <head>
 <th:block th:replace="fragment/config :: configFragment"></th:block>
-<!-- index.html 고유 CSS 추가 -->
+<!-- html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/css/page/home.css}">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
 </th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script th:src="@{/js/page/home.js}"></script>
-</th:block>
+<!-- html 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
 <script type="text/javascript">
 		function fnForegot(type) {
-			var p_url;
-			var p_name;
+			var url;
 			if (type == 'id') {
-				p_url = "/user/forgotId";
-				p_name = "forgot_Id";
+				url = "/user/Id";
 
 			} else if (type = 'pwd') {
-				p_url = "/user/forgotPswd";
-				p_name = "forgot_Pswd";
+				url = "/user/pswd";
 			}
-			window
-					.open(
-							p_url,
-							p_name,
-							"status=no,scrollbars=yes,resizable=no,toolbar=no,width=600,height=700,top=200,left=200");
+			
+			window.location.href= url;
+			
 
 		}
 
@@ -41,8 +34,7 @@
 				alert("비밀번호를 입력해주세요");
 				return;
 			} else {
-				$
-						.ajax({
+				$.ajax({
 							url : "/user/login",
 							type : "POST",
 							async : false,
@@ -126,13 +118,13 @@
 									style="background-color: #f1f1f1; display: inline-block; width: 97%;">
 									<div style="float: left;">
 										<button type="button" style="float: left; margin-right: 10px;"
-											class="cancelbtn" onclick="fnForegot('id');">Forgot
+											class="forgotbtn" onclick="fnForegot('id');">Forgot
 											id?</button>
-										<button type="button" style="float: left;" class="cancelbtn"
+										<button type="button" style="float: left;" class="forgotbtn"
 											onclick="fnForegot('pwd');">Forgot pwd?</button>
 									</div>
 									<div style="float: right;">
-										<button type="button" class="cancelbtn">Join With Us</button>
+										<button type="button" class="joinbtn">Join With Us</button>
 									</div>
 								</div>
 							</form>

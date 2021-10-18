@@ -161,4 +161,30 @@ public class LoginController {
         result.setStatus(true);
         return result;
     }
+    
+
+    @ResponseBody
+    @PostMapping("/find/id")
+    public CommonResult findIdCheck(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        Map<String, Object> idInfo = new HashMap<String, Object>();
+        String url = param.get("returnUrl").toString();
+
+        try {
+        	idInfo =loginService.getFindId(param);
+        	if(idInfo !=null && idInfo.size()!=0 ) {
+        		result.setData(url);
+                result.setStatus(true);
+        	}else {
+                result.setStatus(false);
+        	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
 }

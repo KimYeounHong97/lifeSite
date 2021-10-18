@@ -17,13 +17,16 @@ input[type=text], input[type=password] {
 
 /* Set a style for all buttons */
 form button {
-  background-color: #04AA6D;
+  background-color: black;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
-  border: none;
+  border: 1.5px solid black;
   cursor: pointer;
   width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
 }
 
 /* Add a hover effect for buttons */
@@ -32,11 +35,25 @@ button:hover {
 }
 
 /* Extra style for the cancel button (red) */
-.cancelbtn {
+.forgotbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
+  border: none;
 }
+
+.mobile input[type=text]{
+   width: 100px;
+}
+
+.joinbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: white;
+  color : black;
+  border: none;
+}
+
 
 /* Center the avatar image inside this container */
 .imgcontainer {

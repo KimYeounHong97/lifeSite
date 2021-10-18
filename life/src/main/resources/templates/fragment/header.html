@@ -54,7 +54,7 @@
 			<div class="nav-top-right-container blah">
 				<a th:if="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
-					target="_blank" href="/join/login">JOIN</a>
+					target="_blank" href="/user/login">JOIN</a>
 				<a th:unless="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
 					href="/user/myinfo"><span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>

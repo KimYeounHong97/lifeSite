@@ -3,6 +3,7 @@ package com.life.site.web.user;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -140,6 +141,32 @@ public class LoginService {
      */
     public Map<String, Object> getPwRuleChangeDt(Map<String, Object> input) throws Exception {
         return  loginMapper.selectPwRuleChangeDt(input);
+    }
+    
+    /**
+     * 아이디 조회
+     *  
+     * @param input
+     * @return 아이디
+     * @throws Exception
+     */
+    public Map<String, Object>  getFindId(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> idInfo = new HashMap<String, Object>();
+    	 String checkMethod = param.get("check_method").toString();
+    	 String mobile1;
+    	 String mobile2;
+    	 String mobile3;
+    	 
+    	 if(checkMethod.equals("email")) {
+    		 String email = param.get("email").toString();
+    		 idInfo =  loginMapper.selectFindUserIdByEmail(email);
+    	 }else if(checkMethod.equals("phone")) {
+    		 
+    	 }
+    	 
+    	 
+    	 
+    	 return idInfo;
     }
     
     /**
