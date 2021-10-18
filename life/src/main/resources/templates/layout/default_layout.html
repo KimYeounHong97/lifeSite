@@ -5,23 +5,17 @@
 	<!-- config fragment 사용 -->
 	<th:block th:replace="fragment/config :: configFragment"></th:block>
 
-<body>
-	<div>
-		<h1>test</h1>
-	</div>
-	
+<body data-published="August 2, 2019" 
+	class="home page-template page-template-template-home page-template-template-home-php page page-id-156 wp-custom-logo wp-embed-responsive post-image-aligned-center slideout-enabled slideout-both sticky-menu-fade no-sidebar nav-below-header contained-header separate-containers active-footer-widgets-0 nav-aligned-right header-aligned-center dropdown-hover offside-js--init"
+	itemtype="https://schema.org/WebPage" itemscope="">
 	<!-- header fragment 사용 -->
 	<th:block th:replace="fragment/header :: headerFragment"></th:block>
-
-	<!-- 
-            content fragment 사용 
-            현재 layout을 사용하는 content fragment의 내용을 삽입한다.
-        -->
-	<th:block layout:fragment="content">DFDFDF</th:block>
+	
+	<!-- content fragment 사용 현재 layout을 사용하는 content fragment의 내용을 삽입한다.-->
+	<th:block layout:fragment="content"></th:block>
 
 	<!-- footer fragment 사용 -->
 	<th:block th:replace="fragment/footer :: footerFragment"></th:block>
-
 	</body>
 
 </html>

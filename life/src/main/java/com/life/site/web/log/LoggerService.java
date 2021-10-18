@@ -63,22 +63,8 @@ public class LoggerService {
         }
 
         param.put(CommonConstants.Logs.USER_ID, user.getUSER_ID());
-        param.put(CommonConstants.Logs.USER_NM, user.getUSER_NM());
-        param.put(CommonConstants.Logs.COMP_CD, user.getCOMP_CD());
-        param.put(CommonConstants.Logs.DEPT_CD, user.getDEPT_CD());
-        param.put(CommonConstants.Logs.DEPT_NM, user.getDEPT_NM());
-        param.put(CommonConstants.Logs.GRADE_CD, user.getGRADE_CD());
-        param.put(CommonConstants.Logs.GRADE_NM, user.getGRADE_NM());
-        param.put(CommonConstants.Logs.ORG_CD, user.getORG_CD());
-        param.put(CommonConstants.Logs.ORG_NM, user.getORG_NM());
-        param.put(CommonConstants.Logs.ACC_IP, IpUtil.getClientIpAddr(request));
-
-        /* 세션에 저장된 사용자 로그인 구분 정보 말고 페이지 호출인 경우 인자로 넘겨준 값을 기록한다 */
-        if (accGb != null) {
-            param.put(CommonConstants.Logs.ACC_GB, accGb);
-        } else {
-            param.put(CommonConstants.Logs.ACC_GB, user.getACC_GB());
-        }
+        param.put(CommonConstants.Logs.USER_GRADE_CD, user.getUSER_GRADE());
+        param.put(CommonConstants.Logs.USER_GRADE_NM, user.getUSER_GRADE_NM());
 
         // Agent 정보
         agent = request.getHeader("user-agent");
@@ -96,7 +82,6 @@ public class LoggerService {
 
         param.put(CommonConstants.Logs.AGENT, agent);
         param.put(CommonConstants.Logs.ACC_TYPE, accType.toString());
-        param.put(CommonConstants.Logs.COUNTRY, SessionManager.getCountry(request));
 
         // Parameter
         StringBuilder parameterMessage = new StringBuilder();
@@ -111,26 +96,15 @@ public class LoggerService {
                 lists.put(keyStr, value[0].toString());
             }
         }
-
+        
         if (isSuccess) {
             param.put(CommonConstants.Logs.SUCCESS_FL, CommonConstants.STR_SUCCESS);
         }
         else {
             param.put(CommonConstants.Logs.SUCCESS_FL, CommonConstants.STR_FAIL);
         }
-        
-        // 로그인 기록을 남길 때에는 url 주소는 기록하지 않는다. (20201224 => 그냥 다 남겨보자)
-//        if (user.getACC_GB() != CommonConstants.AccessGubun.LOGIN
-//                && user.getACC_GB() != CommonConstants.AccessGubun.SSO) {
+
         param.put(CommonConstants.Logs.ACC_URL, request.getRequestURI());
-        
-        if (prgmCd != null) {
-            param.put(CommonConstants.Logs.PROGRAM_CD, prgmCd);
-        } else {
-            param.put(CommonConstants.Logs.PROGRAM_CD, lists.get(CommonConstants.Params.CALLED_PROGRAM));
-        }
-        param.put(CommonConstants.Logs.MENU_CD, lists.get(CommonConstants.Params.MENU_CD));
-        param.put(CommonConstants.Logs.MENU_NM, lists.get(CommonConstants.Params.MENU_NM));
         
         return loggerMapper.insertAccessLog(param);
     }
@@ -221,9 +195,6 @@ public class LoggerService {
     public int checkAuthByPrgmcd(UserVo user, String prgmCd) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put(CommonConstants.Params.USER_ID, user.getUSER_ID());
-        param.put(CommonConstants.Params.COMP_CD, user.getCOMP_CD());
-        param.put(CommonConstants.Params.ORG_CD, user.getORG_CD());
-        param.put(CommonConstants.Params.CALLED_PROGRAM, prgmCd);
         return loggerMapper.checkAuthByPrgmcd(param);
     }
     

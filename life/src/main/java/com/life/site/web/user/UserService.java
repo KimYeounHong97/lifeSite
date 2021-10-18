@@ -96,7 +96,6 @@ public class UserService {
         else {
             UserVo userParam = UserVo.builder()
                                     .USER_ID(user_id)
-                                    .ORG_CD(org_cd)
                                     .build();
 
             userInfo = loginMapper.selectUserInfoById(userParam);

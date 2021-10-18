@@ -27,32 +27,32 @@ import com.life.site.model.UserVo;
 public class SessionManager {
 
     public static UserVo getUser(HttpServletRequest request) {
-        SessionLife sess = request.getSession().getAttribute(CommonConstants.HANSOL_SESSION)==null?
-                                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.HANSOL_SESSION);
+        SessionLife sess = request.getSession().getAttribute(CommonConstants.LIFE_SESSION)==null?
+                                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.LIFE_SESSION);
         return (UserVo)sess.getUser();
     }
     
     public static String getUserIp(HttpServletRequest request) {
-        SessionLife sess = request.getSession().getAttribute(CommonConstants.HANSOL_SESSION)==null?
-                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.HANSOL_SESSION);
+        SessionLife sess = request.getSession().getAttribute(CommonConstants.LIFE_SESSION)==null?
+                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.LIFE_SESSION);
         return sess.getLogin_ip();
     }
     
     public static String getCountry(HttpServletRequest request) {
-        SessionLife sess = request.getSession().getAttribute(CommonConstants.HANSOL_SESSION)==null?
-                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.HANSOL_SESSION);
+        SessionLife sess = request.getSession().getAttribute(CommonConstants.LIFE_SESSION)==null?
+                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.LIFE_SESSION);
         return sess.getCountry();
     }
     
     public static List<Map<String, Object>> getMenuList(HttpServletRequest request) {
-        SessionLife sess = request.getSession().getAttribute(CommonConstants.HANSOL_SESSION)==null?
-                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.HANSOL_SESSION);
+        SessionLife sess = request.getSession().getAttribute(CommonConstants.LIFE_SESSION)==null?
+                new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.LIFE_SESSION);
         return sess.getMenulist();
     }
     
     public static void setUser(HttpServletRequest request, UserVo user) {
-        SessionLife sess = request.getSession().getAttribute(CommonConstants.HANSOL_SESSION)==null?  new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.HANSOL_SESSION);
+        SessionLife sess = request.getSession().getAttribute(CommonConstants.LIFE_SESSION)==null?  new SessionLife():(SessionLife)request.getSession().getAttribute(CommonConstants.LIFE_SESSION);
         sess.setUser(user);
-        request.getSession().setAttribute(CommonConstants.HANSOL_SESSION, sess);
+        request.getSession().setAttribute(CommonConstants.LIFE_SESSION, sess);
     }
 }

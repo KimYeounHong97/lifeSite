@@ -42,7 +42,6 @@ public class SettingsController {
         CommonResult result = new CommonResult();
         Map<String, Object> data = param.getData();
         data.put(CommonConstants.Params.LANG, PnsUtil.getLang());
-        data.put(CommonConstants.Params.ORG_CD, SessionManager.getUser(request).getORG_CD());
 
         result.setData(service.getMyInfo(data));
         return result;

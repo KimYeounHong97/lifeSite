@@ -50,7 +50,6 @@ public class UserController {
     public CommonResult getUserList(HttpServletRequest request, CommonParam param) throws Exception {
         CommonResult result = new CommonResult();
         Map<String, Object> paramMap = param.getData();
-        paramMap.put(CommonConstants.Params.COMP_CD, SessionManager.getUser(request).getCOMP_CD());
         result.setData(userService.getUserList(paramMap));
         return result;
     }
@@ -64,7 +63,6 @@ public class UserController {
         CommonResult result = new CommonResult();
 
         Map<String, Object> input = param.getData();
-        input.put(CommonConstants.Params.COMP_CD, SessionManager.getUser(request).getCOMP_CD());
 
         result.setData(userService.getUserOrgList(input));
         return result;
@@ -77,7 +75,6 @@ public class UserController {
     @PostMapping(value = "/all-orglist")
     public CommonResult getAllOrgList(HttpServletRequest request, CommonParam param) throws Exception {
         CommonResult result = new CommonResult();
-        result.setData(userService.getAllOrgList(SessionManager.getUser(request).getCOMP_CD()));
         return result;
     }
 
@@ -118,7 +115,6 @@ public class UserController {
     public CommonResult chkUserPrgmAuth(HttpServletRequest request, CommonParam param) throws Exception {
         Map<String,Object> paramMap = new HashMap<String, Object>();
         paramMap = param.getData();
-        paramMap.put(CommonConstants.Params.COMP_CD, SessionManager.getUser(request).getCOMP_CD());
         paramMap.put(CommonConstants.Params.USER_ID, SessionManager.getUser(request).getUSER_ID());
 
         Map<String, Object> result = new HashMap<>();
