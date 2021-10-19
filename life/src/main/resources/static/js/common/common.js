@@ -1,187 +1,742 @@
-(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam-cell.nr-data.net"]}};(window.NREUM||(NREUM={})).loader_config={licenseKey:"bbc653a5d4",applicationID:"369600669"};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var i=e[n]={exports:{}};t[n][0].call(i.exports,function(e){var i=t[n][1][e];return r(i||e)},i,i.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(t,e,n){function r(){}function i(t,e,n){return function(){return o(t,[u.now()].concat(f(arguments)),e?null:this,n),e?void 0:this}}var o=t("handle"),a=t(8),f=t(9),c=t("ee").get("tracer"),u=t("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(t,e){s[e]=i(p+e,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),e.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(t,e){var n={},r=this,i="function"==typeof e;return o(l+"tracer",[u.now(),t,n],r),function(){if(c.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return e.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],n),t}finally{c.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){m[e]=i(l+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),o("err",[t,u.now(),!1,e])}},{}],2:[function(t,e,n){function r(t){if(NREUM.init){for(var e=NREUM.init,n=t.split("."),r=0;r<n.length-1;r++)if(e=e[n[r]],"object"!=typeof e)return;return e=e[n[n.length-1]]}}e.exports={getConfiguration:r}},{}],3:[function(t,e,n){function r(){return f.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,f=t(10);e.exports=r,e.exports.offset=a,e.exports.getLastTimestamp=i},{}],4:[function(t,e,n){function r(t){return!(!t||!t.protocol||"file:"===t.protocol)}e.exports=r},{}],5:[function(t,e,n){function r(t,e){var n=t.getEntries();n.forEach(function(t){"first-paint"===t.name?d("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&d("timing",["fcp",Math.floor(t.startTime)])})}function i(t,e){var n=t.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(t){t.getEntries().forEach(function(t){t.hadRecentInput||d("cls",[t])})}function a(t){if(t instanceof m&&!g){var e=Math.round(t.timeStamp),n={type:t.type};e<=p.now()?n.fid=p.now()-e:e>p.offset&&e<=Date.now()?(e-=p.offset,n.fid=p.now()-e):e=p.now(),g=!0,d("timing",["fi",e,n])}}function f(t){"hidden"===t&&d("pageHide",[p.now()])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var c,u,s,d=t("handle"),p=t("loader"),l=t(7),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){c=new PerformanceObserver(r);try{c.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,h=["click","keydown","mousedown","pointerdown","touchstart"];h.forEach(function(t){document.addEventListener(t,a,!1)})}l(f)}},{}],6:[function(t,e,n){function r(t,e){if(!i)return!1;if(t!==i)return!1;if(!e)return!0;if(!o)return!1;for(var n=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var f=navigator.userAgent,c=f.match(a);c&&f.indexOf("Chrome")===-1&&f.indexOf("Chromium")===-1&&(i="Safari",o=c[1])}e.exports={agent:i,version:o,match:r}},{}],7:[function(t,e,n){function r(t){function e(){t(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,e,!1)}e.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],8:[function(t,e,n){function r(t,e){var n=[],r="",o=0;for(r in t)i.call(t,r)&&(n[o]=e(r,t[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],9:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,i=n-e||0,o=Array(i<0?0:i);++r<i;)o[r]=t[e+r];return o}e.exports=r},{}],10:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,e,n){function r(){}function i(t){function e(t){return t&&t instanceof r?t:t?u(t,c,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){t&&a&&t(n,r,i);for(var f=e(i),c=v(n),u=c.length,s=0;s<u;s++)c[s].apply(f,r);var p=d[w[n]];return p&&p.push([b,n,r,f]),f}}function o(t,e){y[t]=v(t).concat(e)}function m(t,e){var n=y[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function v(t){return y[t]||[]}function g(t){return p[t]=p[t]||i(n)}function h(t,e){l.aborted||s(t,function(t,n){e=e||"feature",w[n]=e,e in d||(d[e]=[])})}var y={},w={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:e,buffer:h,abort:f,aborted:!1};return b}function o(t){return u(t,c,a)}function a(){return new r}function f(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var c="nr@context",u=t("gos"),s=t(8),d={},p={},l=e.exports=i();e.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(t,e,n){function r(t,e,n){if(i.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return t[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){i.buffer([t],r),i.emit(t,e,n)}var i=t("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,o,function(){return i++})}var i=1,o="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!R++){var t=M.info=NREUM.info,e=v.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();c(E,function(e,n){t[e]||(t[e]=n)});var n=a();f("mark",["onload",n+M.offset],null,"api"),f("timing",["load",n]);var r=v.createElement("script");0===t.agent.indexOf("http://")||0===t.agent.indexOf("https://")?r.src=t.agent:r.src=l+"://"+t.agent,e.parentNode.insertBefore(r,e)}}function i(){"complete"===v.readyState&&o()}function o(){f("mark",["domContent",a()+M.offset],null,"api")}var a=t(3),f=t("handle"),c=t(8),u=t("ee"),s=t(6),d=t(4),p=t(2),l=p.getConfiguration("ssl")===!1?"http":"https",m=window,v=m.document,g="addEventListener",h="attachEvent",y=m.XMLHttpRequest,w=y&&y.prototype,b=!d(m.location);NREUM.o={ST:setTimeout,SI:m.setImmediate,CT:clearTimeout,XHR:y,REQ:m.Request,EV:m.Event,PR:m.Promise,MO:m.MutationObserver};var x=""+location,E={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1211.min.js"},O=y&&w&&w[g]&&!/CriOS/.test(navigator.userAgent),M=e.exports={offset:a.getLastTimestamp(),now:a,origin:x,features:{},xhrWrappable:O,userAgent:s,disabled:b};if(!b){t(1),t(5),v[g]?(v[g]("DOMContentLoaded",o,!1),m[g]("load",r,!1)):(v[h]("onreadystatechange",i),m[h]("onload",r)),f("mark",["firstbyte",a.getLastTimestamp()],null,"api");var R=0}},{}],"wrap-function":[function(t,e,n){function r(t,e){function n(e,n,r,c,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,c],s],t)}f(n+"start",[o,a,c],s,u);try{return p=e.apply(a,o)}catch(m){throw f(n+"err",[o,a,m],s,u),m}finally{f(n+"end",[o,a,p],s,u)}}return a(e)?e:(n||(n=""),nrWrapper[p]=e,o(e,nrWrapper,t),nrWrapper)}function r(t,e,r,i,o){r||(r="");var f,c,u,s="-"===r.charAt(0);for(u=0;u<e.length;u++)c=e[u],f=t[c],a(f)||(t[c]=n(f,s?c+r:r,i,c,o))}function f(n,r,o,a){if(!m||e){var f=m;m=!0;try{t.emit(n,r,o,e,a)}catch(c){i([c,n,r,o],t)}m=f}}return t||(t=s),n.inPlace=r,n.flag=p,n}function i(t,e){e||(e=s);try{e.emit("internal-error",t)}catch(n){}}function o(t,e,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(t);return r.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(o){i([o],n)}for(var a in t)l.call(t,a)&&(e[a]=t[a]);return e}function a(t){return!(t&&t instanceof Function&&t.apply&&!t[p])}function f(t,e){var n=e(t);return n[p]=t,o(t,n,s),n}function c(t,e,n){var r=t[e];t[e]=f(r,n)}function u(){for(var t=arguments.length,e=new Array(t),n=0;n<t;++n)e[n]=arguments[n];return e}var s=t("ee"),d=t(9),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;e.exports=r,e.exports.wrapFunction=f,e.exports.wrapInPlace=c,e.exports.argsToArray=u},{}]},{},["loader"]);
-
-var monetateT = new Date().getTime();
-
-(function(otid, env) {
-			const d = window.document;
-			const now = Math.floor(Date.now() / 1000);
-			const newYear2020 = 1577836800;
-			d.oneTrustIsEnabled = false;
-			if (now >= newYear2020 || d.location.hash === '#ccpa') {
-				const otscript = d.createElement('script');
-				const firstscr = d.getElementsByTagName('script')[0];
-				otscript.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
-				otscript.type = 'text/javascript';
-				otscript.charset = 'UTF-8';
-				otscript.async = true;
-				otscript.setAttribute('data-domain-script', otid + (env != 'prod' ? '-test' : ''));
-				firstscr.parentNode.insertBefore(otscript, firstscr);
-				d.oneTrustIsEnabled = true;
-			}
-		}('3d8ef039-13a5-4851-a635-f8c92e08f023', 'prod'));
-		
-function OptanonWrapper() {}
-
-(function(w, d, s, l, i) {
-			w[l] = w[l] || [];
-			w[l].push({
-				'gtm.start': new Date().getTime(),
-				event: 'gtm.js'
-			});
-			var f = d.getElementsByTagName(s)[0],
-				j = d.createElement(s),
-				dl = l != 'dataLayer' ? '&l=' + l : '';
-			j.async = true;
-			j.src =
-				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			f.parentNode.insertBefore(j, f);
-		})(window, document, 'script', 'dataLayer', 'GTM-5M62NCB');
-		
-window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.life.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.7.2"}};
-			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
-
-    (function () {
-                            window.siqConfig = {
-                                engineKey: "00623ce7d78b2deea1f63f6663acf24a"
-                            };
-                            window.siqConfig.baseUrl = "//pub.searchiq.co/";
-                            var script = document.createElement("SCRIPT");
-                            script.src = window.siqConfig.baseUrl + 'js/container/siq-container-2.js?cb=' + (Math.floor(Math.random()*999999)) + '&engineKey=' + siqConfig.engineKey;
-                            script.id = "siq-container";
-                            document.getElementsByTagName("HEAD")[0].appendChild(script);
-                        })();
-                        
-!function(s){var o,a,n,r;void 0!==s&&(o=location.href.replace(/^https?:\/\/([^\/]+).*$/i,"$1").toLowerCase(),a=location.href,n=function(e,i,n){var r,t,s;i&&((r=new Image).onerror=r.onload=n,t=null!=i.kw?i.kw.replace(/\"/g,""):i.kw,s='{"sid":"'+i.sid+'","said":"'+i.said.replace("www.","")+'","kw":"'+t+'","source_url":"'+a+'","engineKey":"'+i.engineKey+'"'+(i.refURL?',"external_referrer":"'+i.refURL+'"':"")+"}",r.src="//track.searchiq.co/api/tr?event="+encodeURIComponent("search")+"&eventInfo="+encodeURIComponent(s))},r=function(){var e=s(".holdResults");if(0!==e.length){for(var i=e.attr("class").split(" "),n=-1,r=0;r<i.length;r++){var t=i[r].trim();/^siq_searchIndexResult-\d+$/.test(t)&&(n=t.replace(/^siq_searchIndexResult-(\d+)$/,"$1"))}if(!(n<0))return{kw:s(".siq_searchIndex-"+n).val(),sid:SiqConfig.siqSid,said:o,engineKey:siqConfig.engineKey}}},function(){if(s(document).on("click",".holdResults .searchWrapperLabel, .holdResults ul li .resultsMore",function(){n(0,r())}),s(document).on("click",".siq-autocomplete a",function(){s(this).hasClass("siq-recommended-link")||0!==s(this).parents(".siq-recommended-link").length||n(0,r())}),s(document).on("submit","form.siq_searchForm",function(){n(0,r())}),s(document).on("keydown",function(e){switch((e=e||window.event).which||e.keyCode){case 13:(0<s(".holdResults").length&&0<s(".holdResults .siq-autocomplete.highlighted").length||s(e.target).is("#siq_ajax_search")||s(e.target).parents("form").is("#siq_search_results div.siq_search_ajax.siq_search_box form"))&&n(0,r())}}),s(document).on("click touch",".siq_aclinewrap",function(){n(0,{kw:s(this).parents("#siq_mobile").find(".siq_searchwrap input.siq_searchfield").val(),sid:SiqConfig.siqSid,said:o,engineKey:siqConfig.engineKey})}),document.referrer&&document.referrer.replace(/^https?:\/\/([^\/]+).*$/i,"$1").toLowerCase()!==o){if(SiqConfig.resultPageUrl.replace(/^https?:/,"").replace(/\?.*$/,"")!==location.href.replace(/^https?:/,"").replace(/\?.*$/,""))return;function e(e,i){if(!(e.indexOf("?")<0)){var n=e.substr(e.indexOf("?")+1);if(0!==n.length)for(var r=n.split("&"),t=0;t<r.length;t++){var s=r[t];if(s.indexOf("=")<0&&decodeURIComponent(s)===i)return!0;if(i===decodeURIComponent(s.substr(0,s.indexOf("="))))return decodeURIComponent(s.substr(s.indexOf("=")+1))}}}var i=e(location.href,SiqConfig.queryParameter)||e(location.href,SiqConfig.searchBoxName);eventData={kw:i,sid:SiqConfig.siqSid,said:o,engineKey:siqConfig.engineKey,refURL:document.referrer},n(0,eventData)}}())}(window.siq_S);
-
- var img=new Image();
- img.src="//api.searchiq.co/live?engineKey="+window.siqConfig.engineKey;
-}();
-
-(function() {
-		const d = window.document;
-		const otLinkClass = '.ot-sdk-show-settings';
-		if (d.oneTrustIsEnabled === false) {
-			const otLink = d.querySelector(otLinkClass);
-			otLink.style.display = 'none';
-		}
-	}());
+//페이지 이동
+function _goPage ( pMenuId, menuId, url, menuNm, pMenuNm) {
 	
-var offSide = {"side":"left"};
+	//개발시 IURL을 찾기 쉽도록 호출 URL을 로그에 쓴다.
+	console.log("[DEBUG]   request URL===>> "+url);
+	
+	$("#content").empty();
+	$("#content").load( url);
+	
+	//접속 로그 생성
+	_setSysLog( url, menuNm, menuId, 'S');
+}
 
-if(typeof jQuery != "undefined") {
-					jQuery('.siq-expsearch-icon').each(function(){
-					var searchBox = (jQuery(this).parents('.siq-icon-searchbox-wrap').size() > 0) ? jQuery(this).parents('.siq-icon-searchbox-wrap') : jQuery('.siq-menu-searchbox-wrap') ;
-					var inputBox = searchBox.find('.siq-expsearch-input');
-					
-					jQuery(this).on('click', function () {
-						if (!searchBox.hasClass('siq-search-open')) {
-							searchBox.addClass('siq-search-open');
-							inputBox.focus();
-						} else {
-							searchBox.removeClass('siq-search-open');
-							inputBox.focusout();
-						}
-					});
-					jQuery('body').click(function (evt) {
-						if (evt.target.id == "siq-menu-searchbox-wrap")
-							return;
-						if (jQuery(evt.target).closest('#siq-menu-searchbox-wrap').length || jQuery(evt.target).closest('.siq-icon-searchbox-wrap').length)
-							return;
+//로그 없이 페이지 이동
+// url : 이등 URL
+function _goPageWithNoLog( url) {
 
-						if (searchBox.hasClass('siq-search-open')) {
-							searchBox.removeClass('siq-search-open');
-						}
-					});
-				});
+	//개발시 IURL을 찾기 쉽도록 호출 URL을 로그에 쓴다.
+	console.log("[DEBUG]   request URL===>> "+url);
+	
+	$("#content").empty();
+	$("#content").load( url);
+}
+
+// 로그없이 ajax로 form 전송하여 페이지 이동
+// url : 이등 URL
+// frmId : 전송할 FORM ID 값
+function _goPageWithFormNoLog( url, frmId) {
+	
+	//개발시 IURL을 찾기 쉽도록 호출 URL을 로그에 쓴다.
+	console.log("[DEBUG]   request URL===>> "+url);
+	
+	$.ajax({
+ 		url : url,		//Ajax 호출은 URL에 Ajax 반드시 포함
+ 		type : "POST",
+ 		data: $("#"+frmId).serialize(),
+ 		success : function( html) {
+ 			$("#content").empty();
+ 			$("#content").html( html);
+ 		},
+ 		error:function( jqXHR, textStatus, errorThrown) {
+ 			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+ 			if ( jqXHR.status == '401') {
+ 				location.href = "/common/sessionError.do";
+            }
+            else {
+            	console.log( jqXHR.responseText);
+            }
+ 	    }
+	});
+}
+
+
+//로그없이 ajax로 form 전송하여 페이지 이동
+//url : 이등 URL
+//frmId : 전송할 FORM ID 값
+//tabNm : 탭명
+function _goTabWithNoLog( url, tabNm) {
+	
+	//개발시 IURL을 찾기 쉽도록 호출
+	
+	//URL을 로그에 쓴다.
+	console.log("[DEBUG]   request URL===>> "+url);
+	parent._goTabPageNoLog ( "000000", url, tabNm);
+}
+
+//숫자 comma삽입
+function setDigitComma( val) {
+	var temp = val + "";
+	if( temp.indexOf(".") != -1 ){
+		var temp2 = temp.split(".");
+		 temp = temp2[0].replace(/[^-0123456789]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "."+temp2[1].replace(/[^0123456789]/g, "") ;
+	}
+	else {
+		temp = temp.replace(/[^-0123456789]/g, "");
+		temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	return temp;
+}
+
+//한글입력 금지
+function onlyNumEng( obj) {
+	obj.value=obj.value.replace(/[^a-z0-9]/gi,'');
+}
+
+//한글입력 금지
+function onlyNumEngDotAt( obj) {
+	obj.value=obj.value.replace(/[^a-z0-9@.]/gi,'');
+}
+
+//text textarea MaxLength 체크
+//사이즈 초과시 false, 미초과시 true
+function _checkFormMaxlength( form) {
+	
+	if ( form == undefined || form == null) {
+		return true;
+	}
+	
+	for( var i=0; i<form.length; i++){
+		
+		if( form.elements[i].type.toLowerCase() == 'text' || form.elements[i].type.toLowerCase() == 'textarea' ) {
+			if ( form.elements[i].title != undefined && form.elements[i].title != null && form.elements[i].title != "" &&
+					form.elements[i].maxLength != undefined && form.elements[i].maxLength != null && form.elements[i].maxLength != 0 ) {
+				
+				if ( fnChkByte4PqGrid( form.elements[i].value.trim()) > form.elements[i].maxLength ) {
+					alert( form.elements[i].title+"은(는)" + form.elements[i].maxLength+"byte 까지 입력가능합니다.(" + fnChkByte4PqGrid( form.elements[i].value) +"/"+ form.elements[i].maxLength+")" );
+					 form.elements[i].focus();
+					return false;
+				}
+			}
+		}
+	}
+	
+	return true;
+}
+
+//text textarea MinLength 체크
+//사이즈 초과시 false, 미초과시 true
+function _checkFormMinlength( form) {
+
+	if ( form == undefined || form == null) {
+		return true;
+	}
+	
+	for( var i=0; i<form.length; i++){
+		
+		if( form.elements[i].type.toLowerCase() == 'text' || form.elements[i].type.toLowerCase() == 'textarea' ) {
+			if ( form.elements[i].title != undefined && form.elements[i].title != null && form.elements[i].title != "" &&
+					 $(form.elements[i]).attr("minlength") != undefined &&  $(form.elements[i]).attr("minlength") != null && $(form.elements[i]).attr("minlength") >= 1 ) {
+				if ( fnChkByte4PqGrid( form.elements[i].value) < 1 ) {
+					alert( form.elements[i].title+"은(는) 필수 입력입니다.");
+					form.elements[i].focus();
+					return false;
+				}
+				
+				if ( fnChkByte4PqGrid( form.elements[i].value) < $(form.elements[i]).attr("minlength")  ) {
+					alert( form.elements[i].title+"은(는) 최소 "+$(form.elements[i]).attr("minlength") +"자리로 입력해야 합니다.");
+					form.elements[i].focus();
+					return false;
+				}
+				
+			}
+		}
+	}
+	
+return true;
+}
+
+
+function gfn_isNull(str) {
+    if (str == null) return true;
+    if (str == "NaN") return true;
+    if (new String(str).valueOf() == "undefined") return true;    
+    var chkStr = new String(str);
+    if( chkStr.valueOf() == "undefined" ) return true;
+    if (chkStr == null) return true;    
+    if (chkStr.toString().length == 0 ) return true;   
+    return false; 
+}
+ 
+function ComSubmit(opt_formId) {
+    this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
+    this.url = "";
+     
+    if(this.formId == "commonForm"){
+        //$("#commonForm")[0].reset();
+    	$("#"+this.formId).empty();
+    }
+     
+    this.setUrl = function setUrl(url){
+        this.url = url;
+    };
+    
+    this.setTarget = function setTarget(target){
+        this.target = target;
+    };
+     
+    this.addParam = function addParam(key, value){
+        $("#"+this.formId).append($("<input type='hidden' name='"+key+"' id='"+key+"' value='"+value+"' >"));
+    };
+     
+    this.submit = function submit(){
+        var frm = $("#"+this.formId)[0];
+        frm.action = this.url;
+        if(this.target != null)
+        	frm.target = this.target;
+        frm.method = "post";
+        frm.submit();   
+    };
+}
+
+
+//object id값으로 이동하기
+function fnMove(elId){
+    var offset = $("#" + elId).offset();
+    $('html, body').animate({scrollTop : offset.top}, 400);
+}
+
+function fnChkByte(obj,limitByte,targetObjId) {
+    var maxByte = limitByte; //최대 입력 바이트 수
+    var str = obj.value;
+    var str_len = str.length;
+ 
+    var rbyte = 0;
+    var rlen = 0;
+    var one_char = "";
+    var str2 = "";
+ 
+    for (var i = 0; i < str_len; i++) {
+        one_char = str.charAt(i);
+ 
+        if (escape(one_char).length > 4) {
+            rbyte += 2; //한글2Byte
+        } else {
+            rbyte++; //영문 등 나머지 1Byte
+        }
+ 
+        if (rbyte <= maxByte) {
+            rlen = i + 1; //return할 문자열 갯수
+        }
+    }
+ 
+    if (rbyte > maxByte) {
+        alert("한글 " + (maxByte / 2) + "자 / 영문 " + maxByte + "자를 초과 입력할 수 없습니다.");
+        str2 = str.substr(0, rlen); //문자열 자르기
+        obj.value = str2;
+        fnChkByte(obj, maxByte,targetObjId);
+    } else {
+    	if(targetObjId != "")
+    		document.getElementById(targetObjId).innerText = rbyte;
+    }
+}
+
+/*
+ * 숫자만 입력 onlyNumber 버그로 재작성 숫자가 아닐경우 무시됨
+ */
+function checkNumber(event) {
+	event.target.value = event.target.value.replace(/[^0-9]/g, "");
+}
+/*
+ * 숫자만 입력
+ * <input type="text" name="num" onkeydown="return onlyNumber(event);" onkeyup="removeChar(event);" style="ime-mode:disabled;" />
+ * */
+function onlyNumber(event){
+    event = event || window.event;
+ 
+    var keyID = (event.which) ? event.which : event.keyCode;
+     // 8 : backspace,    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    46 : del,    35 : End,    36 : Home
+    if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 ||  keyID == 37 || keyID == 39 || keyID == 46 || keyID == 35 || keyID == 36  ) {
+        return;
+         
+    } else {
+        return false;
+         
+    }
+}
+
+/*
+ * 숫자와 . 입력
+ * <input type="text" name="num" onkeydown="return onlyNumber(event);" onkeyup="removeChar(event);" style="ime-mode:disabled;" />
+ * */
+function onlyNumberWithDot(event){
+    event = event || window.event;
+ 
+    var keyID = (event.which) ? event.which : event.keyCode;
+    // 8 : backspace,    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    46 : del,    35 : End,    36 : Home.  110 190 : .
+    if ( (keyID>= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 37 || keyID == 39 || keyID == 46 || keyID == 35 || keyID == 36  || keyID == 110  || keyID == 190 ) {
+    	//.은 한번만 가능
+    	if( event.srcElement.value.indexOf(".") != -1 && (keyID == 110  || keyID == 190)){
+    		 return false;
+    	}
+        return;
+         
+    } else {
+        return false;
+         
+    }
+}
+
+//자리수 체크
+function checkLengthPoint(event, digit) {
+	event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    
+    //숫자를 입력했을 때
+    if ( (keyID>= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)) {
+    	if(event.target.value.length > digit){
+    		alert(digit+"자리수 까지 입력가능합니다.");
+			event.target.value = event.target.value.substr( 0, event.target.value.length-1);
+    	}
+    }
+}
+
+//소수점 체크
+function checkDecimalPoint(  event, digit) {
+	event = event || window.event;
+ 
+    var keyID = (event.which) ? event.which : event.keyCode;
+    
+    //숫자를 입력했을 때
+    if ( (keyID>= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)) {
+    	if( event.target.value.indexOf(".") != -1){
+			if( (event.target.value.split(".")[1]).length == digit ){
+				alert("소수점 "+digit+"까지 입력가능합니다.");
+				event.target.value = event.target.value.substr( 0, event.target.value.length-1);
+			}
+		}
+    }
+}
+
+
+
+/*
+ * 숫자만 입력( 소수점 허용 )
+ * <input type="text" name="num" onkeydown="return onlyNumber(event);" onkeyup="removeChar(event);" style="ime-mode:disabled;" />
+ * */
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105) || charCode == 8 || charCode == 9 || charCode == 46 || charCode == 37 || charCode == 39 ){
+    	return;
+    } else {
+    	return false;
+    }
+        
+
+    // Textbox value       
+    var _value = event.srcElement.value;       
+
+    // 소수점(.)이 두번 이상 나오지 못하게
+    var _pattern0 = /^\d*[.]\d*$/; // 현재 value값에 소수점(.) 이 있으면 . 입력불가
+    if (_pattern0.test(_value)) {
+        if (charCode == 46) {
+            return true;
+        }
+    }
+
+    // 소수점 둘째자리까지만 입력가능
+    var _pattern2 = /^\d*[.]\d{2}$/; // 현재 value값이 소수점 둘째짜리 숫자이면 더이상 입력 불가
+    if (_pattern2.test(_value)) {
+        alert("소수점 둘째자리까지만 입력가능합니다.");
+        return false;
+    }     
+
+    return true;
+}
+
+function removeChar(event) {
+    event = event || window.event;
+     
+    var keyID = (event.which) ? event.which : event.keyCode;
+     
+    //if ( keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39 ) {
+    //  제외 숫자 와 keyCode ==>  8 : backspace,    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    46 : del,    35 : End,    36 : Home
+    if ( (keyID>= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 16 || keyID == 37 || keyID == 39 || keyID == 46 || keyID == 35 || keyID == 36 ) {
+        return;
+         
+    } else {
+        event.target.value = event.target.value.replace(/[^0-9]/g, "");
+         
+    }
+}
+
+
+/* 숫자와 .만 입력 */
+function removeCharWithoutDot(event) {
+    event = event || window.event;
+     
+    var keyID = (event.which) ? event.which : event.keyCode;
+     
+    //if ( keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39 ) {
+    //  제외 숫자 와 keyCode ==>  8 : backspace,    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    46 : del,    35 : End,    36 : Home
+    if ( (keyID>= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 16 || keyID == 37 || keyID == 39 || keyID == 46 || keyID == 35 || keyID == 36 ) {
+        return;
+         
+    } else {
+    	event.target.value = event.target.value.replace(/[^0123456789.]/g, "");
+         
+    }
+}
+/* 사업자등록번호 유효성 체크 */
+function CheckComNo(compreg_no) {
+	if(Number(compreg_no) < 10){
+		//사업자번호 없는 임시거래처는 체크 하지 않음 (0000000001:가족연, 0000000002:골프등) 
+		return true;
+	}
+	var chkRule="137137135";
+	var strCoreNum = compreg_no;
+	var step1, step2, step3, step4, step5, step6, step7;
+	step1=0;
+
+	for(i=0;i<7;i++){
+		step1 = step1 + (strCoreNum.substring(i,i+1)*chkRule.substring(i,i+1));
+	}
+
+	step2 = step1 % 10;
+	step3 = (strCoreNum.substring(7,8)*chkRule.substring(7,8))%10;
+	step4 = strCoreNum.substring(8,9)*chkRule.substring(8,9);
+	step5 = Math.round(step4/10 - 0.5);
+	step6 = step4 - (step5*10);
+	step7 = (10-((step2+step3+step5+step6)%10))%10;
+
+	if(strCoreNum.substring(9,10)!=step7){
+		return false;
+	}
+
+	return true;
+}
+
+/* 전화번호 체크 숫자와 - 만 입력가능 */
+function chkTel( event) {
+				
+	event = event || window.event;
+ 
+	var keyID = (event.which) ? event.which : event.keyCode;
+			
+	//  제외 keyCode ==>  8 : backspace,    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    46 : del,    35 : End,    36 : Home
+	if( keyID != 8 && keyID != 9 && keyID != 16 && keyID != 37 && keyID != 39  && keyID != 46 && keyID != 35 && keyID != 36) {
+		var _pattern0 = /[^0-9-]/g;
+		if ( _pattern0.test( event.target.value) ) {
+			alert("숫자와 - 만 입력가능 합니다.");
+		}
+		event.target.value = event.target.value.replace(/[^0-9-]/g, "");
+	}
+}
+
+// onchange="setComma(event);" onkeyup="setComma(event);"
+function setComma(event) {
+	event = event || window.event;
+ 
+	var keyID = (event.which) ? event.which : event.keyCode;
+			
+	//  제외 keyCode ==> 9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    35 : End,    36 : Home
+	if( keyID != 9 && keyID != 16 && keyID != 37 && keyID != 39  && keyID != 35 && keyID != 36) {
+		event.target.value = event.target.value.replace(/[^0-9]/g, "");   
+		event.target.value = event.target.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+}
+
+
+
+
+/* 소수점 콤마 */
+function setCommaWithDot(event) {
+	event = event || window.event;
+ 
+	var keyID = (event.which) ? event.which : event.keyCode;
+			
+	//  제외 keyCode ==>    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    35 : End,    36 : Home
+	if( keyID != 9 && keyID != 16 && keyID != 37 && keyID != 39  && keyID != 35 && keyID != 36) {
+		event.target.value = event.target.value.replace(/[^0123456789.]/g, "");   
+		event.target.value = event.target.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+}
+
+
+/* 백분률 소수점 콤마 0 ~ 100 사이 값만 입력 가능함*/
+function setPerCommaWithDot(event) {
+	event = event || window.event;
+ 
+	var keyID = (event.which) ? event.which : event.keyCode;
+			
+	//  제외 keyCode ==>    9 : tab,    16 : shift,    37 : 왼쪽 화살표,    39 : 오른쪽 화살표,    35 : End,    36 : Home
+	if( keyID != 9 && keyID != 16 && keyID != 37 && keyID != 39  && keyID != 35 && keyID != 36) {
+		
+		var _value = event.target.value.replace(/,/gi, "");
+		event.target.value = _value > 100 ? 100 : _value < 0 ? 0 : _value;
+		event.target.value = event.target.value.replace(/[^0123456789.]/g, "");   
+		event.target.value = event.target.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	}
+}
+
+/* num 만큰 스크립트 실행 sleep MODAL 팝업에서 JQGRID 사용시 MODAL의 Animation 중에는 MODAL WIDTH를 정확하게 찾을 수 없어 잠시 대기 후 WIDTH를 구하기 위해 사용 */
+function sleep( num) {	//[1/1000초]
+	var now = new Date();
+	var stop = now.getTime() + num;
+	while(true) {
+		now = new Date();
+		if(now.getTime() > stop) {
+			return;
+		}
+	}
+}
+
+
+/**
+ * 문자열이 빈 문자열인지 체크하여 결과값을 리턴한다.
+ * @param str       : 체크할 문자열
+ */
+function isEmpty(str){
+     
+    if(typeof str == "undefined" || str == null || str == "")
+        return true;
+    else
+        return false ;
+}
+
+/**
+* 문자열이 빈 문자열인지 체크하여 기본 문자열로 리턴한다.
+* @param str           : 체크할 문자열
+* @param defaultStr    : 문자열이 비어있을경우 리턴할 기본 문자열
+*/
+function nvl(str, defaultStr){
+     
+    if(typeof str == "undefined" || str == null || str == "")
+        str = defaultStr ;
+     
+    return str ;
+}
+
+
+
+/**
+* 일자 입력시 자동 "-" 처리 및 Validation Check
+* <input type="text" id="release_dt" name="release_dt"  onkeyup="javascript:date_mask(this.form.name, this.name);">
+*/
+function date_mask(formd, textid) {
+	var form = eval("document."+formd);
+	var text = eval("form."+textid);
+	
+	var textlength = text.value.length;
+	
+	if (textlength == 4) {
+		text.value = text.value + "-";
+	} else if (textlength == 7) {
+		text.value = text.value + "-";
+	} else if (textlength > 9) {
+		//날짜 수동 입력 Validation 체크
+		var chk_date = checkdate(text);
+		
+		if (chk_date == false) {
+			return;
+		}
+	}
+}
+
+//date 형식 문자열로 변환 ex)20200918
+function castStrDate(date){
+	var yyyy;
+	var mm;
+	var dd;
+	var strDate;
+	
+	yyyy = date.getFullYear()+"";
+	mm = date.getMonth()+1+"";
+	if((mm).length < 2){
+		mm = "0"+mm;
+	}
+	dd = date.getDate()+"";
+	if((dd).length < 2){
+		dd = "0"+dd;
+	}
+	
+	strDate = yyyy + mm + dd;
+	return strDate;
+}
+
+/**
+* 일자 입력시 자동 "-" 처리 및 Validation Check
+* <input type="text" id="release_dt" name="release_dt"  onkeyup="javascript:date_mask(this.form.name, this.name);">
+*/
+function checkdate(input) {
+	var validformat = /^\d{4}\-\d{2}\-\d{2}$/; //Basic check for format validity
+	var returnval = false;
+	if (!validformat.test(input.value)) {
+		alert("날짜 형식이 올바르지 않습니다. YYYY-MM-DD");
+	} else { //Detailed check for valid date ranges
+		var yearfield = input.value.split("-")[0];
+		var monthfield = input.value.split("-")[1];
+		var dayfield = input.value.split("-")[2];
+		var dayobj = new Date(yearfield, monthfield - 1, dayfield);
+	}
+	if ((dayobj.getMonth() + 1 != monthfield)
+			|| (dayobj.getDate() != dayfield)
+			|| (dayobj.getFullYear() != yearfield)) {
+		alert("날짜 형식이 올바르지 않습니다. YYYY-MM-DD");
+	} else {
+		//alert ('Correct date');
+		returnval = true;
+	}
+	if (returnval == false) {
+		input.select();
+	}
+	return returnval;
+}
+
+// lpad 자리수 만큼 채우기
+function lpad_val(n, width, pad_val) {
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(pad_val) + n;
+}
+
+// lpad 4자리 0으로 채우기
+function lpad(n) {
+  return lpad_val(n, 4, '0');
+}
+
+/*
+ * wrapWindowByMask();
+ * closeWindowByMask();
+ */
+
+function wrapWindowByMask() {
+        //화면의 높이와 너비를 구한다.
+        var maskHeight = $(document).height(); 
+        var maskWidth = window.document.body.clientWidth;
+         
+        var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+        var loadingImg = '';
+         
+        loadingImg += "<div id='loadingImg' style='position:absolute; left:50%; top:40%; display:none; z-index:10000;'>";
+        loadingImg += "<img src='/img//viewLoading.gif'/>";
+        loadingImg += "</div>";  
+     
+        //화면에 레이어 추가
+        $('body')
+            .append(mask)
+            .append(loadingImg)
+           
+        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+        $('#mask').css({
+                'width' : maskWidth
+                , 'height': maskHeight
+                , 'opacity' : '0.3'
+        }); 
+     
+        //마스크 표시
+        $('#mask').show();   
+     
+        //로딩중 이미지 표시
+        $('#loadingImg').show();
+}    
+
+function closeWindowByMask() {
+        $('#mask, #loadingImg').hide();
+        $('#mask, #loadingImg').remove();  
+}
+
+function NewWindow(mypage,myname,w,h,scroll){
+	LeftPosition = (screen.width) ? (screen.width-w)/2 : 0;
+	TopPosition = (screen.height) ? (screen.height-h)/2 : 0;
+	settings = 'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable';
+
+	win = window.open(mypage,myname,settings)
+	return win;
+}
+
+/**
+ * 에러 공통 처리
+ */
+function commonErrFunc(jqXHR, status, error){
+	//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+	if (jqXHR.status == '401') {
+		location.href = "/common/sessionError.do";
+	}else if(jqXHR.status == '0') {
+		console.log("ERR="+'HTTP status code: ' + jqXHR.status + '\n' + 'textStatus: ' + status + '\n' + 'errorThrown: ' + error);
+		console.log('HTTP message body (jqXHR.responseText): ' + '\n' + jqXHR.responseText);
+	}
+	else {
+		alert("ERR="+'HTTP status code: ' + jqXHR.status + '\n' + 'textStatus: ' + status + '\n' + 'errorThrown: ' + error);
+		console.log('HTTP message body (jqXHR.responseText): ' + '\n' + jqXHR.responseText);
+	}
+}
+
+/**
+ *컴마 제거
+ */
+function removeComma(str) {
+	var n = "";
+	if(!isEmpty(str)) {
+		n = parseInt(str.replace(/,/g,""));		
+	}
+	
+	return n;
+}
+
+/* excel cell format 삭제 */
+function exportData_noFormat (me, _noFmtObj){
+    var _formatBak = {};
+
+    for (var key in _noFmtObj) {
+        var column = me.getColumn({
+            dataIndx: key
+        });
+
+        _formatBak[key] = column.format;
+        column.format = _noFmtObj[key];
+    }
+
+    return _formatBak;
+}
+
+
+/* form 필수 여부 확인 */
+function _checkFormValid(form) {
+
+	if ( form == undefined || form == null) {
+		return true;
+	}
+	
+	for( var i=0; i<form.length; i++){
+		if ( !isEmpty(form.elements[i].title) && !isEmpty($(form.elements[i]).attr("minlength"))) {
+			
+			//#1 필수 입력 체크
+			if ( fnChkByte4PqGrid( form.elements[i].value) < 1 ) {
+				alert( form.elements[i].title+"은(는) 필수 입력입니다.");
+				form.elements[i].focus();
+				return false;
 			}
 			
-			
-window.lazyLoadOptions = {
-                elements_selector: "img[data-lazy-src],.rocket-lazyload",
-                data_src: "lazy-src",
-                data_srcset: "lazy-srcset",
-                data_sizes: "lazy-sizes",
-                class_loading: "lazyloading",
-                class_loaded: "lazyloaded",
-                threshold: 300,
-                callback_loaded: function(element) {
-                    if ( element.tagName === "IFRAME" && element.dataset.rocketLazyload == "fitvidscompatible" ) {
-                        if (element.classList.contains("lazyloaded") ) {
-                            if (typeof window.jQuery != "undefined") {
-                                if (jQuery.fn.fitVids) {
-                                    jQuery(element).parent().fitVids();
-                                }
-                            }
-                        }
-                    }
-                }};
-        window.addEventListener('LazyLoad::Initialized', function (e) {
-            var lazyLoadInstance = e.detail.instance;
-        
-            if (window.MutationObserver) {
-                var observer = new MutationObserver(function(mutations) {
-                    var image_count = 0;
-                    var iframe_count = 0;
-                    var rocketlazy_count = 0;
-
-                    mutations.forEach(function(mutation) {
-                        for (i = 0; i < mutation.addedNodes.length; i++) {
-                            if (typeof mutation.addedNodes[i].getElementsByTagName !== 'function') {
-                                return;
-                            }
-
-                           if (typeof mutation.addedNodes[i].getElementsByClassName !== 'function') {
-                                return;
-                            }
-
-                            images = mutation.addedNodes[i].getElementsByTagName('img');
-                            is_image = mutation.addedNodes[i].tagName == "IMG";
-                            iframes = mutation.addedNodes[i].getElementsByTagName('iframe');
-                            is_iframe = mutation.addedNodes[i].tagName == "IFRAME";
-                            rocket_lazy = mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');
-
-                            image_count += images.length;
-			                iframe_count += iframes.length;
-			                rocketlazy_count += rocket_lazy.length;
-                            
-                            if(is_image){
-                                image_count += 1;
-                            }
-
-                            if(is_iframe){
-                                iframe_count += 1;
-                            }
-                        }
-                    } );
-
-                    if(image_count > 0 || iframe_count > 0 || rocketlazy_count > 0){
-                        lazyLoadInstance.update();
-                    }
-                } );
-                
-                var b      = document.getElementsByTagName("body")[0];
-                var config = { childList: true, subtree: true };
-                
-                observer.observe(b, config);
-            }
-        }, false);
-        
->window.NREUM||(NREUM={});NREUM.info={"beacon":"bam-cell.nr-data.net","licenseKey":"bbc653a5d4","applicationID":"369600669","transactionName":"Z1JaN0UEDEpTAUUMX14YeQBDDA1XHRZUCEBcVkwGGg0NVFc=","queueTime":0,"applicationTime":280,"atts":"SxVZQQ0eH0Q=","errorBeacon":"bam-cell.nr-data.net","agent":""}
-
-function trackMonetateLinkRQ(){
-window.monetateQ = window.monetateQ || [];
-window.monetateQ.push(["trackEvent",["MonetateLink"]]);
+			//#2 길이 체크
+			if (!isEmpty(form.elements[i].maxLength) && form.elements[i].maxLength != -1 ) {
+				if ( fnChkByte4PqGrid( form.elements[i].value.trim()) > form.elements[i].maxLength ) {
+					alert( form.elements[i].title+"은(는)" + form.elements[i].maxLength+"byte 까지 입력가능합니다.(" + fnChkByte4PqGrid( form.elements[i].value) +"/"+ form.elements[i].maxLength+")" );
+					form.elements[i].focus();
+					return false;
+				}
+			}
+		}
+	}
+	return true;
 }
 
-
-function trackMonetateLinkRA(){
-window.monetateQ = window.monetateQ || [];
-window.monetateQ.push(["trackEvent",["MonetateLink"]]);
+//이메일 형식 체크
+function validateEmail(sEmail) {
+	var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	if (filter.test(sEmail)) {
+		return true;
+	}else {
+		return false;
+	}
 }
 
-
-
-
-
-
-
+//비밀번호 형식 체크
+function validatePswd(sPswd) {
+	var filter = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+	if (filter.test(sPswd)) {
+		return true;
+	} else {
+		return false;
+	}
+}

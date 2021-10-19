@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -80,7 +81,7 @@ public class LoginService {
             throw new UserAuthException(MessageUtil.getMessage("err.user-auth", null));
         }
 
-        encoded = passwdManager.getSHA256(loginInfo.getPasswd());
+        encoded = Base64.getEncoder().encodeToString(loginInfo.getPasswd().getBytes());
         if (false == user.matchPassword(encoded)) {
             loggerService.writeAccessLog(request, user, false, null, null);
             throw new UserAuthException(MessageUtil.getMessage("err.user-auth", null));
@@ -161,12 +162,69 @@ public class LoginService {
     		 String email = param.get("email").toString();
     		 idInfo =  loginMapper.selectFindUserIdByEmail(email);
     	 }else if(checkMethod.equals("phone")) {
-    		 
+    		 idInfo =  loginMapper.selectFindUserIdByPhone(param);
     	 }
-    	 
-    	 
-    	 
     	 return idInfo;
+    }
+    
+    
+    /**
+     * 비밀번호 조회
+     *  
+     * @param input
+     * @return 비밀번호
+     * @throws Exception
+     */
+    public Map<String, Object>  getFindPswd(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> pswdInfo = new HashMap<String, Object>();
+    	 String checkMethod = param.get("check_method").toString();
+    	 String mobile1;
+    	 String mobile2;
+    	 String mobile3;
+    	 
+    	 if(checkMethod.equals("email")) {
+    		 pswdInfo =  loginMapper.selectFindUserPswdByEmail(param);
+    	 }else if(checkMethod.equals("phone")) {
+    		 pswdInfo =  loginMapper.selectFindUserPswdByPhone(param);
+    	 }
+    	 return pswdInfo;
+    }
+    
+    
+    /**
+     * 아이디 중복 체크
+     *  
+     * @param input
+     * @return 아이디
+     * @throws Exception
+     */
+    public Boolean  getIdChk(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> idInfo = new HashMap<String, Object>();
+    	 String inputId = param.get("userId").toString();
+    	 Boolean result = false;
+    	 
+    	 idInfo = loginMapper.selectSearchUserIdById(inputId);
+    	 
+    	 if(idInfo !=null && idInfo.size()!=0 ) {
+     		result = false;
+     	}else {
+     		result = true;
+     	}
+    	 return result;
+    }
+    
+    
+    /**
+     * 회원 등록
+     *  
+     * @param input
+     * @throws Exception
+     */
+    public void  insertUser(HashMap<String, Object> param) throws Exception {
+    	 //유저 등록
+    	 loginMapper.insertUser(param);
+    	//유저 권한 등록
+    	 loginMapper.insertUserGrade(param);
     }
     
     /**

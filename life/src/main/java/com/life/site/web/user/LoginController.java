@@ -1,5 +1,6 @@
 package com.life.site.web.user;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.io.BaseEncoding;
 import com.life.site.config.param.CommonConstants;
 import com.life.site.config.param.CommonResult;
 import com.life.site.model.LoginInfo;
@@ -29,6 +32,8 @@ import com.life.site.web.user.exception.UserAuthException;
 import com.life.site.web.util.MessageUtil;
 import com.life.site.web.util.StringUtil;
 import com.life.site.web.util.session.SessionManager;
+import com.sun.mail.util.BASE64EncoderStream;
+
 
 @Controller
 @RequestMapping("/user")
@@ -165,17 +170,26 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/find/id")
-    public CommonResult findIdCheck(HttpServletRequest request, HttpSession session,
+    public CommonResult findIdSearch(HttpServletRequest request, HttpSession session,
             HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
         CommonResult result = new CommonResult();
         Map<String, Object> idInfo = new HashMap<String, Object>();
         String url = param.get("returnUrl").toString();
+        String userId;
+        String inputDt;
 
         try {
         	idInfo =loginService.getFindId(param);
         	if(idInfo !=null && idInfo.size()!=0 ) {
+        		userId = idInfo.get("USER_ID").toString();
+        		userId = Base64.getEncoder().encodeToString(userId.getBytes());
+
+        		inputDt = idInfo.get("INPUT_DT").toString();
+        		inputDt = Base64.getEncoder().encodeToString(inputDt.getBytes());
+        		
+        		url+="?queryIn="+userId+"!"+inputDt;
         		result.setData(url);
-                result.setStatus(true);
+        		result.setStatus(true);
         	}else {
                 result.setStatus(false);
         	}
@@ -187,4 +201,79 @@ public class LoginController {
         }
         return result;
     }
+    
+    @ResponseBody
+    @PostMapping("/find/pswd")
+    public CommonResult findPswdSearch(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        Map<String, Object> pswdInfo = new HashMap<String, Object>();
+        String url = param.get("returnUrl").toString();
+        String pswd;
+        String inputDt;
+
+        try {
+        	pswdInfo =loginService.getFindPswd(param);
+        	if(pswdInfo !=null && pswdInfo.size()!=0 ) {
+        		pswd = pswdInfo.get("PASSWD").toString();
+
+        		inputDt = pswdInfo.get("INPUT_DT").toString();
+        		inputDt = Base64.getEncoder().encodeToString(inputDt.getBytes());
+        		
+        		url+="?queryIn="+pswd+"!"+inputDt;
+        		result.setData(url);
+        		result.setStatus(true);
+        	}else {
+                result.setStatus(false);
+        	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
+    @ResponseBody
+    @PostMapping("/search/id")
+    public CommonResult findIdChck(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+
+        try {
+        	result.setStatus(loginService.getIdChk(param));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
+    
+    @ResponseBody
+    @PostMapping("/join/member")
+    public CommonResult insertUser(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        String returnUrl = "/user/login";
+        String passwd ="";
+        try {
+        	passwd = param.get("passwd").toString();
+        	passwd = Base64.getEncoder().encodeToString(passwd.getBytes());
+        	param.put("encodePswd", passwd);
+        	loginService.insertUser(param);
+        	result.setData(returnUrl);
+        	result.setStatus(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+   
 }

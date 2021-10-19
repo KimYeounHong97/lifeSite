@@ -4,6 +4,19 @@
    height: 100%;
    margin: 0;
   }
+.info{
+	font-family: "Open Sans", sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+	color: #353535;
+}
+
+.message{
+	font-family: "Open Sans", sans-serif;
+	font-size: 15px;
+	font-weight: normal;
+	color: black;
+}
 
 /* Bordered form */
 form {
@@ -30,6 +43,20 @@ input[type=text], input[type=password] {
   padding: 14px 20px;
   margin-left: 20px;
   border: 1.5px solid black;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+}
+
+.checkRedButton{
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: none;
   cursor: pointer;
   width: 150px;
   height : 50px;
@@ -148,4 +175,16 @@ table {
     text-align: left;
     font-weight: normal;
     background-color: #fbfafa;
+}
+
+.ec-base-box.typeMember.gMessage {
+    border-width: 1px;
+    border-color: #d7d5d5;
+}
+
+.ec-base-box .message {
+    display: block;
+    padding: 10px 0 10px 35px;
+    border-bottom: 1px solid #e8e7e7;
+    background: #fbfbfb center;
 }

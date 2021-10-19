@@ -11,16 +11,6 @@
 <!-- html 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
 <script type="text/javascript">
-//이메일 형식 체크
-function validateEmail(sEmail) {
-	var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-	if (filter.test(sEmail)) {
-		return true;
-	}else {
-		return false;
-	}
-}
-
 //비밀번호 찾기 유형 체크
 function fnIdType(){
 	var checkVal = $('input[name=check_method]:checked').val();
@@ -36,7 +26,6 @@ function fnIdType(){
 		$("#mobileView").show();
 	}
 }
-
 
 //비밀번호 찾기 
 function findPswd(){
@@ -72,10 +61,9 @@ function findPswd(){
 		async : false,
 		data : $("#findPasswdForm").serialize(),
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
-					alert("입력하신 정보로 가입 된 회원 아이디는 존재하지 않습니다.");
+					alert("입력하신 정보로 가입 된 회원 정보는 존재하지 않습니다.");
 					return;
 				} else {
 					alert(result.message);
@@ -131,7 +119,7 @@ $(document).ready(function() {
 						<div>
 							<form id="findPasswdForm" name="findPasswdForm" method="post" target="_self" enctype="multipart/form-data" onsubmit="return false;">
 								<input id="returnUrl" name="returnUrl"
-									value="/user/pswd/find_pswd_result.html" type="hidden">
+									value="/user/find_pswd_result" type="hidden">
 								<div class="form-container">
 									<div id="findPswd">
 										<fieldset class="find-container">
@@ -170,13 +158,13 @@ $(document).ready(function() {
 														</div>
 														<div id="mobileView" style="display: none; margin: 0" class="mobile" >
 															<input id="mobile1"name="mobile1" fw-filter="isMin[3]&amp;isMax[3]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
-																maxlength="3" value="" type="text"> 
+																maxlength="3" value="" type="text" onkeydown="checkNumber(event);"> 
 															<b>-</b> 
 														<input id="mobile2" name="mobile2" fw-filter="isMin[3]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
-																maxlength="4" value="" type="text"> 
+																maxlength="4" value="" type="text" onkeydown="checkNumber(event);"> 
 															<b>-</b> 
 														<input id="mobile3" name="mobile3" fw-filter="isMin[4]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
-																maxlength="4" value="" type="text">
+																maxlength="4" value="" type="text" onkeydown="checkNumber(event);">
 														</div>
 													</td>
 												</tr>

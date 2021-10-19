@@ -124,11 +124,42 @@
         WHERE USER_ID = #{VALUE}
     </select>
     
+    <select id="selectSearchUserIdById" parameterType="string" resultType="map">
+        SELECT      /* LoginMapper.selectSearchUserIdById */
+           USER_ID
+		FROM lifesite.member
+		WHERE USER_ID = #{VALUE}
+    </select>
+    
     <select id="selectFindUserIdByEmail" parameterType="string" resultType="map">
         SELECT      /* LoginMapper.selectFindUserIdByEmail */
-           USER_ID , EMAIL , INPUT_DT
+           USER_ID , INPUT_DT
 		FROM lifesite.member
 		WHERE EMAIL = #{VALUE}
+    </select>
+    
+    <select id="selectFindUserIdByPhone" parameterType="hashMap" resultType="map">
+        SELECT      /* LoginMapper.selectFindUserIdByPhone */
+           USER_ID , INPUT_DT
+		FROM lifesite.member
+		WHERE PHONE = #{mobile1} || '-' || #{mobile2} || '-' || #{mobile3}
+    </select>
+    
+    
+    <select id="selectFindUserPswdByEmail" parameterType="hashMap" resultType="map">
+        SELECT      /* LoginMapper.selectFindUserPswdByEmail */
+           PASSWD , INPUT_DT
+		FROM lifesite.member
+		WHERE USER_ID = #{userId}
+		AND EMAIL = #{email} 
+    </select>
+    
+    <select id="selectFindUserPswdByPhone" parameterType="hashMap" resultType="map">
+        SELECT      /* LoginMapper.selectFindUserPswdByPhone */
+           PASSWD , INPUT_DT
+		FROM lifesite.member
+		WHERE USER_ID = #{userId}
+		AND PHONE = #{mobile1} || '-' || #{mobile2} || '-' || #{mobile3}
     </select>
 
     <select id="selectUserInfoById" parameterType="User" resultType="User">
@@ -151,6 +182,56 @@
     	AND A.DEL_FLG = 'N'
     	AND A.USER_ID = #{USER_ID}
     </select>
+    
+    <insert id="insertUser" parameterType="hashMap">
+    	INSERT INTO lifesite.member
+    	(
+    		USER_ID,
+    		PASSWD,
+    		USER_GENDER,
+    		FAVORITE_CD,
+    		FAVORITE_NM,
+    		PHONE,
+    		EMAIL,
+    		ADDRESS,
+    		USE_FLG,
+    		DEL_FLG,
+    		INPUT_DT,
+    		MOD_DT
+    	)
+    	VALUES(
+    		#{userId},
+    		#{encodePswd},
+    		#{gender},
+    		#{favorite ,jdbcType=VARCHAR},
+    		(SELECT CODE_NM FROM lifesite.tb_code WHERE CODE_CD = #{favorite ,jdbcType=VARCHAR} ),
+    		#{mobile1} || '-' || #{mobile2} || '-' || #{mobile3},
+    		#{email},
+    		#{postcode1} || '-' || #{addr1} || ' ' || IFNULL(#{addr2 ,jdbcType=VARCHAR},' '),
+    		'Y',
+    		'N',
+    		SYSDATE(),
+    		SYSDATE()
+    	)
+    </insert>
+    
+    <insert id="insertUserGrade" parameterType="hashMap">
+    	INSERT INTO lifesite.member_grade
+    	(
+    		USER_ID,
+    		USER_GRADE,
+    		USER_GRADE_NM,
+    		INPUT_DT,
+    		MOD_DT
+    	)
+    	VALUES(
+    		#{userId},
+    		'GU',
+    		(SELECT CODE_NM FROM lifesite.tb_code WHERE GRP_ID ='USER_GRADE' AND CODE_CD ='GU'),
+    		SYSDATE(),
+    		SYSDATE()
+    	)
+    </insert>
 
     <update id="updatePasswdFailCount" parameterType="hashMap">
         UPDATE ADM_USER_TB      /* LoginMapper.updatePasswdFailCount */
