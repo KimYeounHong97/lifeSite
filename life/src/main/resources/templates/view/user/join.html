@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<!-- html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+<!-- html 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+	//이메일 형식 체크
+	function validateEmail(sEmail) {
+		var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		if (filter.test(sEmail)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//비밀번호 형식 체크
+	function validatePswd(sPswd) {
+		var filter = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+		if (filter.test(sPswd)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//아이디 중복 확인
+	function fnIdCheck(){
+		if ($("#userId").val() == "") {
+			alert("아이디를 입력해주세요.");
+			return;
+		}
+		
+	}
+	
+	//우편번호 팝업
+	function fnAddres(){
+		//카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                //document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                //document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+            }
+        }).open();
+	}
+
+	//회원가입
+	function fnJoin() {
+		if ($("#userId").val() == "") {
+			alert("아이디를 입력해주세요.");
+			return;
+		}else if($("#passwd").val()==""){
+			alert("비밀번호를 입력해주세요.");
+			return;
+		}else if($("#user_passwd_confirm").val()==""){
+			alert("비밀번호를 확인을 입력해주세요.");
+			return;
+		}else if($("#passwd").val() != $("#user_passwd_confirm").val()){
+			alert("비밀번호와 비밀번호 확인란을 동일하게 입력해주세요.");
+			return;
+		}else if(!validatePswd($("#passwd").val())){
+			alert("비밀번호 입력 조건이 올바르지 않습니다.");
+			return;
+		}else if($("#gender").val()==""){
+			alert("성별을 입력해주세요.");
+			return;
+		}else if($("#mobile1").val()=="" || $("#mobile2").val()=="" || $("#mobile3").val()==""){
+			alert("휴대전화를 입력해주세요.");
+			return;
+		}else if($("#email").val()==""){
+			alert("이메일을 입력해주세요.");
+			return;
+		}else if(!validateEmail($("#email").val())){
+			alert("이메일 형식을 확인해주세요.");
+			return;
+		}
+
+		$.ajax({
+			url : "/user/join/member",
+			type : "POST",
+			async : false,
+			data : $("#joinUserForm").serialize(),
+			success : function(result) {
+				debugger;
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("입력하신 정보로 가입 된 회원 아이디는 존재하지 않습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					//페이지 이동
+					window.location.href = result.data;
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus + '\n'
+							+ 'errorThrown: ' + errorThrown);
+					console.log('HTTP message body (jqXHR.responseText): '
+							+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+
+	}
+
+	$(document).ready(function() {
+	});
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="content" class="site-content">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="container">
+						<div class="header">
+							<img class="featured-image lazyloaded"
+								src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-was-processed="true">
+							<noscript>
+								<img class="featured-image"
+									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
+							</noscript>
+						</div>
+					</div>
+					<div>
+						<form id="joinUserForm" name="joinUserForm" method="post"
+							target="_self" enctype="multipart/form-data"
+							onsubmit="return false;">
+							<input id="returnUrl" name="returnUrl"
+								value="/user/pswd/find_pswd_result.html" type="hidden">
+							<div class="form-container">
+								<div id="find-container">
+									<fieldset class="find-container">
+										<table border="1" summary="">
+											<colgroup>
+												<col style="width: 20%;">
+												<col style="width: 80%;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<th scope="row">아이디 </th>
+													<td><input id="userId" name="userId"
+														fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
+														fw-label="아이디" fw-msg="" class="inputTypeText"
+														placeholder="" value="" type="text"> 
+														<button class="checkButton" onclick="fnIdCheck();">중복 확인</button>
+													</td>
+												</tr>
+												<tr>
+													<th scope="row">비밀번호 <img
+														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
+														alt="필수"></th>
+													<td>
+														<div class="eTooltip">
+															<input id="passwd" name="passwd"
+																fw-filter="isFill&amp;isMin[4]&amp;isMax[16]"
+																fw-label="비밀번호" fw-msg="" autocomplete="off"
+																maxlength="16" 0="disabled" value="" type="password">
+															<div class="ec-base-tooltip typeUpper">
+																<div class="content">
+																	<strong class="txtWarn">※ 비밀번호 입력 조건</strong>
+																	<ul class="ec-base-help typeDash gBlank10 txtWarn">
+																		- 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
+																		<br> - 입력 가능 특수문자
+																		<br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - =
+																		{ } [ ] | ; : &lt; &gt; , . ? /
+																		<br> - 공백 입력 불가능
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th scope="row">비밀번호 확인 <img
+														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
+														alt="필수"></th>
+													<td><input id="user_passwd_confirm"
+														name="user_passwd_confirm"
+														fw-filter="isFill&amp;isMatch[passwd]" fw-label="비밀번호 확인"
+														fw-msg="비밀번호가 일치하지 않습니다." autocomplete="off"
+														maxlength="16" 0="disabled" value="" type="password">
+														<span id="pwConfirmMsg"></span></td>
+												</tr>
+												<tr>
+													<th scope="row">성별 <img
+														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
+														alt="필수"></th>
+													<td>
+														<select id="gender" name="gender" fw-filter="" fw-label="성별" fw-msg="">
+															<option value="" selected="selected">성별을 선택해주세요.</option>
+															<option value="M">남자</option>
+															<option value="FM">여자</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th scope="row">관심있는 분야</th>
+													<td>
+														<select id="favorite" name="favorite" fw-filter="" fw-label="관심분야" fw-msg="">
+															<option value="animals">동물</option>
+														</select>
+													</td>
+												</tr>
+												
+												<tr class="">
+													<th scope="row">주소</th>
+													<td><input id="postcode1" name="postcode1"
+														fw-filter="isLengthRange[1][14]" fw-label="우편번호1"
+														fw-msg="" class="inputTypeText" placeholder=""
+														readonly="readonly" maxlength="14" value="" type="text">
+														<button class="checkButton" onclick="fnAddres();">우편 번호</button><br>
+														<input id="addr1" name="addr1" fw-filter="" fw-label="주소"
+														fw-msg="" class="inputTypeText" placeholder=""
+														readonly="readonly" value="" type="text"> 기본주소<br>
+														<input id="addr2" name="addr2" fw-filter="" fw-label="주소"
+														fw-msg="" class="inputTypeText" placeholder="" value=""
+														type="text"> 나머지주소 (선택입력가능)</td>
+												</tr>
+												<tr class="">
+													<th scope="row">휴대전화 <img
+														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
+														class="" alt="필수"></th>
+													<td><select id="mobile1" name="mobile[]"
+														fw-filter="isNumber&amp;isFill" fw-label="휴대전화"
+														fw-alone="N" fw-msg="">
+															<option value="010">010</option>
+															<option value="011">011</option>
+															<option value="016">016</option>
+															<option value="017">017</option>
+															<option value="018">018</option>
+															<option value="019">019</option>
+													</select>-<input id="mobile2" name="mobile[]" maxlength="4"
+														fw-filter="isNumber&amp;isFill" fw-label="휴대전화"
+														fw-alone="N" fw-msg="" value="" type="text">-<input
+														id="mobile3" name="mobile[]" maxlength="4"
+														fw-filter="isNumber&amp;isFill" fw-label="휴대전화"
+														fw-alone="N" fw-msg="" value="" type="text"></td>
+												</tr>
+												<tr>
+													<th scope="row">이메일 <img
+														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
+														alt="필수"></th>
+													<td><input id="email" name="email"
+														fw-filter="isFill&amp;isEmail" fw-label="이메일" fw-alone="N"
+														fw-msg="" value="" type="text"> <span
+														id="emailMsg"></span></td>
+												</tr>
+											</tbody>
+										</table>
+
+
+										<div class="ec-base-button gColumn">
+											<button onclick="fnJoin();">확인</button>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+						</form>
+					</div>
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

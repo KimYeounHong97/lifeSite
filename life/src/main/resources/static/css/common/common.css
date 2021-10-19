@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+ html,body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+  }
+
 img.wp-smiley, img.emoji {
 	display: inline !important;
 	border: none !important;
@@ -154,8 +160,8 @@ body, button, input, select, textarea {
 
 #main #container .header .featured-image {
     width: 100%;
-    min-height: 400px;
-    max-height: 100vh;
+    min-height: 300px;
+    max-height: 70vh;
     object-fit: cover;
     background-color: black;
 }
