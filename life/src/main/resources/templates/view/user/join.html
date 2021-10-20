@@ -67,22 +67,6 @@
 		});
 	}
 	
-	//우편번호 팝업
-	function fnAddres(){
-		//카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-            	debugger;
-            	//우편번호
-            	document.getElementById("postcode1").value = data.zonecode;
-            	//기본주소
-                document.getElementById("addr1").value = data.address; // 주소 넣기
-                //상세주소
-                document.querySelector("input[id=addr2]").focus(); //상세입력 포커싱
-            }
-        }).open();
-	}
-
 	//회원가입
 	function fnJoin() {
 		if ($("#userId").val() == "") {
@@ -116,7 +100,7 @@
 			alert("아이디 중복 확인을 체크해주세요.");
 			return;
 		}
-
+		
 		$.ajax({
 			url : "/user/join/member",
 			type : "POST",
@@ -185,14 +169,14 @@
 							<div class="form-container">
 								<div id="find-container">
 									<fieldset class="find-container">
-										<table border="1" summary="">
+										<table border="1" summary="" class="ec-base-table">
 											<colgroup>
 												<col style="width: 20%;">
 												<col style="width: 80%;">
 											</colgroup>
 											<tbody>
 												<tr>
-													<th scope="row">아이디 </th>
+													<th scope="row">아이디</th>
 													<td><input id="userId" name="userId"
 														fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
 														fw-label="아이디" fw-msg="" class="inputTypeText"
@@ -201,9 +185,7 @@
 													</td>
 												</tr>
 												<tr>
-													<th scope="row">비밀번호 <img
-														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
-														alt="필수"></th>
+													<th scope="row">비밀번호<span class="required">*</span></th>
 													<td>
 														<div class="eTooltip">
 															<input id="passwd" name="passwd"
@@ -213,7 +195,7 @@
 															<div class="ec-base-tooltip typeUpper">
 																<div class="content">
 																	<strong class="txtWarn">※ 비밀번호 입력 조건</strong>
-																	<ul class="ec-base-help typeDash gBlank10 txtWarn">
+																	<ul class="ec-base-help">
 																		- 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
 																		<br> - 입력 가능 특수문자
 																		<br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - =
@@ -226,9 +208,7 @@
 													</td>
 												</tr>
 												<tr>
-													<th scope="row">비밀번호 확인 <img
-														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
-														alt="필수"></th>
+													<th scope="row">비밀번호 확인 <span class="required">*</span></th>
 													<td><input id="user_passwd_confirm"
 														name="user_passwd_confirm"
 														fw-filter="isFill&amp;isMatch[passwd]" fw-label="비밀번호 확인"
@@ -237,9 +217,7 @@
 														<span id="pwConfirmMsg"></span></td>
 												</tr>
 												<tr>
-													<th scope="row">성별 <img
-														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
-														alt="필수"></th>
+													<th scope="row">성별 <span class="required">*</span></th>
 													<td>
 														<select id="gender" name="gender" fw-filter="" fw-label="성별" fw-msg="">
 															<option value="" selected="selected">성별을 선택해주세요.</option>
@@ -264,7 +242,7 @@
 														fw-filter="isLengthRange[1][14]" fw-label="우편번호1"
 														fw-msg="" class="inputTypeText" placeholder=""
 														readonly="readonly" maxlength="14" type="text">
-														<button class="checkButton" onclick="fnAddres();">우편 번호</button><br>
+														<button class="checkButton" onclick="fnAddres('postcode1' , 'addr1' , 'addr2');">우편 번호</button><br>
 														<input id="addr1" name="addr1" fw-filter="" fw-label="주소"
 														fw-msg="" class="inputTypeText" placeholder=""
 														readonly="readonly" type="text"> 기본주소<br>
@@ -273,9 +251,7 @@
 														type="text"> 나머지주소 (선택입력가능)</td>
 												</tr>
 												<tr class="">
-													<th scope="row">휴대전화 <img
-														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
-														class="" alt="필수"></th>
+													<th scope="row">휴대전화 <span class="required">*</span></th>
 													<td>
 														<div id="mobileView" style=" margin: 0" class="mobile" >
 															<input id="mobile1"name="mobile1" fw-filter="isMin[3]&amp;isMax[3]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
@@ -290,9 +266,7 @@
 													</td>
 												</tr>
 												<tr>
-													<th scope="row">이메일 <img
-														src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif"
-														alt="필수"></th>
+													<th scope="row">이메일 <span class="required">*</span></th>
 													<td><input id="email" name="email"
 														fw-filter="isFill&amp;isEmail" fw-label="이메일" fw-alone="N"
 														fw-msg="" value="" type="text"> <span

@@ -740,3 +740,21 @@ function validatePswd(sPswd) {
 		return false;
 	}
 }
+
+
+//우편번호 팝업
+function fnAddres(post1 , addr1 , addr2){
+	//카카오 지도 발생
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+        	debugger;
+        	//우편번호
+        	document.getElementById(post1).value = data.zonecode;
+        	//기본주소
+            document.getElementById(addr1).value = data.address; // 주소 넣기
+            //상세주소
+            document.querySelector("input[id="+addr2+"]").focus(); //상세입력 포커싱
+        }
+    }).open();
+}
+

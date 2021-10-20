@@ -37,6 +37,15 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
+select {
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
 .checkButton{
   background-color: white;
   color: black;
@@ -160,6 +169,8 @@ span.psw {
     line-height: 1.5;
 }
 
+
+
 table {
     width: 100%;
     border: 0;
@@ -177,6 +188,25 @@ table {
     background-color: #fbfafa;
 }
 
+.ec-base-table tbody td {
+    padding: 10px 100px 10px 25px;
+    
+}
+
+.ec-base-help{
+	font-weight: normal;
+	border: none;
+	background-color: black;
+	color : white;
+	padding: 20px;
+}
+.required{
+	color: red;
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 5px;
+}
+
 .ec-base-box.typeMember.gMessage {
     border-width: 1px;
     border-color: #d7d5d5;
@@ -188,3 +218,35 @@ table {
     border-bottom: 1px solid #e8e7e7;
     background: #fbfbfb center;
 }
+
+#content.section_home {
+    zoom: 1;
+    padding: 16px 12px 94px;
+}
+
+.section_home .column {
+    float: left;
+    width: 50%;
+}
+
+.sh_group, .sh_group2, .sh_group3, .sh_group4 {
+    margin: 16px 8px 0;
+    padding: 32px 29px 30px;
+    text-align: left;
+    border: 1px solid #dadada;
+    border-radius: 2px;
+    background: #fff;
+    height: 450px;
+}
+
+.desc_sub{
+	margin: 30px;
+}
+
+.section_home h2 {
+    font-size: 20px;
+    line-height: 22px;
+    padding-bottom: 20px;
+    color: #333;
+}
+

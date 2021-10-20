@@ -56,6 +56,12 @@ public class UserVo implements Serializable {
 
     @JsonProperty("USER_GRADE_NM")
     String USER_GRADE_NM;
+    
+    @JsonProperty("INPUT_DT")
+    String INPUT_DT;
+    
+    @JsonProperty("MOD_DT")
+    String MOD_DT;
 
     /* API 권한 구분 */
     @JsonProperty("API_PERMISSION_ROLE")

@@ -141,7 +141,7 @@ body, button, input, select, textarea {
 #main #home-container .home-header .article-info {
     width: 100%;
     position: absolute;
-    bottom: 2rem;
+    bottom: 7rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -169,7 +169,7 @@ body, button, input, select, textarea {
 #main #container .header .article-info {
     width: 100%;
     position: absolute;
-    bottom: 25rem;
+    bottom: 19rem;
     display: flex;
     flex-direction: column;
     align-items: center;

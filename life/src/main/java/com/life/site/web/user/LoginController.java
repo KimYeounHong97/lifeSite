@@ -275,5 +275,24 @@ public class LoginController {
         }
         return result;
     }
+    
+    @ResponseBody
+    @PostMapping("/edit/info")
+    public CommonResult editUserInfo(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        int cnt =0;
+        try {
+        	cnt = loginService.editUserInfo(param);
+        	result.setStatus(cnt==0?false:true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
    
 }

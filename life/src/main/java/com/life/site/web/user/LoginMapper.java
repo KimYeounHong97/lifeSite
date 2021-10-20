@@ -43,6 +43,8 @@ public interface LoginMapper {
     public void insertUser(Map<String, Object> param);
     
     public void insertUserGrade(Map<String, Object> param);
+    
+    public void updateUserInfo(Map<String, Object> param);
 
     public void updatePasswdFailCount(Map<String, Object> param);
     
