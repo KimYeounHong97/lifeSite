@@ -54,10 +54,13 @@
 			<div class="nav-top-right-container blah">
 				<a th:if="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
-					target="_blank" href="/join/login">JOIN</a>
+				    href="/user/login">로그인</a>
 				<a th:unless="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
 					href="/user/myinfo"><span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
+				<a th:unless="${session.life == null}"
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
+					href="/user/logout"><span th:text="로그아웃"/></a>
 			</div>
 			<div class="nav-top-right-container blah">
 				<a class="nav-btn nav-latest-issue" target="_blank"

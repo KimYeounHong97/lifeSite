@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<!-- html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+<!-- html 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+	//페이지 이동
+	function fnMove(type){
+		if(type=='login'){
+			window.location.href='/user/login';
+		}else if(type=='searchPwd'){
+			window.location.href='/user/pswd';
+		}
+	}
+	
+	//url parameter 조회
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]"); 
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search); 
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " ")); 
+		}
+
+
+	$(document).ready(function() {
+		var pathId = getParameterByName('queryIn');
+		var userId = pathId.split("!")[0];
+		var inputDt = pathId.split("!")[1];
+		
+		userId = decodeURIComponent(atob(userId));
+		inputDt = decodeURIComponent(atob(inputDt));
+		
+		$("#userId").val(userId);
+		$("#inputDt").val(inputDt);
+	});
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="content" class="site-content">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="container">
+						<div class="header">
+							<img class="featured-image lazyloaded"
+								src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-was-processed="true">
+							<noscript>
+								<img class="featured-image"
+									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
+							</noscript>
+						</div>
+					</div>
+					<div>
+						<form id="findPasswdForm" name="findPasswdForm" method="post" target="_self" enctype="multipart/form-data" onsubmit="return false;">
+								<input id="returnUrl" name="returnUrl"
+									value="/user/pswd/find_pswd_result.html" type="hidden">
+								<div class="form-container">
+									<div id="findPswd">
+										<fieldset class="find-container">
+											<legend><b>아이디 찾기</b></legend>
+											<table>
+												<tr>
+													<td>
+														<strong class="term">아이디</strong>
+													</td>
+													<td>
+														<input id="userId" name="userId" fw-label="아이디"  class="lostInput" readonly="readonly" type="text">
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<strong>가입 일시</strong>
+													</td>
+													<td>
+														<input id="inputDt"name="inputDt" class="mobile" readonly="readonly" type="text"> 
+													</td>
+												</tr>
+											</table>
+											<div style="margin-top: 20px;">
+												<button class="checkButton" onclick="fnMove('login');">로그인</button>
+												<button class="checkRedButton" onclick="fnMove('searchPwd');">비밀번호 찾기</button>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</form>
+					</div>
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

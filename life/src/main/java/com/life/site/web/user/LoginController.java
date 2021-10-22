@@ -1,5 +1,6 @@
 package com.life.site.web.user;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.io.BaseEncoding;
 import com.life.site.config.param.CommonConstants;
 import com.life.site.config.param.CommonResult;
 import com.life.site.model.LoginInfo;
@@ -29,6 +32,8 @@ import com.life.site.web.user.exception.UserAuthException;
 import com.life.site.web.util.MessageUtil;
 import com.life.site.web.util.StringUtil;
 import com.life.site.web.util.session.SessionManager;
+import com.sun.mail.util.BASE64EncoderStream;
+
 
 @Controller
 @RequestMapping("/user")
@@ -65,14 +70,11 @@ public class LoginController {
 
         loginInfo.setUserId(param.get(CommonConstants.Params.USER_ID).toString());
         loginInfo.setPasswd(param.get(CommonConstants.Params.PASSWD).toString());
-        loginInfo.setRememberId(param.get(CommonConstants.Params.REMEMBER_ID).toString());
 
         // 로그인 화면에서 가져온 정보 확인(loginInfo)
         log.debug("--------------------------------------------------------------->");
         log.debug("----------------------> login request info ");
         log.debug("----------------------> loginInfo.getUserId() = " + loginInfo.getUserId());
-        // log.debug("----------------------> " + loginInfo.getPasswd());
-        // log.debug("----------------------> " + loginInfo.getRememberId());
         log.debug("--------------------------------------------------------------->");
 
         try {
@@ -81,12 +83,7 @@ public class LoginController {
             // 쿠키 생성 - userId 저장, 아이디 저장 기간 설정
             Cookie cookie = new Cookie(CommonConstants.COOKIE_REMEMBER_ID, loginInfo.getUserId());
             cookie.setPath("/");
-            if (loginInfo.getRememberId().equals(CommonConstants.STR_Y)) {
-                cookie.setMaxAge(60*60*24*7);
-            }
-            else {
-                cookie.setMaxAge(0);
-            }
+            cookie.setMaxAge(0);
             response.addCookie(cookie);
 
             Cookie cookieType = new Cookie(CommonConstants.COOKIE_TYPE, CommonConstants.AccessGubun.LOGIN);
@@ -110,15 +107,6 @@ public class LoginController {
             return result;
         }
 
-        //비밀번호 설정 주기 확인
-        if (!CommonConstants.AccessGubun.LOGIN.equals(CommonConstants.AccessGubun.SSO)) {
-            Map<String, Object> input = new HashMap<String, Object>();
-            input.put(CommonConstants.Params.COMP_CD, SessionManager.getUser(request).getCOMP_CD());
-            
-            if(loginService.passwdCheck(loginInfo,input)) {
-                url = "/view/page/N40102";
-            }
-        }
         
         result.setData(url);
         result.setStatus(true);
@@ -126,18 +114,14 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request, HttpSession session,
+    public String logout(HttpServletRequest request, HttpSession session,
             HttpServletResponse response) throws Exception {
-        Object obj = session.getAttribute(CommonConstants.HANSOL_SESSION);
+        Object obj = session.getAttribute(CommonConstants.LIFE_SESSION);
         if (null != obj) {
-            session.removeAttribute(CommonConstants.HANSOL_SESSION);
+            session.removeAttribute(CommonConstants.LIFE_SESSION);
             session.invalidate();
         }
-
-        // SSO 로그인일 경우 로그인 페이지가 아닌 안내페이지로 유도함.
-        String returnMsg = "로그아웃되었습니다.\n다시 접속해 주세요.";
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/timeout?message=" + returnMsg);
-        dispatcher.forward(request, response);
+        return "redirect:/";
     }
 
     /**
@@ -179,42 +163,113 @@ public class LoginController {
         result.setStatus(true);
         return result;
     }
+    
 
-    /**
-     * 사업장 switch
-     * 
-     * @param request
-     * @return 
-     * @return
-     * @throws Exception
-     */
-    @GetMapping(value = "/switch-org")
-    public String switchUserOrg( HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
-        
+    @ResponseBody
+    @PostMapping("/find/id")
+    public CommonResult findIdSearch(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        Map<String, Object> idInfo = new HashMap<String, Object>();
+        String url = param.get("returnUrl").toString();
+        String userId;
+        String inputDt;
+
         try {
-            // 세션이 없을 때
-            if (session == null) {
-                log.debug(" ======> session member 만료!!!");
-                String returnMsg = "로그인 시간이 만료되었습니다. 다시 로그인해 주세요.";
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/timeout?message=" + returnMsg);
-                dispatcher.forward(request, response);
-            }
-            
-            LoginInfo loginInfo = new LoginInfo();
-            UserVo user = SessionManager.getUser(request);
+        	idInfo =loginService.getFindId(param);
+        	if(idInfo !=null && idInfo.size()!=0 ) {
+        		userId = idInfo.get("USER_ID").toString();
+        		userId = Base64.getEncoder().encodeToString(userId.getBytes());
 
-            loginInfo.setUserId(user.getUSER_ID());
-            loginInfo.setORG_CD(StringUtil.getParameter(request, "ORG_CD"));
-            loginInfo.setSwithOrg(true);
-            
-            // acc_gb 로그인 방법은 그대로 유지할 것 (SSO / LOGIN)
-            // => 이 방식에 따라 로그인페이지로 갈 것인지 info 페이지로 갈 것인지 /timeout 에서 정해진다.
-            loginService.processLogin(user.getACC_GB(), loginInfo, request, session);
-            
+        		inputDt = idInfo.get("INPUT_DT").toString();
+        		inputDt = Base64.getEncoder().encodeToString(inputDt.getBytes());
+        		
+        		url+="?queryIn="+userId+"!"+inputDt;
+        		result.setData(url);
+        		result.setStatus(true);
+        	}else {
+                result.setStatus(false);
+        	}
         } catch (Exception e) {
             e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
         }
+        return result;
+    }
+    
+    @ResponseBody
+    @PostMapping("/find/pswd")
+    public CommonResult findPswdSearch(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        Map<String, Object> pswdInfo = new HashMap<String, Object>();
+        String url = param.get("returnUrl").toString();
+        String pswd;
+        String inputDt;
 
-        return "redirect:" + CommonConstants.MAIN_PAGE;
+        try {
+        	pswdInfo =loginService.getFindPswd(param);
+        	if(pswdInfo !=null && pswdInfo.size()!=0 ) {
+        		pswd = pswdInfo.get("PASSWD").toString();
+
+        		inputDt = pswdInfo.get("INPUT_DT").toString();
+        		inputDt = Base64.getEncoder().encodeToString(inputDt.getBytes());
+        		
+        		url+="?queryIn="+pswd+"!"+inputDt;
+        		result.setData(url);
+        		result.setStatus(true);
+        	}else {
+                result.setStatus(false);
+        	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
+    @ResponseBody
+    @PostMapping("/search/id")
+    public CommonResult findIdChck(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+
+        try {
+        	result.setStatus(loginService.getIdChk(param));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
+    
+    @ResponseBody
+    @PostMapping("/join/member")
+    public CommonResult insertUser(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        String returnUrl = "/user/login";
+        String passwd ="";
+        try {
+        	passwd = param.get("passwd").toString();
+        	passwd = Base64.getEncoder().encodeToString(passwd.getBytes());
+        	param.put("encodePswd", passwd);
+        	loginService.insertUser(param);
+        	result.setData(returnUrl);
+        	result.setStatus(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
     }
 }

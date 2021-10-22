@@ -1,8 +1,30 @@
 @charset "EUC-KR";
+ html,body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+  }
+.info{
+	font-family: "Open Sans", sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+	color: #353535;
+}
+
+.message{
+	font-family: "Open Sans", sans-serif;
+	font-size: 15px;
+	font-weight: normal;
+	color: black;
+}
 
 /* Bordered form */
 form {
   border: 3px solid #f1f1f1;
+}
+
+.findId{
+	margin: 15px;
 }
 
 /* Full-width inputs */
@@ -15,15 +37,55 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
+select {
+  width: 63%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.checkButton{
+  background-color: white;
+  color: black;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: 1.5px solid black;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+}
+
+.checkRedButton{
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+}
+
 /* Set a style for all buttons */
 form button {
-  background-color: #04AA6D;
+  background-color: black;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
-  border: none;
+  border: 1.5px solid black;
   cursor: pointer;
   width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
 }
 
 /* Add a hover effect for buttons */
@@ -32,11 +94,35 @@ button:hover {
 }
 
 /* Extra style for the cancel button (red) */
-.cancelbtn {
+.forgotbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
+  border: none;
 }
+
+
+input[type=text]{
+	 width: 400px;
+}
+
+.mobile input[type=text]{
+   width: 200px;
+}
+
+.mobile b{
+   margin-right: 15px;
+   margin-left: 15px;
+}
+
+.joinbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: white;
+  color : black;
+  border: none;
+}
+
 
 /* Center the avatar image inside this container */
 .imgcontainer {
@@ -51,8 +137,12 @@ img.avatar {
 }
 
 /* Add padding to containers */
-.container {
+.form-container {
   padding: 16px;
+}
+
+.find-container{
+	padding: 30px;
 }
 
 /* The "Forgot password" text */
@@ -71,3 +161,92 @@ span.psw {
     width: 100%;
   }
 }
+
+.ec-base-table table {
+    position: relative;
+    margin: 10px 0 0;
+    color: #fff;
+    line-height: 1.5;
+}
+
+
+
+table {
+    width: 100%;
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.ec-base-table tbody th {
+    padding: 11px 0 10px 18px;
+    border: 1px solid #dfdfdf;
+    border-bottom-width: 0;
+    color: #353535;
+    text-align: left;
+    font-weight: normal;
+    background-color: #fbfafa;
+}
+
+.ec-base-table tbody td {
+    padding: 10px 100px 10px 25px;
+    
+}
+
+.ec-base-help{
+	font-weight: normal;
+	border: none;
+	background-color: black;
+	color : white;
+	padding: 20px;
+}
+.required{
+	color: red;
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 5px;
+}
+
+.ec-base-box.typeMember.gMessage {
+    border-width: 1px;
+    border-color: #d7d5d5;
+}
+
+.ec-base-box .message {
+    display: block;
+    padding: 10px 0 10px 35px;
+    border-bottom: 1px solid #e8e7e7;
+    background: #fbfbfb center;
+}
+
+#content.section_home {
+    zoom: 1;
+    padding: 16px 12px 94px;
+}
+
+.section_home .column {
+    float: left;
+    width: 50%;
+}
+
+.sh_group, .sh_group2, .sh_group3, .sh_group4 {
+    margin: 16px 8px 0;
+    padding: 32px 29px 30px;
+    text-align: left;
+    border: 1px solid #dadada;
+    border-radius: 2px;
+    background: #fff;
+    height: 450px;
+}
+
+.desc_sub{
+	margin: 30px;
+}
+
+.section_home h2 {
+    font-size: 20px;
+    line-height: 22px;
+    padding-bottom: 20px;
+    color: #333;
+}
+

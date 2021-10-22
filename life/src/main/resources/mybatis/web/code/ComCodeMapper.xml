@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.code.ComCodeMapper">
+    
+    <!-- 그룹별 공통코드 가져오기 -->
+    <select id="getCodeList" parameterType="hashMap" resultType="hashMap">
+        SELECT /* ComCodeMapper.getCodeList */
+              GRP_ID
+            , CODE_CD
+            , CODE_NM 
+            , CODE_SEQ
+        FROM
+            lifesite.tb_code
+        WHERE USE_YN = 'Y'
+            <if test='GRP_ID != null and GRP_ID != ""'>
+                AND GRP_ID = #{GRP_ID}
+            </if>
+        ORDER BY CODE_SEQ
+    </select>
+</mapper>

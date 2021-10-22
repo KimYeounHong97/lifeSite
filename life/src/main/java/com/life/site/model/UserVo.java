@@ -32,60 +32,41 @@ public class UserVo implements Serializable {
     @JsonProperty("PASSWD")
     String PASSWD;
 
-    @JsonProperty("USER_NM")
-    String USER_NM;
+    @JsonProperty("FAVORITE_CD")
+    String FAVORITE_CD;
+    
+    @JsonProperty("FAVORITE_NM")
+    String FAVORITE_NM;
+
+    @JsonProperty("PHONE")
+    String PHONE;
 
     @JsonProperty("EMAIL")
     String EMAIL;
 
-    @JsonProperty("COMP_CD")
-    String COMP_CD;
-
-    @JsonProperty("COMP_NM")
-    String COMP_NM;
+    @JsonProperty("ADDRESS")
+    String ADDRESS;
     
-    @JsonProperty("ORG_CD")
-    String ORG_CD;
-
-    @JsonProperty("ORG_NM")
-    String ORG_NM;
-
-    @JsonProperty("DEPT_CD")
-    String DEPT_CD;
-
-    @JsonProperty("DEPT_NM")
-    String DEPT_NM;
-    
-    @JsonProperty("GRADE_CD")
-    String GRADE_CD;
-    
-    @JsonProperty("GRADE_NM")
-    String GRADE_NM;
-
-    @JsonProperty("LOCK_FL")
-    String LOCK_FL;
-
-    /* 접속 구분 (LOGIN, SSO) */
-    @JsonProperty("ACC_GB")
-    String ACC_GB;
+    @JsonProperty("USER_GENDER")
+    String USER_GENDER;
 
     /* 권한그룹 CD */
-    @JsonProperty("AUTH_CD")
-    String AUTH_CD;
-    
-    /* 관리자 구분 (1:시스템관리자(XX_0001), 2:운영관리자(XX_0002)) => DB ADMIN_GUBUN_FN('아이디') 참조 */
-    @JsonProperty("ADMIN_GUBUN")
-    String ADMIN_GUBUN;
+    @JsonProperty("USER_GRADE")
+    String USER_GRADE;
 
-    /* 계정 구분 (0:임직원, 1:회원가입,2:비회원) */
-    @JsonProperty("USER_GB")
-    String USER_GB;
+    @JsonProperty("USER_GRADE_NM")
+    String USER_GRADE_NM;
+    
+    @JsonProperty("INPUT_DT")
+    String INPUT_DT;
+    
+    @JsonProperty("MOD_DT")
+    String MOD_DT;
 
     /* API 권한 구분 */
     @JsonProperty("API_PERMISSION_ROLE")
     ApiPermission.Role API_PERMISSION_ROLE;
 
-    List<Map<String, Object>> favoritesMenuList;
     
     public boolean matchPassword(String passwd) {
         if(this.PASSWD == null) return false;

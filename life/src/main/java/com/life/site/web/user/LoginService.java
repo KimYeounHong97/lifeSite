@@ -3,6 +3,8 @@ package com.life.site.web.user;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.life.site.config.param.CommonConstants;
 import com.life.site.model.LoginInfo;
@@ -43,9 +46,6 @@ public class LoginService {
     @Autowired
     LoggerService loggerService;
 
-    @Autowired
-    FavMenuService favMenuService;;
-    
     @Autowired
     MessageSource messageSource;
 
@@ -82,9 +82,8 @@ public class LoginService {
             throw new UserAuthException(MessageUtil.getMessage("err.user-auth", null));
         }
 
-        encoded = passwdManager.getSHA256(loginInfo.getPasswd());
+        encoded = Base64.getEncoder().encodeToString(loginInfo.getPasswd().getBytes());
         if (false == user.matchPassword(encoded)) {
-            setLoginFailCount(user);
             loggerService.writeAccessLog(request, user, false, null, null);
             throw new UserAuthException(MessageUtil.getMessage("err.user-auth", null));
         }
@@ -92,20 +91,6 @@ public class LoginService {
         return user;
     }
 
-    /**
-     * 로그인 비밀번호 오류 회수 카운트
-     * 
-     * @param user
-     * @throws Exception
-     */
-    public void setLoginFailCount(UserVo user) throws Exception {
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put(CommonConstants.Params.USER_ID, user.getUSER_ID());
-        data.put(CommonConstants.Params.COMP_CD, user.getCOMP_CD());
-
-        loginMapper.updatePasswdFailCount(data);
-    }
-    
     /**
      * 로그인 비밀번호 오류 회수 초기화
      *  - 로그인 성공 시 오류 회수를 0으로 초기화한다
@@ -127,16 +112,11 @@ public class LoginService {
      */
     public UserVo getLoginUserNoPasswd(HttpServletRequest request, LoginInfo loginInfo) throws Exception {
         
-        UserVo userParam = UserVo.builder().USER_ID(loginInfo.getUserId()).ORG_CD(loginInfo.getORG_CD()).build();
+        UserVo userParam = UserVo.builder().USER_ID(loginInfo.getUserId()).build();
         UserVo user = loginMapper.selectUserInfoById(userParam);
         
         if (null == user) {
             throw new UserAuthException(MessageUtil.getMessage("err.user-auth", null));
-        }
-
-        if (CommonConstants.STR_Y.equals(user.getLOCK_FL())) {
-            loggerService.writeAccessLog(request, user, false, null, null);
-            throw new UserAuthException(MessageUtil.getMessage("err.user-lock", null));
         }
 
         return user;
@@ -166,6 +146,90 @@ public class LoginService {
     }
     
     /**
+     * 아이디 조회
+     *  
+     * @param input
+     * @return 아이디
+     * @throws Exception
+     */
+    public Map<String, Object>  getFindId(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> idInfo = new HashMap<String, Object>();
+    	 String checkMethod = param.get("check_method").toString();
+    	 String mobile1;
+    	 String mobile2;
+    	 String mobile3;
+    	 
+    	 if(checkMethod.equals("email")) {
+    		 String email = param.get("email").toString();
+    		 idInfo =  loginMapper.selectFindUserIdByEmail(email);
+    	 }else if(checkMethod.equals("phone")) {
+    		 idInfo =  loginMapper.selectFindUserIdByPhone(param);
+    	 }
+    	 return idInfo;
+    }
+    
+    
+    /**
+     * 비밀번호 조회
+     *  
+     * @param input
+     * @return 비밀번호
+     * @throws Exception
+     */
+    public Map<String, Object>  getFindPswd(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> pswdInfo = new HashMap<String, Object>();
+    	 String checkMethod = param.get("check_method").toString();
+    	 String mobile1;
+    	 String mobile2;
+    	 String mobile3;
+    	 
+    	 if(checkMethod.equals("email")) {
+    		 pswdInfo =  loginMapper.selectFindUserPswdByEmail(param);
+    	 }else if(checkMethod.equals("phone")) {
+    		 pswdInfo =  loginMapper.selectFindUserPswdByPhone(param);
+    	 }
+    	 return pswdInfo;
+    }
+    
+    
+    /**
+     * 아이디 중복 체크
+     *  
+     * @param input
+     * @return 아이디
+     * @throws Exception
+     */
+    public Boolean  getIdChk(HashMap<String, Object> param) throws Exception {
+    	Map<String, Object> idInfo = new HashMap<String, Object>();
+    	 String inputId = param.get("userId").toString();
+    	 Boolean result = false;
+    	 
+    	 idInfo = loginMapper.selectSearchUserIdById(inputId);
+    	 
+    	 if(idInfo !=null && idInfo.size()!=0 ) {
+     		result = false;
+     	}else {
+     		result = true;
+     	}
+    	 return result;
+    }
+    
+    
+    /**
+     * 회원 등록
+     *  
+     * @param input
+     * @throws Exception
+     */
+    @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
+    public void  insertUser(HashMap<String, Object> param) throws Exception {
+    	 //유저 등록
+    	 loginMapper.insertUser(param);
+    	//유저 권한 등록
+    	 //loginMapper.insertUserGrade(param);
+    }
+    
+    /**
      * 임직원 여부
      *  
      * @param loginInfo
@@ -190,75 +254,31 @@ public class LoginService {
         
         // 사용자 아이디로 DB 조회 및 비밀번호 확인
         UserVo user;
-        if (CommonConstants.AccessGubun.SSO.equals(loginType) || loginInfo.isSwithOrg()) {
-            user = loginService.getLoginUserNoPasswd(request, loginInfo);
-        }
-        else {
-            user = loginService.getLoginUserAuth(request, loginInfo);
-        }
-
-        // 로그인 구분 정보 저장
-        user.setACC_GB(loginType);
-
-        // 계정 잠금상태 확인
-        if (CommonConstants.STR_Y.equals(user.getLOCK_FL())) {
-            loggerService.writeAccessLog(request, user, false, null, null);
-            throw new UserAuthException(MessageUtil.getMessage("err.user-lock", null));
-        }
-
+        user = loginService.getLoginUserAuth(request, loginInfo);
 
         //API Permission 설정
-        if(user.getADMIN_GUBUN()==null || user.getADMIN_GUBUN().isBlank()){
+        if(user.getUSER_GRADE()!=null || !user.getUSER_GRADE().isBlank()){
 
-            if(user.getUSER_GB().equals("0")){
+            if(user.getUSER_GRADE().equals("GU")){
                 user.setAPI_PERMISSION_ROLE(ApiPermission.Role.MEMBER);
-            }else if(user.getUSER_GB().equals("1")){
-                user.setAPI_PERMISSION_ROLE(ApiPermission.Role.VENDOR);
-            } else{
-                user.setAPI_PERMISSION_ROLE(ApiPermission.Role.VENDOR);
+            }else if(user.getUSER_GRADE().equals("SA")){
+            	user.setAPI_PERMISSION_ROLE(ApiPermission.Role.ADMIN);
             }
 
-        }else{
-            user.setAPI_PERMISSION_ROLE(ApiPermission.Role.ADMIN);
         }
-
         // 세션 정보에 User 객체 저장
         SessionLife sess = new SessionLife();
         
-        List<Map<String, Object>> menuList = (List<Map<String, Object>>)loginService.getUserMenuList(user);
-
-        Map<String,Object> param_fav = new HashMap<String,Object>();
-        param_fav.put(CommonConstants.Params.USER_ID, user.getUSER_ID());
-        param_fav.put(CommonConstants.Params.COMP_CD, user.getCOMP_CD());
-        param_fav.put(CommonConstants.Params.ORG_CD, user.getORG_CD());
-        List<Map<String, Object>> favorites = (List<Map<String, Object>>)favMenuService.getFavoritesMenu(param_fav);
-
-        user.setFavoritesMenuList(favorites);
         sess.setUser(user);
         sess.setLogin_ip(IpUtil.getClientIpAddr(request));
-        sess.setMenulist(ObjectUtil.addTreeObject(menuList));
 
-        // 국가 정보 조회
-        try {
-            sess.setCountry(loginService.getCountry(sess.getLogin_ip()));
-        }
-        catch (Exception e ) {
-            e.getStackTrace();
-            log.error("ERROR:: get Country API error id(" + user.getUSER_ID() + "), ip(" + sess.getLogin_ip() + ")");
-            sess.setCountry(CommonConstants.STR_NO_INFO);
-        }
-        
         // set session
-        session.removeAttribute(CommonConstants.HANSOL_SESSION);
-        session.setAttribute(CommonConstants.HANSOL_SESSION, sess);
+        session.removeAttribute(CommonConstants.LIFE_SESSION);
+        session.setAttribute(CommonConstants.LIFE_SESSION, sess);
 
-        // 비밀번호 실패 횟수 0으로 초기화
-        loginService.initLoginFailCount(user);
         // 로그인 기록 남기기
         String accGb = null;
-        if(loginInfo.isSwithOrg()) {
-            accGb = CommonConstants.AccessGubun.CHGORG;
-        }
+        
         loggerService.writeAccessLog(request, user, true, null, accGb);
     }
     

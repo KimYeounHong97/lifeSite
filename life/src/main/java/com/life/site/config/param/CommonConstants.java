@@ -4,7 +4,7 @@ public class CommonConstants {
     public static String UPLOAD_PATH = "";
     public static String BLOCK_KEYWORD = "<script;</script>;<iframe";
 
-    public static final String HANSOL_SESSION = "hansol";
+    public static final String LIFE_SESSION = "life";
     public static final String COOKIE_REMEMBER_ID = "LOGIN_COOKIE";
     public static final String COOKIE_LOCALE = "cookie_language";
     public static final String COOKIE_TYPE = "cookie_type";
@@ -23,24 +23,12 @@ public class CommonConstants {
     public static final String API_GET_COUNTRY = "http://ip2c.org/";
     public static final String LOCALE_KO = "ko";
 
-    public static final String MAIN_PAGE = "/view/page/N20101";
-
-    /* SSO 사용자 정보 */
-    public final class AuthCheck {
-        public static final String USER_NAME ="user_name";
-        public static final String USER_EMAIL ="user_email";
-        public static final String COMP_CODE ="comp_code";
-        public static final String COMP_NAME ="comp_name";
-        public static final String DEPT_CODE ="dept_code";
-        public static final String DEPT_NAME ="dept_name";
-    }
+    public static final String MAIN_PAGE = "/";
 
     public final class Params {
         public static final String MESSAGE = "message";
         public static final String LOGIN_USERID = "loginUserId";
         public static final String USER = "user";
-        public static final String DEPT = "dept";
-        public static final String ECHO = "echo";
         public static final String ORG = "org";
         public static final String LOGIN_ID = "LOGIN_ID";
         public static final String USER_ID = "USER_ID";
@@ -115,25 +103,14 @@ public class CommonConstants {
 
     public final class Logs {
         public static final String USER_ID = "USER_ID";
-        public static final String USER_NM = "USER_NM";
-        public static final String COMP_CD = "COMP_CD";
-        public static final String DEPT_CD = "DEPT_CD";
-        public static final String DEPT_NM = "DEPT_NM";
-        public static final String GRADE_CD = "GRADE_CD";
-        public static final String GRADE_NM = "GRADE_NM";
-        public static final String ORG_CD = "ORG_CD";
-        public static final String ORG_NM = "ORG_NM";
+        public static final String USER_GRADE_CD = "USER_GRADE_CD";
+        public static final String USER_GRADE_NM = "USER_GRADE_NM";
+        public static final String ACC_URL = "ACC_URL";
+        public static final String ACC_PARAMS = "ACC_PARAMS";
         public static final String ACC_IP = "ACC_IP";
         public static final String ACC_TYPE = "ACC_TYPE";
-        public static final String COUNTRY = "COUNTRY";
-        public static final String MENU_CD = "MENU_CD";
-        public static final String MENU_NM = "MENU_NM";
-        public static final String PROGRAM_CD = "PROGRAM_CD";
-        public static final String ACC_GB = "ACC_GB";
-        public static final String ACC_PARAMS = "ACC_PARAMS";
-        public static final String ACC_URL = "ACC_URL";
-        public static final String SUCCESS_FL = "SUCCESS_FL";
         public static final String AGENT = "AGENT";
+        public static final String SUCCESS_FL = "SUCCESS_FL";
     }
 
     public final class Email {

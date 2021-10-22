@@ -27,9 +27,23 @@ public interface LoginMapper {
     public Map<String, Object> selectPwRuleChangeDt(Map<String, Object> param);
     
     public Map<String, Object> selectUserGb(String userId);
+    
+    public Map<String, Object> selectSearchUserIdById(String id);
+    
+    public Map<String, Object> selectFindUserIdByEmail(String email);
+    
+    public Map<String, Object> selectFindUserIdByPhone(Map<String, Object> param);
+    
+    public Map<String, Object> selectFindUserPswdByEmail(Map<String, Object> param);
+    
+    public Map<String, Object> selectFindUserPswdByPhone(Map<String, Object> param);
 
     public UserVo selectUserInfoById(UserVo user);
-
+    
+    public void insertUser(Map<String, Object> param);
+    
+    public void insertUserGrade(Map<String, Object> param);
+    
     public void updatePasswdFailCount(Map<String, Object> param);
     
     public void updateZeroPasswdFailCount(String userId);
