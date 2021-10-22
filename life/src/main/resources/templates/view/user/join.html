@@ -107,7 +107,6 @@
 			async : false,
 			data : $("#joinUserForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						return;
@@ -231,11 +230,13 @@
 													<td>
 														<select id="favorite" name="favorite" fw-filter="" fw-label="관심분야" fw-msg="">
 															<option value="" selected="selected">선택</option>
-															<option value="animals">동물</option>
+															<option th:each="result:${@CommCodeService.getCodeList('POST_CAT')}" 
+															                th:value="${result['CODE_CD']}" 
+															                th:text="${result['CODE_NM']}"
+															                th:selected="${(''+sel_val).equals(result['CODE_CD'])}"></option>
 														</select>
 													</td>
 												</tr>
-												
 												<tr class="">
 													<th scope="row">주소</th>
 													<td><input id="postcode1" name="postcode1"

@@ -142,7 +142,7 @@
         SELECT      /* LoginMapper.selectFindUserIdByPhone */
            USER_ID , INPUT_DT
 		FROM lifesite.member
-		WHERE PHONE = #{mobile1} || '-' || #{mobile2} || '-' || #{mobile3}
+		WHERE PHONE = CONCAT_WS('-', #{mobile1} ,#{mobile2} ,#{mobile3})
     </select>
     
     
@@ -159,7 +159,7 @@
            PASSWD , INPUT_DT
 		FROM lifesite.member
 		WHERE USER_ID = #{userId}
-		AND PHONE = #{mobile1} || '-' || #{mobile2} || '-' || #{mobile3}
+		AND PHONE = CONCAT_WS('-', #{mobile1} ,#{mobile2} ,#{mobile3})
     </select>
 
     <select id="selectUserInfoById" parameterType="User" resultType="User">
@@ -184,31 +184,35 @@
     </select>
     
     <insert id="insertUser" parameterType="hashMap">
-    	INSERT INTO lifesite.member
-    	(
-    		USER_ID,
-    		PASSWD,
-    		USER_GENDER,
-    		PHONE,
-    		EMAIL,
-    		ADDRESS,
-    		USE_FLG,
-    		DEL_FLG,
-    		INPUT_DT,
-    		MOD_DT
-    	)
-    	VALUES(
-    		#{userId},
-    		#{encodePswd},
-    		#{gender},
-    		CONCAT_WS('-', #{mobile1} ,#{mobile2} ,#{mobile3}),
-    		#{email},
-    		CONCAT_WS(' ',#{postcode1},#{addr1},#{addr2}),
-    		'Y',
-    		'N',
-    		SYSDATE(),
-    		SYSDATE()
-    	)
+    	 INSERT INTO lifesite.member
+       (
+          USER_ID,
+          PASSWD,
+          USER_GENDER,
+          FAVORITE_CD,
+          FAVORITE_NM,
+          PHONE,
+          EMAIL,
+          ADDRESS,
+          USE_FLG,
+          DEL_FLG,
+          INPUT_DT,
+          MOD_DT
+       )
+       VALUES(
+          #{userId},
+          #{encodePswd},
+          #{gender},
+          #{favorite ,jdbcType=VARCHAR},
+          (SELECT CODE_NM FROM lifesite.tb_code WHERE CODE_CD = #{favorite ,jdbcType=VARCHAR} ),
+          CONCAT_WS('-', #{mobile1} ,#{mobile2} ,#{mobile3}),
+          #{email},
+          CONCAT_WS('_',#{postcode1},#{addr1},#{addr2}) ,
+          'Y',
+          'N',
+          SYSDATE(),
+          SYSDATE()
+       )
     </insert>
     
     <insert id="insertUserGrade" parameterType="hashMap">
@@ -229,16 +233,6 @@
     	)
     </insert>
     
-    <update id="updateUserInfo" parameterType="hashMap">
-        UPDATE lifesite.member      /* LoginMapper.updateUserInfo */
-        SET USER_GENDER = #{gender},
-            PHONE = CONCAT_WS('-', #{mobile1} ,#{mobile2} ,#{mobile3}),
-            EMAIL =  #{email},
-            ADDRESS = CONCAT_WS(' ',#{postcode1},#{addr1},#{addr2}) ,
-            MOD_DT = SYSDATE()
-        WHERE USER_ID = #{userId}
-    </update>
-
     <update id="updatePasswdFailCount" parameterType="hashMap">
         UPDATE ADM_USER_TB      /* LoginMapper.updatePasswdFailCount */
         SET PASSWD_FAIL_CNT = NVL(PASSWD_FAIL_CNT + 1, 1),

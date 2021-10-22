@@ -114,17 +114,14 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request, HttpSession session,
+    public String logout(HttpServletRequest request, HttpSession session,
             HttpServletResponse response) throws Exception {
         Object obj = session.getAttribute(CommonConstants.LIFE_SESSION);
         if (null != obj) {
             session.removeAttribute(CommonConstants.LIFE_SESSION);
             session.invalidate();
         }
-
-        String returnMsg = "로그아웃되었습니다.\n다시 접속해 주세요.";
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/timeout?message=" + returnMsg);
-        dispatcher.forward(request, response);
+        return "redirect:/";
     }
 
     /**
@@ -275,24 +272,4 @@ public class LoginController {
         }
         return result;
     }
-    
-    @ResponseBody
-    @PostMapping("/edit/info")
-    public CommonResult editUserInfo(HttpServletRequest request, HttpSession session,
-            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
-        CommonResult result = new CommonResult();
-        int cnt =0;
-        try {
-        	cnt = loginService.editUserInfo(param);
-        	result.setStatus(cnt==0?false:true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setMessage(e.getMessage());
-            result.setStatus(false);
-            return result;
-        }
-        return result;
-    }
-    
-   
 }

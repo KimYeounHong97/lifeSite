@@ -230,20 +230,6 @@ public class LoginService {
     }
     
     /**
-     * 회원 정보 수정
-     *  
-     * @param input
-     * @throws Exception
-     */
-    @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
-    public int  editUserInfo(HashMap<String, Object> param) throws Exception {
-    	int cnt =0;
-    	 //유저 등록
-    	 loginMapper.updateUserInfo(param);
-    	 return cnt;
-    }
-    
-    /**
      * 임직원 여부
      *  
      * @param loginInfo

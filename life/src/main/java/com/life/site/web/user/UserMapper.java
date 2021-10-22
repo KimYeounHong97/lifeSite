@@ -28,4 +28,5 @@ public interface UserMapper {
     public List<HashMap<String, Object>> getAllOrgList(Map<String, Object> param);
     public List<HashMap<String, Object>> getUserOrgList(Map<String, Object> param);
     public List<HashMap<String, Object>> getDeptList(Map<String, Object> param);
+    public int updateUserInfo(Map<String, Object> param);
 }

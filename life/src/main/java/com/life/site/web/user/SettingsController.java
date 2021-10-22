@@ -19,7 +19,7 @@ import com.life.site.config.param.CommonConstants;
 import com.life.site.config.param.CommonParam;
 import com.life.site.config.param.CommonResult;
 import com.life.site.model.UserVo;
-import com.life.site.web.util.PnsUtil;
+import com.life.site.web.util.Util;
 import com.life.site.web.util.session.SessionManager;
 
 
@@ -41,7 +41,7 @@ public class SettingsController {
     public CommonResult getMyInfo(HttpServletRequest request, CommonParam param) throws Exception {
         CommonResult result = new CommonResult();
         Map<String, Object> data = param.getData();
-        data.put(CommonConstants.Params.LANG, PnsUtil.getLang());
+        data.put(CommonConstants.Params.LANG, Util.getLang());
 
         result.setData(service.getMyInfo(data));
         return result;
