@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+</th:block>
+<!-- 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		  $('#summernote').summernote({
+			  	 width:1000,
+	             height: 500,                 // set editor height
+	             minHeight: null,             // set minimum height of editor
+	             maxHeight: null,             // set maximum height of editor
+	             focus: true                  // set focus to editable area after initializing summernote
+	     });
+	});
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="content" class="site-content">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="category-container">
+						<div class="category-header">
+							<img class="featured-image-large lazyloaded"
+								src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								data-was-processed="true">
+							<noscript>
+								<img class="featured-image-large"
+									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
+							</noscript>
+							<div class="category-info">
+								<h1 class="entry-title" id="titleTxt"
+									style="padding-top: 350px;">ANIMALS</h1>
+							</div>
+						</div>
+						<article>
+							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="postType" name="postType" value="animals" /> 
+								<div class="entry-content">
+									<textarea name="content" id="summernote" value=""></textarea>
+								</div>
+							</form>
+						</article>
+					</div>
+					<div th:if="${session.life == null}"
+						data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"
+						class="newsletter-container rocket-lazyload"
+						style="background-image: url(&quot;/wp-content/themes/generatepress-child/static/newsletter.jpg&quot;);"
+						data-was-processed="true">
+						<span th:text="${session.userId}"></span>
+						<h2>Let's make a magazine together</h2>
+						<p>서로의 이야기를 공유하여 새로운 잡지를 만들어가봐요</p>
+						<section>
+							<button>
+								<a href="/user/login" style="color: white; font-weight: bold;">Join
+									With Us</a>
+							</button>
+						</section>
+					</div>
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

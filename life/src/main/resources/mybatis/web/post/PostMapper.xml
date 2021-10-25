@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.post.PostMapper">
+    <!-- 기본 사용자 검색 (아이디/이름 키워드 검색) -->
+    <select id="selectPostAnimalList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostAnimalList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.animals) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										ANIMAL_ID AS POST_TYPE_ID,
+										MAGAZINE_ID,
+								        CATEGORY_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.animals a
+				ORDER BY REG_DT DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+    <select id="selectPostAnimalInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostAnimalInfo */
+            COUNT(*) AS COUNT ,
+			ANIMAL_ID AS POST_TYPE_ID,
+			MAGAZINE_ID,
+	        CATEGORY_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.animals
+		WHERE ANIMAL_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+   
+    <select id="selectPostAttachList"  parameterType="map" resultType="map">
+         SELECT      /* post.PostMapper.selectPostAttachList */
+          	ATTACH_ID,
+			CATEGORY_ID,
+	        ATTACH_TYPE,
+	        ATTACH_DIR,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+	FROM lifesite.magagine_attach
+	WHERE MAGAZINE_ID = #{MAGAZINE_ID}
+	AND CATEGORY_ID = #{CATEGORY_ID}
+	AND DEL_YN ='N'
+	ORDER BY ATTACH_ID
+    </select>
+    
+    
+    <insert id="insertMagagine" parameterType="map">
+    insert  into 		* post.PostMapper.insertMagagine */
+    	lifesite.magazine
+    	(
+    		CATEGORY_ID,
+    		CATEGORY_NM,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT,DEL_YN
+    	) 
+		values(
+				'CAT01',
+				'동물',
+				'admin',
+				sysdate(),
+				'admin',
+				sysdate(),
+				'N'
+				)
+    </insert>
+    
+    <insert id="insertAnimals" parameterType="map">
+    insert  into 		/* post.PostMapper.insertAnimals */
+    	lifesite.animals
+    	(
+    		ANIMAL_ID,
+    		MAGAZINE_ID,
+    		CATEGORY_ID , 
+    		TITLE, 
+    		CONTENT, 
+    		REG_USER_ID, 
+    		REG_DT, 
+    		MOD_USER_ID, 
+    		MOD_DT
+    	)
+	VALUES(
+			'ANI01',
+			1,
+			'CAT01',
+			'TEST 제목',
+			'TEST 컨텐트 내용',
+			'admin',
+			sysdate(),
+			'admin',
+			sysdate()
+		  )
+    </insert>
+    
+</mapper>
