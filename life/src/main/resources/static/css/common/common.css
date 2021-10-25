@@ -787,3 +787,11 @@ button:hover, html input[type="button"]:hover, input[type="reset"]:hover,
 		margin-right: 0px;
 	}
 }
+
+hr{
+	width: 70%;
+	background: black;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	height: 1.5px;
+}

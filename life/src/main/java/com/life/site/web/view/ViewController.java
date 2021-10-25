@@ -128,6 +128,12 @@ public class ViewController {
         return "view/nsess/" + module + "/" + html;
     }
     
+    @GetMapping("{postType}/detail/{title}")
+    public String getPostDetailView(HttpServletRequest request, @PathVariable String postType, @PathVariable String title,
+                            @ModelAttribute HashMap<String, Object> param) throws Exception {
+        return "view/" + postType+ "/detail" ;
+    }
+    
     @GetMapping("{module}/{html}")
     public String getView(HttpServletRequest request, @PathVariable String module, @PathVariable String html,
                             @ModelAttribute HashMap<String, Object> param) throws Exception {

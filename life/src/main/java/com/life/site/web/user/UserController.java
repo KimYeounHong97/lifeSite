@@ -72,7 +72,6 @@ public class UserController {
     }
     
     
-    @ResponseBody
     @PostMapping("/edit/info")
     public CommonResult editUserInfo(HttpServletRequest request, HttpSession session,
             HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
