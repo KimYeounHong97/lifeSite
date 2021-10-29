@@ -169,7 +169,7 @@ body, button, input, select, textarea {
 #main #container .header .article-info {
     width: 100%;
     position: absolute;
-    bottom: 19rem;
+    bottom: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -794,4 +794,71 @@ hr{
 	margin-top: 50px;
 	margin-bottom: 50px;
 	height: 1.5px;
+}
+
+.page{
+	width: 100%;	
+}
+
+.menu {
+    color: black !important;
+    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.menu:hover{
+	color : red !important;
+}
+
+.instagram , .youtube{
+	color : black;
+}
+
+.instagram:hover{
+	color : #2900C9;
+}
+
+.youtube:hover{
+	color : red;
+}
+ul{
+   list-style:none;
+  }
+ 
+ li{
+ margin-bottom: 15px;
+ }
+ 
+ .footer{
+ 	color : white !important;
+ }
+ 
+.checkButton{
+  background-color: white;
+  color: black;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: 1.5px solid black;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+}
+
+.checkRedButton{
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
 }

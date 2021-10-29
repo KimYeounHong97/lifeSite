@@ -7,25 +7,31 @@
 <!--  고유 CSS 추가 -->
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
 <script type="text/javascript">
 
-	$(document).ready(function() {
-		  $('#summernote').summernote({
-			  	 width:1000,
-	             height: 500,                 // set editor height
-	             minHeight: null,             // set minimum height of editor
-	             maxHeight: null,             // set maximum height of editor
-	             focus: true                  // set focus to editable area after initializing summernote
-	     });
-	});
+function register(){
+	if($("#summernote").val() == ""){
+		alert("내용을 입력해주세요.");
+	}
+}
+
+
+$(document).ready(function() {
+	  $('#summernote').summernote({
+		  	 width:1200,
+             height: 500,                 // set editor height
+             minHeight: null,             // set minimum height of editor
+             maxHeight: null,             // set maximum height of editor
+             focus: true                  // set focus to editable area after initializing summernote
+     });
+});
 </script>
 </head>
 <th:block layout:fragment="content">
-	<div id="page" class="hfeed site grid-container container grid-parent">
+	<div id="page" class="page">
 		<div id="content" class="site-content">
 			<div id="primary"
 				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
@@ -49,8 +55,15 @@
 							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
 								<input type="hidden" id="postType" name="postType" value="animals" /> 
 								<div class="entry-content">
-									<textarea name="content" id="summernote" value=""></textarea>
+									<div>
+										<textarea name="content" id="summernote" value="" ></textarea>
+									</div>
+									<div>
+										<button type="button" class="checkButton" onclick="register();">등록</button>
+									</div>
+									
 								</div>
+								
 							</form>
 						</article>
 					</div>

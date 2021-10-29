@@ -10,7 +10,7 @@
 	<th:block layout:fragment="script"></th:block>
 </head>
 	<th:block layout:fragment="content">
-		<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="page" class="page">
 			<div id="content" class="site-content">
 				<div id="primary"
 					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
@@ -30,13 +30,13 @@
                 				</div>
 							</div>
 							<ul>
-								<li><a href="/animals/info">동물</a></li>
-								<li><a href="/arts-entertainment/">예술 &amp;엔터테인먼트</a></li>
-								<li><a href="/destinations/">목적지</a></li>
-								<li><a href="/history/">역사</a></li>
-								<li><a href="/lifestyle/">생활</a></li>
-								<li><a href="/nature/">자연</a></li>
-								<li><a href="/people/">사람들</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/animals/info" >Animals</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/arts-entertainment/info" >Art &amp;Entertainment</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/destinations/info" >Destinations</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/history/info" >History</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifestyle/info" >LifeStyle</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/nature/info" >Nature</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/people/info" >People</a></li>
 							</ul>
 						</div>
 						<div th:if="${session.life == null}"

@@ -42,8 +42,7 @@
 					</a>
 				</div>
 			</div>
-			<button class="menu-toggle" aria-controls="primary-menu"
-				aria-expanded="false">
+			<button class="menu-toggle" aria-controls="primary-menu" style="margin: 20px;" aria-expanded="false"  data-toggle="modal" data-target="#menuModal"> 
 				<span class="mobile-menu">MENU</span>
 			</button>
 			<div id="primary-menu" class="main-nav">
@@ -80,5 +79,41 @@
 		<!-- .inside-navigation -->
 	</nav>
 	<!-- #site-navigation -->
+<!-- Modal -->
+	<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+			<div class="inside-navigation grid-container grid-parent">
+				<div class="main-nav">
+				
+					<ul id="menu-main" class=" slideout-menu">
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/animals/info" >Animals</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/arts-entertainment/info" >Art &amp;Entertainment</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/destinations/info" >Destinations</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/history/info" >History</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifestyle/info" >LifeStyle</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/nature/info" >Nature</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/people/info" >People</a></li>
+					</ul>
+				</div>
+		  	</div>
+	      </div>
+	      <div class="modal-footer">
+	      	<div>
+	      		<a class="instagram" href="#" target="_blank"><i class="fab fa-instagram-square fa-3x"  style="float: left; margin : 20px;"></i></a>
+	      		<a class="youtube" href="#" target="_blank"><i class="fab fa-youtube fa-3x"  style="float: left; margin : 20px;"></i></a>
+	      	</div>
+	      	
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<!-- Modal -->
 </th:block>
 </html>

@@ -46,34 +46,6 @@ select {
   box-sizing: border-box;
 }
 
-.checkButton{
-  background-color: white;
-  color: black;
-  padding: 14px 20px;
-  margin-left: 20px;
-  border: 1.5px solid black;
-  cursor: pointer;
-  width: 150px;
-  height : 50px;
-  font-size: 15px;
-  font-weight: bold;
-  font-family: "Open Sans", sans-serif;
-}
-
-.checkRedButton{
-  background-color: red;
-  color: white;
-  padding: 14px 20px;
-  margin-left: 20px;
-  border: none;
-  cursor: pointer;
-  width: 150px;
-  height : 50px;
-  font-size: 15px;
-  font-weight: bold;
-  font-family: "Open Sans", sans-serif;
-}
-
 /* Set a style for all buttons */
 form button {
   background-color: black;
