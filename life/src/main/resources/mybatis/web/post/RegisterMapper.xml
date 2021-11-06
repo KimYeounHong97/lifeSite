@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.post.RegisterMapper">
+    
+    <insert id="insertSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
+    insert  into 		/* post.RegisterMapper.insertMagagine */
+    	lifesite.magagine_attach
+    	(
+    		ATTACH_TYPE,
+    		ATTACH_DIR,
+    		FILE_ORIGIN_NM,
+    		FILE_STORE_NM,
+    		FILE_SIZE,
+    		REFFER_FLG,
+    		DEL_YN,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{ATTACH_TYPE},
+				#{ATTACH_DIR},
+				#{FILE_ORIGIN_NM},
+				#{FILE_STORE_NM},
+				#{FILE_SIZE},
+				'N',
+				'N',
+				#{REG_USER_ID},
+				SYSDATE(),
+				#{REG_USER_ID},
+				SYSDATE()
+				)
+    </insert>
+    
+    
+    <select  id="loadById" parameterType="File" resultType="File">
+    	SELECT /* post.RegisterMapper.loadById */
+    	FROM lifesite.magagine_attach
+    	WHERE ATTACH_ID = #{fileId}
+    </select>
+    
+    
+    <insert id="insertAnimals" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertAnimals */
+    	lifesite.animals
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				)
+    </insert>
+    
+    <update id="updateEditorAttach" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateEditorAttach */
+    		lifesite.magagine_attach
+    	SET 
+    		REFFER_FLG = 'Y' ,
+			POST_ID = #{POST_ID}    	
+    	WHERE ATTACH_ID = #{attach_id}
+    </update>
+</mapper>

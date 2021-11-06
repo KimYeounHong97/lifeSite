@@ -121,7 +121,7 @@ body, button, input, select, textarea {
 	text-align: right;
 }
 
-#site-navigation .inside-navigation .navigation-branding .site-logo {
+#site-navigation .inside-navigation .navigation-branding{
 	background-color: #e90000;
 	position: absolute;
 	top: 1.5rem;
@@ -585,22 +585,6 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 	color: #606060;
 }
 
-input[type="text"], input[type="email"], input[type="url"], input[type="password"],
-	input[type="search"], input[type="tel"], input[type="number"], textarea,
-	select {
-	color: #666666;
-	background-color: #fafafa;
-	border-color: #cccccc;
-}
-
-input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus,
-	input[type="password"]:focus, input[type="search"]:focus, input[type="tel"]:focus,
-	input[type="number"]:focus, textarea:focus, select:focus {
-	color: #666666;
-	background-color: #ffffff;
-	border-color: #bfbfbf;
-}
-
 button, html input[type="button"], input[type="reset"], input[type="submit"],
 	a.button, a.button:visited, a.wp-block-button__link:not(.has-background)
 	{
@@ -861,4 +845,9 @@ ul{
   font-size: 15px;
   font-weight: bold;
   font-family: "Open Sans", sans-serif;
+}
+
+.checkRedButton:hover{
+	background-color: black;
+	color :white;
 }

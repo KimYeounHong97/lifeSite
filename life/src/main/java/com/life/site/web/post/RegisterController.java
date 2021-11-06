@@ -15,20 +15,25 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.io.BaseEncoding;
+import com.google.gson.JsonObject;
 import com.life.site.config.param.CommonConstants;
 import com.life.site.config.param.CommonParam;
 import com.life.site.config.param.CommonResult;
+import com.life.site.model.FileVo;
 import com.life.site.model.LoginInfo;
 import com.life.site.model.UserVo;
 import com.life.site.model.PostVo.Post;
@@ -40,38 +45,47 @@ import com.life.site.web.util.StringUtil;
 import com.life.site.web.util.session.SessionManager;
 import com.sun.mail.util.BASE64EncoderStream;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 @RestController
-@RequestMapping("/api/post")
-public class PostController {
+@RequestMapping("/api/register")
+public class RegisterController {
 
     protected Log log = LogFactory.getLog(this.getClass());
     
     @Autowired
-    PostService postService;
-
-
-    @PostMapping(value = "/list")
-    public CommonResult getPostList(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
-        CommonResult result = new CommonResult();
-        result.setData(postService.getPostList(param));
-        return result;
-    }
+    RegisterService registerService;
     
-    @PostMapping(value = "/info")
-    public CommonResult getPostInfo(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
-        CommonResult result = new CommonResult();
+    @Autowired
+    ResourceLoader resourceLoader;
+
+    @PostMapping(value = "/uploadImageFile")
+    public JsonObject  getPostList(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws Exception {
+    	JsonObject jsonObject = new JsonObject();
+    	UserVo member = SessionManager.getUser(request);
+    	FileVo file = null;
+    	
+    	file = registerService.uploadImageFile(multipartFile, request,  member.getUSER_ID());
+    	
+    	if (file == null) {
+    		jsonObject.addProperty("url", "");
+            jsonObject.addProperty("responseCode", "error");
+    	} 
+    	 
+		jsonObject.addProperty("url", "/editorimg/"+ file.getURL_PATH() +"/"+ file.getFILE_STORE_NM());
+		jsonObject.addProperty("attach_id", file.getATTACH_ID());
+        jsonObject.addProperty("responseCode", "success");
         
-        result.setData(postService.getPostInfo(param));
-        return result;
+        return  jsonObject;
     }
     
-    
-    @PostMapping("/delete")
-    public CommonResult deletePost(HttpServletRequest request, HttpSession session,HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+    @ResponseBody
+    @PostMapping("/save")
+    public CommonResult insertrPost(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
         CommonResult result = new CommonResult();
-        result.setData(postService.DeletePost(param));
+        result.setData(registerService.insertPost(param));
         return result;
     }
-
 }

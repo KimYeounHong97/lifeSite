@@ -61,9 +61,7 @@ public class PostService {
 		}
 
 		List.forEach(post -> {
-								 builder.MAGAZINE_ID(post.get("MAGAZINE_ID").toString())
-										.POST_TYPE_ID(post.get("POST_TYPE_ID").toString())
-										.CATEGORY_ID(post.get("CATEGORY_ID").toString())
+								 builder.POST_ID(post.get("POST_ID").toString())
 										.TITLE(post.get("TITLE").toString())
 										.CONTENT(post.get("CONTENT").toString())
 										.REG_USER_ID(post.get("REG_USER_ID").toString())
@@ -76,8 +74,7 @@ public class PostService {
 									// 첨부파일 조회
 									  List<PostsAttach> postAttaches = new ArrayList<PostsAttach>();
 									  
-									  param.put("MAGAZINE_ID", post.get("MAGAZINE_ID").toString());
-									  param.put("CATEGORY_ID", post.get("CATEGORY_ID").toString());
+									  param.put("POST_ID", post.get("POST_ID").toString());
 									  List<Map<String, Object>> postAttach =
 											  postMapper.selectPostAttachList(param);
 									 
@@ -113,9 +110,7 @@ public class PostService {
 			info = postMapper.selectPostAnimalInfo(param);
 			break;
 		}
-			 builder.MAGAZINE_ID(info.get("MAGAZINE_ID").toString())
-					.POST_TYPE_ID(info.get("POST_TYPE_ID").toString())
-					.CATEGORY_ID(info.get("CATEGORY_ID").toString())
+			 builder.POST_ID(info.get("POST_ID").toString())
 					.TITLE(info.get("TITLE").toString())
 					.CONTENT(info.get("CONTENT").toString())
 					.REG_USER_ID(info.get("REG_USER_ID").toString())
@@ -126,8 +121,7 @@ public class PostService {
 		// 첨부파일 조회
 		  List<PostsAttach> postAttaches = new ArrayList<PostsAttach>();
 		  
-		  param.put("MAGAZINE_ID", info.get("MAGAZINE_ID").toString());
-		  param.put("CATEGORY_ID", info.get("CATEGORY_ID").toString());
+		  param.put("POST_ID", info.get("POST_ID").toString());
 		  List<Map<String, Object>> postAttach =postMapper.selectPostAttachList(param);
 		 
 		   postAttach.forEach(attach ->{ postAttaches.add(PostVo.ofPostAttach(attach));
@@ -137,5 +131,24 @@ public class PostService {
 		
 		return builder.build();
 	}
+	
+	
+	 /**
+     * 포스트 삭제
+     *  
+     * @param input
+     * @throws Exception
+     */
+    @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
+    public int  DeletePost(HashMap<String, Object> param) throws Exception {
+    	String postType = param.get("postType").toString();
+    	int cnt = 0;
+    	switch (postType) {
+		case "animals":
+			cnt = postMapper.deleteAnimals(param);
+			break;
+		}
+    	return cnt;
+    }
 
 }

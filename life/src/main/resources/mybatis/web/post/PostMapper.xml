@@ -10,9 +10,7 @@
            		(SELECT COUNT(*) FROM lifesite.animals) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
-										ANIMAL_ID AS POST_TYPE_ID,
-										MAGAZINE_ID,
-								        CATEGORY_ID,
+										POST_ID,
 								        TITLE,
 								        CONTENT,
 								        REG_USER_ID,
@@ -20,7 +18,8 @@
 								        MOD_USER_ID,
 								        MOD_DT
 				FROM (SELECT @num:=0) AS n,  lifesite.animals a
-				ORDER BY REG_DT DESC
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
 			) T
 		WHERE 1=1]]>
 		<choose>
@@ -42,9 +41,7 @@
     <select id="selectPostAnimalInfo" parameterType="map" resultType="hashmap">
          SELECT      /* post.PostMapper.selectPostAnimalInfo */
             COUNT(*) AS COUNT ,
-			ANIMAL_ID AS POST_TYPE_ID,
-			MAGAZINE_ID,
-	        CATEGORY_ID,
+			POST_ID,
 	        TITLE,
 	        CONTENT,
 	        REG_USER_ID,
@@ -52,14 +49,14 @@
 	        MOD_USER_ID,
 	        MOD_DT
 		FROM lifesite.animals
-		WHERE ANIMAL_ID = #{postId}
+		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
    
     <select id="selectPostAttachList"  parameterType="map" resultType="map">
          SELECT      /* post.PostMapper.selectPostAttachList */
           	ATTACH_ID,
-			CATEGORY_ID,
+			POST_ID,
 	        ATTACH_TYPE,
 	        ATTACH_DIR,
 	        REG_USER_ID,
@@ -67,60 +64,15 @@
 	        MOD_USER_ID,
 	        MOD_DT
 	FROM lifesite.magagine_attach
-	WHERE MAGAZINE_ID = #{MAGAZINE_ID}
-	AND CATEGORY_ID = #{CATEGORY_ID}
+	WHERE POST_ID = #{postId}
 	AND DEL_YN ='N'
 	ORDER BY ATTACH_ID
     </select>
     
-    
-    <insert id="insertMagagine" parameterType="map">
-    insert  into 		* post.PostMapper.insertMagagine */
-    	lifesite.magazine
-    	(
-    		CATEGORY_ID,
-    		CATEGORY_NM,
-    		REG_USER_ID,
-    		REG_DT,
-    		MOD_USER_ID,
-    		MOD_DT,DEL_YN
-    	) 
-		values(
-				'CAT01',
-				'동물',
-				'admin',
-				sysdate(),
-				'admin',
-				sysdate(),
-				'N'
-				)
-    </insert>
-    
-    <insert id="insertAnimals" parameterType="map">
-    insert  into 		/* post.PostMapper.insertAnimals */
-    	lifesite.animals
-    	(
-    		ANIMAL_ID,
-    		MAGAZINE_ID,
-    		CATEGORY_ID , 
-    		TITLE, 
-    		CONTENT, 
-    		REG_USER_ID, 
-    		REG_DT, 
-    		MOD_USER_ID, 
-    		MOD_DT
-    	)
-	VALUES(
-			'ANI01',
-			1,
-			'CAT01',
-			'TEST 제목',
-			'TEST 컨텐트 내용',
-			'admin',
-			sysdate(),
-			'admin',
-			sysdate()
-		  )
-    </insert>
-    
+    <update  id="deleteAnimals" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteAnimals */
+    			lifesite.animals
+    	SET DEL_FLG = 'Y'
+    	WHERE POST_ID = #{postId}
+    </update>
 </mapper>

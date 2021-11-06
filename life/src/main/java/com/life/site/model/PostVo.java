@@ -34,14 +34,8 @@ public class PostVo implements Serializable {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post{
-    	@JsonProperty("POST_TYPE_ID")
-        String POST_TYPE_ID;
-
-        @JsonProperty("MAGAZINE_ID")
-        String MAGAZINE_ID;
-
-        @JsonProperty("CATEGORY_ID")
-        String CATEGORY_ID;
+    	@JsonProperty("POST_ID")
+        String POST_ID;
         
         @JsonProperty("TITLE")
         String TITLE;
@@ -76,11 +70,8 @@ public class PostVo implements Serializable {
     	 @JsonProperty("ATTACH_ID")
     	 String ATTACH_ID;
     	 
-    	 @JsonProperty("MAGAZINE_ID")
-    	 String MAGAZINE_ID;
-    	 
-    	 @JsonProperty("CATEGORY_ID")
-    	 String CATEGORY_ID;
+    	 @JsonProperty("POST_ID")
+    	 String POST_ID;
     	 
     	 @JsonProperty("ATTACH_TYPE")
     	 String ATTACH_TYPE;
@@ -104,8 +95,7 @@ public class PostVo implements Serializable {
     public  static PostsAttach ofPostAttach(Map<String, Object> attach) {
     	PostsAttach obj =	PostsAttach.builder()
 				.ATTACH_ID(attach.get("ATTACH_ID").toString())
-				.MAGAZINE_ID(attach.get("MAGAZINE_ID").toString())
-				.CATEGORY_ID(attach.get("CATEGORY_ID").toString())
+				.POST_ID(attach.get("POST_ID").toString())
 				.ATTACH_TYPE(attach.get("ATTACH_TYPE").toString())
 				.DEL_YN(attach.get("DEL_YN").toString())
 				.REG_USER_ID(attach.get("REG_USER_ID").toString())

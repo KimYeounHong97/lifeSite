@@ -11,18 +11,19 @@
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
 <script type="text/javascript">
-	function changeTitle() {
+	function setData() {
 		var title = window.location.href.split('detail/')[1];
 		title = decodeURI(title);
 		title = title.split("?")[0];
-
 		$("#titleTxt").text(title);
+		var postId = window.location.href.split('postid=')[1];
+		$("#postId").val(postId);
 	}
 	
 	function moveMore(){
 		window.location.href='/animals/info';
 	}
-
+	
 	function postData() {
 		var postId = window.location.href.split("?postId=")[1];
 		$("#postId").val(postId);
@@ -43,7 +44,8 @@
 					}
 				} else {
 					var data = result.data;
-					$("#postContent").text(data.CONTENT);
+					  $('#postContent').append(data.CONTENT);
+					  
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -61,16 +63,15 @@
 		});
 	}
 	
-	
 	function morePostData() {
 		$("#morePostYn").val('Y');
-
 		$.ajax({
 			url : "/api/post/list",
 			type : "POST",
 			async : true,
 			data : $("#animalsForm").serialize(),
 			success : function(result) {
+				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("정보 조회 중 오류가 발생했습니다.");
@@ -91,11 +92,11 @@
 						for(var j=0; j<tdCount; j++){
 							insertTr += " <td>";
 							insertTr += " 	 <div class='category-card'>";
-							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_TYPE_ID+"'><img width='837' height='600' src='https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-1024x734.jpg'";
+							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img width='837' height='600' src='https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-1024x734.jpg'";
 							insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
 							insertTr += "             	srcset='https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710.jpg 2856w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-300x215.jpg 300w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-768x551.jpg 768w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-1024x734.jpg 1024w'";
 							insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-							insertTr += "       <h3><a style='color:black;'  class='black' href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_TYPE_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "       <h3><a style='color:black;'  class='black' href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
 							insertTr += "     </div>"; 
 							insertTr += "  </td>";
 						}
@@ -119,9 +120,52 @@
 			}
 		});
 	}
+	
+	function deletePost(){
+		if(!confirm("게시물을 삭제하시겠습니까?")){
+			return;
+		}
+		$.ajax({
+			url : "/api/post/delete",
+			type : "POST",
+			async : true,
+			data : $("#animalsForm").serialize(),
+			success : function(result) {
+				debugger;
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("삭제시도 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					if(result == 0){
+						alert("삭제 된 건이 없습니다.");
+						return;
+					}
+					alert("삭제되었습니다.");
+					window.location.href='/animals/info';
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus + '\n'
+							+ 'errorThrown: ' + errorThrown);
+					console.log('HTTP message body (jqXHR.responseText): '
+							+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+	}
 
 	$(document).ready(function() {
-		changeTitle();
+		setData();
 		postData();
 		morePostData();
 	});
@@ -151,21 +195,22 @@
 						<article>
 							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
 								<input type="hidden" id="postType" name="postType" value="animals" /> 
-								<input type="hidden" id="postId" name="postId" value="" />
+								<input type="hidden" id="postId" name="postId"/>
 								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
 								<div class="entry-content">
-									<p id="postContent"></p>
+									<button class="checkRedButton"  onclick="deletePost();">삭제</button>
+									<div id="postContent"></div>
 								</div>
 							</form>
 						</article>
 						<div class="article-card-container">
-							<hr class="line">
-							<h4>More Like This</h4>
-							<table>
+							<hr>
+							<h4 style="display: inline; width: 90%;">More Like This</h4><button class="checkButton"  onclick="moveMore();">더보기</button>
+							<table style="margin-top: 25px;">
 								<tbody id="postTbody">
 								</tbody>
 							</table>
-							<button onclick="moveMore();">더보기</button>
+							
 						</div>
 					</div>
 					<div th:if="${session.life == null}"

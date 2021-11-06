@@ -45,8 +45,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
     
-    @Value("${env.upload-path}")
-    private String uploadPath;
+    @Value("${env.editorimg-path}")
+    private String editorimgpath;
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
@@ -125,10 +125,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // TODO Auto-generated method stub
         WebMvcConfigurer.super.addResourceHandlers(registry);
-        //url 바로 접근 불가 파일  home/data/upload
-        //url 접근가능 파일 /home/data/upload //여기 URL 이하는 모두 가능
-        //에디터 이미지는 /home/data/editorimg/
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:///"+uploadPath);
+        registry.addResourceHandler("/editorimg/**").addResourceLocations("file:///"+editorimgpath);
     }
 
     @Override
