@@ -15,14 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.life.site.config.param.CommonConstants;
+import com.life.site.model.FileVo;
 import com.life.site.model.PostVo;
 import com.life.site.model.PostVo.Post;
 import com.life.site.model.PostVo.Post.PostBuilder;
 import com.life.site.model.PostVo.PostList;
-import com.life.site.model.PostVo.PostsAttach;
 import com.life.site.model.UserVo;
 import com.life.site.web.util.StringUtil;
 import com.life.site.web.util.session.SessionManager;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Date : 2021. 1. 14.
@@ -36,6 +38,7 @@ import com.life.site.web.util.session.SessionManager;
  *          ----------------------------------------------- 2021.1.14. sujin 최초
  *          생성
  */
+@Slf4j
 @Service("PostService")
 public class PostService {
 	@Autowired
@@ -71,18 +74,21 @@ public class PostService {
 										.TOTAL_COUNT(post.get("TOTAL_COUNT").toString());
 								 
 								 if(!morePostYn.equals("Y")) {
-									// 첨부파일 조회
-									  List<PostsAttach> postAttaches = new ArrayList<PostsAttach>();
-									  
-									  param.put("POST_ID", post.get("POST_ID").toString());
-									  List<Map<String, Object>> postAttach =
-											  postMapper.selectPostAttachList(param);
-									 
-									   postAttach.forEach(attach ->{ postAttaches.add(PostVo.ofPostAttach(attach));
-									  });
-									  
-									 builder.postAttaches(postAttaches);
+									
 								 }
+								 
+								// 첨부파일 조회
+								  List<FileVo> postAttaches = new ArrayList<FileVo>();
+								  
+								  param.put("postId", post.get("POST_ID").toString());
+								  log.info(param.toString());
+								  List<Map<String, Object>> postAttach = postMapper.selectPostAttachList(param);
+								  log.info(postAttach.toString());
+								   postAttach.forEach(attach ->{ postAttaches.add(PostVo.ofPostAttach(attach));
+								  });
+								  
+								   log.info(postAttaches.toString());
+								 builder.postAttaches(postAttaches);
 								 
 								postList.add(builder.build());
 					});
@@ -104,6 +110,7 @@ public class PostService {
 		HashMap<String, Object> info = new HashMap<String, Object>();
 		PostBuilder builder = Post.builder();
 		param.put("postId", postId);
+		log.info(param.toString());
 		
 		switch (postType) {
 		case "animals":
@@ -119,10 +126,11 @@ public class PostService {
 					.MOD_DT(info.get("MOD_DT").toString());
 
 		// 첨부파일 조회
-		  List<PostsAttach> postAttaches = new ArrayList<PostsAttach>();
+		  List<FileVo> postAttaches = new ArrayList<FileVo>();
 		  
-		  param.put("POST_ID", info.get("POST_ID").toString());
+		  param.put("postId", info.get("POST_ID").toString());
 		  List<Map<String, Object>> postAttach =postMapper.selectPostAttachList(param);
+		 
 		 
 		   postAttach.forEach(attach ->{ postAttaches.add(PostVo.ofPostAttach(attach));
 		  });

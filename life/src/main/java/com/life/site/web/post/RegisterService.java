@@ -32,7 +32,6 @@ import com.life.site.model.PostVo;
 import com.life.site.model.PostVo.Post;
 import com.life.site.model.PostVo.Post.PostBuilder;
 import com.life.site.model.PostVo.PostList;
-import com.life.site.model.PostVo.PostsAttach;
 import com.life.site.model.UserVo;
 import com.life.site.web.util.StringUtil;
 import com.life.site.web.util.session.SessionManager;
@@ -53,9 +52,14 @@ public class RegisterService {
 	@Value("${env.editorimg-path}")
     private String editorimgPath;
 	
-	public FileVo uploadImageFile(MultipartFile file, HttpServletRequest request, String userId) throws Exception {
-		
+	@Value("${env.upload-path}")
+    private String uploadPath;
+	
+	public FileVo uploadImageFile(MultipartFile file, HashMap<String, Object> param ,HttpServletRequest request) throws Exception {
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
+		log.info("--------------------------");
+		log.info(param.toString());
+		String userId = param.get("loginUserId").toString();
 		// 업로드할 폴더 경로
 		String realFolder = editorimgPath;
 		UUID uuid = UUID.randomUUID();
@@ -94,7 +98,7 @@ public class RegisterService {
         newFile.setDEL_FL("N");
         newFile.setREG_USER_ID(userId);
         newFile.setURL_PATH(datafolder);
-        registerMapper.insertSave(newFile);
+        registerMapper.insertEidtSave(newFile);
 
 		return newFile;
 	}
@@ -110,13 +114,12 @@ public class RegisterService {
      * @throws Exception
      */
     @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
-    public int  insertPost(HashMap<String, Object> param) throws Exception {
+    public int  insertPost(HashMap<String, Object> param, MultipartFile multipartFile) throws Exception {
     	String postType = param.get("postType").toString();
-    	log.info("testtttttttttttttttttttttttttttttttttttttttttttttttttttt");
     	int cnt = 0;
     	switch (postType) {
 		case "animals":
-			cnt = animalsInsert(param);
+			cnt = animalsInsert(param,multipartFile);
 			break;
 		}
     	return cnt;
@@ -129,16 +132,21 @@ public class RegisterService {
      * @throws Exception
      */
     
-    public int animalsInsert(HashMap<String, Object> param) {
+    private int animalsInsert(HashMap<String, Object> param , MultipartFile multipartFile) throws Exception {
     	int cnt = 0;
     	String fileInsert = param.get("fileInsert").toString();
-    	cnt = registerMapper.insertAnimals(param);
     	String[] fileIdArray; 
     	
-    	//첨부파일 체크
+    	//포스트 저장
+    	cnt = registerMapper.insertAnimals(param);
+    		if(cnt == 0) return cnt;
+    	//대표 이미지 저장
+    	cnt = uploadTitleImageFile(param, multipartFile);
+    		if(cnt == 0) return cnt;
+    		
+    	//editor 첨부파일 체크
     	if(fileInsert.equals("Y")) {
     		fileIdArray = param.get("fileIdArray").toString().split(",");
-    		
     		Arrays.stream(fileIdArray).forEach(id->{
     			param.put("attach_id", id);
     			registerMapper.updateEditorAttach(param);
@@ -147,4 +155,49 @@ public class RegisterService {
     	
     	return cnt;
     }
+    
+    private int uploadTitleImageFile(HashMap<String, Object> param , MultipartFile multipartFile) throws Exception {
+		int attachId = 0;
+		// 업로드할 폴더 경로
+		String realFolder = uploadPath;
+		UUID uuid = UUID.randomUUID();
+
+		String org_filename = multipartFile.getOriginalFilename(); // 업로드할 파일 이름
+		String originalFileExtension = org_filename.substring(org_filename.lastIndexOf(".")+1);
+		String str_filename = uuid.toString() +"."+originalFileExtension; // 랜덤 UUID+확장자로 저장될 savedFileName
+		log.info("원본 파일명 : " + org_filename);
+		log.info("저장할 파일명 : " + str_filename);
+		
+		Date dt =new Date();
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM");
+        String datafolder=sdf.format(dt).toString();
+
+		String filepath = realFolder;
+        
+        File dir=new File(filepath+"/", datafolder);
+        log.info("dir :"+dir.toString());
+        if(!dir.exists())
+        {
+            dir.mkdirs();
+        }
+        
+        File targetFile = new File(dir+"/" + str_filename);
+        log.info("targetFile :"+targetFile.toString());
+        multipartFile.transferTo(targetFile);
+		
+		FileVo newFile = new FileVo();
+		newFile.setPOST_ID(Integer.parseInt(param.get("POST_ID").toString()));
+		newFile.setFILE_STORE_NM(str_filename);
+        newFile.setFILE_ORIGIN_NM(org_filename);
+        newFile.setATTACH_TYPE(originalFileExtension);
+        newFile.setATTACH_DIR(filepath+"/"+ datafolder);
+        newFile.setFILE_SIZE(Long.toString(multipartFile.getSize()));
+        newFile.setDEL_FL("N");
+        newFile.setREG_USER_ID(param.get("loginUserId").toString());
+        newFile.setURL_PATH(datafolder);
+        registerMapper.insertTitleSave(newFile);
+        
+        attachId = newFile.getATTACH_ID();
+		return attachId;
+	}
 }

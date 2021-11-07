@@ -58,46 +58,18 @@ public class PostVo implements Serializable {
         @JsonProperty("TOTAL_COUNT")
         String TOTAL_COUNT;
         
-        List<PostsAttach> postAttaches;
+        List<FileVo> postAttaches;
     }
 
-    
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PostsAttach{
-    	 @JsonProperty("ATTACH_ID")
-    	 String ATTACH_ID;
-    	 
-    	 @JsonProperty("POST_ID")
-    	 String POST_ID;
-    	 
-    	 @JsonProperty("ATTACH_TYPE")
-    	 String ATTACH_TYPE;
-    	 
-    	 @JsonProperty("DEL_YN")
-    	 String DEL_YN;
-    	 
-    	 @JsonProperty("REG_USER_ID")
-    	 String REG_USER_ID;
-    	 
-    	 @JsonProperty("REG_DT")
-    	 String REG_DT;
-    	 
-    	 @JsonProperty("MOD_USER_ID")
-    	 String MOD_USER_ID;
-    	 
-    	 @JsonProperty("MOD_DT")
-    	 String MOD_DT;
-    }
-    
-    public  static PostsAttach ofPostAttach(Map<String, Object> attach) {
-    	PostsAttach obj =	PostsAttach.builder()
-				.ATTACH_ID(attach.get("ATTACH_ID").toString())
-				.POST_ID(attach.get("POST_ID").toString())
+    public  static FileVo ofPostAttach(Map<String, Object> attach) {
+    	FileVo obj =	FileVo.builder()
+				.ATTACH_ID(Integer.parseInt(attach.get("ATTACH_ID").toString()))
+				.POST_ID(Integer.parseInt(attach.get("POST_ID").toString()))
 				.ATTACH_TYPE(attach.get("ATTACH_TYPE").toString())
-				.DEL_YN(attach.get("DEL_YN").toString())
+				.URL_PATH(attach.get("URL_PATH").toString())
+				.FILE_STORE_NM(attach.get("FILE_STORE_NM").toString())
+				.TITLE_FL(attach.get("TITLE_YN").toString())
+				.DEL_FL(attach.get("DEL_YN").toString())
 				.REG_USER_ID(attach.get("REG_USER_ID").toString())
 				.REG_DT(attach.get("REG_DT").toString())
 				.MOD_USER_ID(attach.get("MOD_USER_ID").toString())

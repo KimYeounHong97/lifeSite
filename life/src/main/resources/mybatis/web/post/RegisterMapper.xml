@@ -3,16 +3,18 @@
 
 <mapper namespace="com.life.site.web.post.RegisterMapper">
     
-    <insert id="insertSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
-    insert  into 		/* post.RegisterMapper.insertMagagine */
+    <insert id="insertEidtSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
+    insert  into 		/* post.RegisterMapper.insertEidtSave */
     	lifesite.magagine_attach
     	(
     		ATTACH_TYPE,
     		ATTACH_DIR,
+    		URL_PATH,
     		FILE_ORIGIN_NM,
     		FILE_STORE_NM,
     		FILE_SIZE,
     		REFFER_FLG,
+    		TITLE_YN,
     		DEL_YN,
     		REG_USER_ID,
     		REG_DT,
@@ -22,9 +24,11 @@
 		values(
 				#{ATTACH_TYPE},
 				#{ATTACH_DIR},
+				#{URL_PATH},
 				#{FILE_ORIGIN_NM},
 				#{FILE_STORE_NM},
 				#{FILE_SIZE},
+				'N',
 				'N',
 				'N',
 				#{REG_USER_ID},
@@ -35,8 +39,46 @@
     </insert>
     
     
+     <insert id="insertTitleSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
+    insert  into 		/* post.RegisterMapper.insertTitleSave */
+    	lifesite.magagine_attach
+    	(
+    		POST_ID,
+    		ATTACH_TYPE,
+    		ATTACH_DIR,
+    		URL_PATH,
+    		FILE_ORIGIN_NM,
+    		FILE_STORE_NM,
+    		FILE_SIZE,
+    		REFFER_FLG,
+    		DEL_YN,
+    		TITLE_YN,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{POST_ID},
+				#{ATTACH_TYPE},
+				#{ATTACH_DIR},
+				#{URL_PATH},
+				#{FILE_ORIGIN_NM},
+				#{FILE_STORE_NM},
+				#{FILE_SIZE},
+				'Y',
+				'N',
+				'Y',
+				#{REG_USER_ID},
+				SYSDATE(),
+				#{REG_USER_ID},
+				SYSDATE()
+				)
+    </insert>
+    
+    
     <select  id="loadById" parameterType="File" resultType="File">
-    	SELECT /* post.RegisterMapper.loadById */
+    	SELECT *    /* post.RegisterMapper.loadById */
     	FROM lifesite.magagine_attach
     	WHERE ATTACH_ID = #{fileId}
     </select>

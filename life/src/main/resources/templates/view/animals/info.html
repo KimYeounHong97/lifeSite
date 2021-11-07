@@ -40,7 +40,6 @@ function postData(){
 					return;
 				}
 			} else {
-				debugger;
 				var data = result.data;
 				var Count = data.posts.length;
 				var totalCount = data.posts[0].TOTAL_COUNT;
@@ -59,13 +58,21 @@ function postData(){
 					}
 					insertTr = "<tr>";
 					for(var j=0; j<tdCount; j++){
+						var attach = data.posts[j+(i*3)].postAttaches;
+						var imgSrc;
+						debugger;
+						$.each(attach, function(index, item){
+							debugger;
+							if(item.TITLE_FL == 'Y'){
+								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+							}
+						});
+						
 						insertTr += " <td>";
 						insertTr += " 	 <div class='category-card'>";
-						insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img width='837' height='600' src='https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-1024x734.jpg'";
+						insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img width='837' height='600' src='"+imgSrc+"'"; 
 						insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
-						insertTr += "             	srcset='https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710.jpg 2856w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-300x215.jpg 300w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-768x551.jpg 768w, https://static.life.com/wp-content/uploads/2019/10/14151555/00839492-e1571066154710-1024x734.jpg 1024w'";
 						insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-						insertTr += "       <span><a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>animals</a></span>";
 						insertTr += "       <h3><a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
 						insertTr += "     </div>"; 
 						insertTr += "  </td>";
@@ -107,7 +114,7 @@ $(document).ready(function() {
 </script>
 </head>
 <th:block layout:fragment="content">
-	<div id="page" class="page">
+	<div id="page" class="page" >
 		<div id="content" class="site-content">
 			<div id="primary"
 				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
@@ -115,15 +122,11 @@ $(document).ready(function() {
 					<div id="category-container">
 						<div class="category-header">
 							<img class="featured-image lazyloaded"
-								src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
-								data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+								src="/img/picture/animals/animals-header.jpg"
+								data-lazy-src="/img/picture/animals/animals-header.jpg"
 								data-was-processed="true">
-							<noscript>
-								<img class="featured-image"
-									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
-							</noscript>
 							<div class="category-info">
-								<h1 class="entry-title" onclick="pageBtnToogle();">ANIMALS</h1>
+								<h1 class="entry-title">ANIMALS</h1>
 							</div>
 						</div>
 						<div class="category-card-container">

@@ -24,7 +24,6 @@ function reset(){
 }
 
 function register(){
-	debugger;
 	if($("#TITLE").val()==""){
 		alert("제목을 입력해주세요.");
 		return;
@@ -35,15 +34,29 @@ function register(){
 	if(!confirm("게시물을 등록하시겠습니까?")){
 		return;
 	}
+	debugger;
 	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
 	$("#fileInsert").val("Y");
 	
+	var form = new FormData(document.getElementById('animalsForm'));
+	var form_data = new FormData();
+	var temp = $("#input_file")[0].files[0];
+ 	form_data.append('file', temp);
+	
+	for(var pair of form.entries()) {
+		 form_data.append(pair[0], pair[1]);
+		 console.log(pair[0]+ ', '+ pair[1]);
+	}
+	  
 	$.ajax({
-		url : "/api/register/save",
-		type : "POST",
-		async : true,
-		data : $("#animalsForm").serialize(),
+	 	data: form_data,
+	   	type: "POST",
+	   	url: '/api/register/save',
+	   	cache: false,
+	   	contentType: false,
+	   	enctype: 'multipart/form-data',
+	   	processData: false,
 		success : function(result) {
 			debugger;
 			if (result.status != true) {
@@ -82,51 +95,83 @@ function register(){
 	});
 }
 
-$(document).ready(function() {
-	  $('#summernote').summernote({
-		  	 width:1200,
-             height: 500,                 // set editor height
-             minHeight: null,             // set minimum height of editor
-             maxHeight: null,             // set maximum height of editor
-             fontNames : [ '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', ],
- 			 fontNamesIgnoreCheck : [ '맑은고딕' ],
- 			 focus: true,
- 			
- 			 callbacks: {
- 				onImageUpload: function(files, editor, welEditable) {
- 		            for (var i = files.length - 1; i >= 0; i--) {
- 		            	sendFile(files[i], this);
- 		            }
- 		        }
- 			}
-     });
-});
+function setFile(){
+	 var fileTarget = $('.filebox .upload-hidden');
 
+	    fileTarget.on('change', function(){
+	        if(window.FileReader){
+	            // 파일명 추출
+	            var filename = $(this)[0].files[0].name;
+	        } 
 
+	        else {
+	            // Old IE 파일명 추출
+	            var filename = $(this).val().split('/').pop().split('\\').pop();
+	        };
+	        
+	        if (!$(this)[0].files[0].type.match(/image\//)){
+	        	alert("이미지 파일만 첨부 가능합니다.");
+	        	$(this).siblings('.upload-name').val('');
+				return;
+            } 
+
+	        $(this).siblings('.upload-name').val(filename);
+	    });
+
+	    //preview image 
+	    var imgTarget = $('.preview-image .upload-hidden');
+
+	    imgTarget.on('change', function(){
+	        var parent = $(this).parent();
+	        parent.children('.upload-display').remove();
+			 debugger;
+	        if(window.FileReader){
+	            //image 파일만
+	            if (!$(this)[0].files[0].type.match(/image\//)) return;
+	            var reader = new FileReader();
+	            reader.onload = function(e){
+	                var src = e.target.result;
+	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
+
+	        else {
+	            $(this)[0].select();
+	            $(this)[0].blur();
+	            var imgSrc = document.selection.createRange().text;
+	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+	            var img = $(this).siblings('.upload-display').find('img');
+	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
+	        }
+	    });
+}
 function sendFile(file, el) {
 	var form_data = new FormData();
-  	form_data.append('file', file);
-  	$.ajax({
-    	data: form_data,
-    	type: "POST",
-    	url: '/api/register/uploadImageFile',
-    	cache: false,
-    	contentType: false,
-    	enctype: 'multipart/form-data',
-    	processData: false,
-    	success: function(response) {
-    		debugger;
-    		if(response.responseCode='success'){
-    			var fileIdArray;
-    			fileIdArray = $("#fileIdArray").val();
-    			fileIdArray+=","+response.attach_id;
-    			$("#fileIdArray").val(fileIdArray);
-    			$(el).summernote('editor.insertImage', response.url);
-    		 	
-    		}else{
-    			alert("파일전송에 실패했습니다.");
-    		}
-    	},error : function(jqXHR, textStatus, errorThrown) {
+ 	form_data.append('file', file);
+ 	form_data.append('loginUserId', $("#loginUserId").val());
+ 	$.ajax({
+   	data: form_data,
+   	type: "POST",
+   	url: '/api/register/uploadImageFile',
+   	cache: false,
+   	contentType: false,
+   	enctype: 'multipart/form-data',
+   	processData: false,
+   	success: function(response) {
+   		debugger;
+   		if(response.responseCode='success'){
+   			var fileIdArray;
+   			fileIdArray = $("#fileIdArray").val();
+   			fileIdArray+=","+response.attach_id;
+   			$("#fileIdArray").val(fileIdArray);
+   			$(el).summernote('editor.insertImage', response.url);
+   		 	
+   		}else{
+   			alert("파일전송에 실패했습니다.");
+   		}
+   	},error : function(jqXHR, textStatus, errorThrown) {
 			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
 			if (jqXHR.status == '401') {
 				location.href = "/common/sessionError.do";
@@ -138,9 +183,33 @@ function sendFile(file, el) {
 						+ errorThrown);
 			}
 		}
-  	});
+ 	});
 }
 
+function setSummernote(){
+	  $('#summernote').summernote({
+		  	 width:1200,
+          height: 500,                 // set editor height
+          minHeight: null,             // set minimum height of editor
+          maxHeight: null,             // set maximum height of editor
+          fontNames : [ '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', ],
+			 fontNamesIgnoreCheck : [ '맑은고딕' ],
+			 focus: true,
+			
+			 callbacks: {
+				onImageUpload: function(files, editor, welEditable) {
+		            for (var i = files.length - 1; i >= 0; i--) {
+		            	sendFile(files[i], this);
+		            }
+		        }
+			}
+  });
+}
+
+$(document).ready(function() {
+	setSummernote();
+	setFile();
+});
 
 </script>
 </head>
@@ -178,6 +247,16 @@ function sendFile(file, el) {
 											<tr>
 												<th style="width: 120px;">제목</th>
 												<td><input type="text" class="form-control" style="margin-bottom: 25px;" id="TITLE" name="TITLE"/></td>
+											</tr>
+											<tr>
+												<th style="width: 120px;">대표사진</th>
+												<td>
+													 <div class="filebox bs3-primary preview-image">
+											              <input class="upload-name" value="대표 이미지 선택" disabled="disabled" style="width: 200px;">
+											              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
+											              <input type="file" id="input_file" class="upload-hidden"> 
+											         </div>
+												</td>
 											</tr>
 											<tr>
 												<th style="width: 120px;">내용</th>

@@ -57,8 +57,13 @@
          SELECT      /* post.PostMapper.selectPostAttachList */
           	ATTACH_ID,
 			POST_ID,
+			TITLE_YN,
 	        ATTACH_TYPE,
 	        ATTACH_DIR,
+	        URL_PATH,
+	        FILE_STORE_NM,
+	        TITLE_YN,
+	        DEL_YN,
 	        REG_USER_ID,
 	        REG_DT,
 	        MOD_USER_ID,

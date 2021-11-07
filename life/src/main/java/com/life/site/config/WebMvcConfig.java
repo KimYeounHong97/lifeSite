@@ -47,6 +47,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     
     @Value("${env.editorimg-path}")
     private String editorimgpath;
+    
+	@Value("${env.upload-path}")
+    private String uploadPath;
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
@@ -126,6 +129,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // TODO Auto-generated method stub
         WebMvcConfigurer.super.addResourceHandlers(registry);
         registry.addResourceHandler("/editorimg/**").addResourceLocations("file:///"+editorimgpath);
+        registry.addResourceHandler("/uploadTitleimg/**").addResourceLocations("file:///"+uploadPath);
     }
 
     @Override
