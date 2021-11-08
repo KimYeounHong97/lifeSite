@@ -81,7 +81,16 @@ public class RegisterController {
     
     @ResponseBody
     @PostMapping("/save")
-    public CommonResult insertrPost(HttpServletRequest request, HttpSession session,
+    public CommonResult insertPost(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, @RequestPart(value="file",required = false) @RequestParam("file") MultipartFile multipartFile) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(registerService.insertPost(param,multipartFile));
+        return result;
+    }
+    
+    @ResponseBody
+    @PostMapping("/update")
+    public CommonResult updatePost(HttpServletRequest request, HttpSession session,
             HttpServletResponse response, @RequestParam HashMap<String, Object> param, @RequestPart(value="file",required = false) @RequestParam("file") MultipartFile multipartFile) throws Exception {
         CommonResult result = new CommonResult();
         result.setData(registerService.insertPost(param,multipartFile));

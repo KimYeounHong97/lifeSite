@@ -68,6 +68,7 @@ public class PostVo implements Serializable {
 				.ATTACH_TYPE(attach.get("ATTACH_TYPE").toString())
 				.URL_PATH(attach.get("URL_PATH").toString())
 				.FILE_STORE_NM(attach.get("FILE_STORE_NM").toString())
+				.FILE_ORIGIN_NM(attach.get("FILE_ORIGIN_NM").toString())
 				.TITLE_FL(attach.get("TITLE_YN").toString())
 				.DEL_FL(attach.get("DEL_YN").toString())
 				.REG_USER_ID(attach.get("REG_USER_ID").toString())

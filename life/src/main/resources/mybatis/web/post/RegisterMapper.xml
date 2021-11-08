@@ -86,6 +86,9 @@
     
     <insert id="insertAnimals" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
        insert  into 		/* post.RegisterMapper.insertAnimals */
+       
+       MERGE INTO
+       ()A
     	lifesite.animals
     	(
     		TITLE,

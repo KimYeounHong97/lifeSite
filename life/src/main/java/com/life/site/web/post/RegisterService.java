@@ -126,6 +126,24 @@ public class RegisterService {
     }
     
     /**
+     * 포스트 수정
+     *  
+     * @param input
+     * @throws Exception
+     */
+    @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
+    public int  updatePost(HashMap<String, Object> param, MultipartFile multipartFile) throws Exception {
+    	String postType = param.get("postType").toString();
+    	int cnt = 0;
+    	switch (postType) {
+		case "animals":
+			cnt = animalsUpdate(param,multipartFile);
+			break;
+		}
+    	return cnt;
+    }
+    
+    /**
      * 동물 포스트
      *  
      * @param input
@@ -133,6 +151,38 @@ public class RegisterService {
      */
     
     private int animalsInsert(HashMap<String, Object> param , MultipartFile multipartFile) throws Exception {
+    	int cnt = 0;
+    	String fileInsert = param.get("fileInsert").toString();
+    	String[] fileIdArray; 
+    	
+    	//포스트 저장
+    	cnt = registerMapper.insertAnimals(param);
+    		if(cnt == 0) return cnt;
+    	//대표 이미지 저장
+    	cnt = uploadTitleImageFile(param, multipartFile);
+    		if(cnt == 0) return cnt;
+    		
+    	//editor 첨부파일 체크
+    	if(fileInsert.equals("Y")) {
+    		fileIdArray = param.get("fileIdArray").toString().split(",");
+    		Arrays.stream(fileIdArray).forEach(id->{
+    			param.put("attach_id", id);
+    			registerMapper.updateEditorAttach(param);
+    		});
+    	}
+    	
+    	return cnt;
+    }
+    
+    
+    /**
+     * 동물 포스트
+     *  
+     * @param input
+     * @throws Exception
+     */
+    
+    private int animalsUpdate(HashMap<String, Object> param , MultipartFile multipartFile) throws Exception {
     	int cnt = 0;
     	String fileInsert = param.get("fileInsert").toString();
     	String[] fileIdArray; 

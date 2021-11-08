@@ -112,7 +112,7 @@
 							
 							insertTr += " <td>";
 							insertTr += " 	 <div class='category-card'>";
-							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img width='837' height='600'  src='"+imgSrc+"'";
+							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;'  src='"+imgSrc+"'";
 							insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
 							insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
 							insertTr += "       <h3><a style='color:black;'  class='black' href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
@@ -138,6 +138,14 @@
 				}
 			}
 		});
+	}
+	
+	function updatePost(){
+		if(!confirm("게시물을 수정하시겠습니까?")){
+			return;
+		}
+		var postId = $("#postId").val();
+		window.location.href='/animals/update?postId='+postId;
 	}
 	
 	function deletePost(){
@@ -213,8 +221,9 @@
 								<input type="hidden" id="postId" name="postId"/>
 								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
 								<div class="entry-content">
-									<div style="float: right; margin-bottom: 20px; margin-left:950px;" >
-										<button class="checkRedButton"  onclick="deletePost();">삭제</button>
+									<div style="float: right; margin-bottom: 20px; margin-top:50px; margin-left:800px;" >
+										<button class="checkButton"  onclick="updatePost();" style="display: inline;">수정</button>
+										<button class="checkRedButton"  onclick="deletePost();" style="display: inline;">삭제</button>
 									</div>
 									<div id="postContent"></div>
 								</div>

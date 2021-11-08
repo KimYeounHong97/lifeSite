@@ -153,10 +153,9 @@ body, button, input, select, textarea {
 #main #home-container .home-header .entry-title a {
     color: white;
     font-size: 35px;
-    font-family: Folio", "Arial Narrow", sans-serif;
+    font-family: "Folio", "Arial Narrow", "sans-serif";
     font-weight: bold;
 }
-
 
 #main #container .header .featured-image {
     width: 100%;

@@ -61,6 +61,7 @@
 	        ATTACH_TYPE,
 	        ATTACH_DIR,
 	        URL_PATH,
+	        FILE_ORIGIN_NM,
 	        FILE_STORE_NM,
 	        TITLE_YN,
 	        DEL_YN,
