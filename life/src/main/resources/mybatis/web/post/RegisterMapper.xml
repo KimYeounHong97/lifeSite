@@ -3,8 +3,8 @@
 
 <mapper namespace="com.life.site.web.post.RegisterMapper">
     
-    <insert id="insertEidtSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
-    insert  into 		/* post.RegisterMapper.insertEidtSave */
+    <insert id="insertAttachSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
+    insert  into 		/* post.RegisterMapper.insertAttachSave */
     	lifesite.magagine_attach
     	(
     		ATTACH_TYPE,
@@ -76,6 +76,13 @@
 				)
     </insert>
     
+    <update id="changeTitleSave" parameterType="map">
+    UPDATE lifesite.magagine_attach
+    SET TITLE_YN = 'N'
+    WHERE POST_ID = #{postId}
+    AND TITLE_YN ='Y'
+    </update>
+    
     
     <select  id="loadById" parameterType="File" resultType="File">
     	SELECT *    /* post.RegisterMapper.loadById */
@@ -86,9 +93,6 @@
     
     <insert id="insertAnimals" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
        insert  into 		/* post.RegisterMapper.insertAnimals */
-       
-       MERGE INTO
-       ()A
     	lifesite.animals
     	(
     		TITLE,
@@ -107,8 +111,17 @@
 				SYSDATE(),
 				#{loginUserId},
 				SYSDATE()
-				)
+				) 
     </insert>
+    
+    <update id="updateAnimals" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateAnimals */
+    		lifesite.animals
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
     
     <update id="updateEditorAttach" parameterType="map">
     	UPDATE		/* post.RegisterMapper.updateEditorAttach */

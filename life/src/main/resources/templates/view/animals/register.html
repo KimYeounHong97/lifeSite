@@ -30,6 +30,9 @@ function register(){
 	}else if($("#summernote").summernote('code') == ""){
 		alert("내용을 입력해주세요.");
 		return;
+	}else if($("#input_file_nm").val()==""){
+		alert("대표이미지사진을 등록해주세요.");
+		return;
 	}
 	if(!confirm("게시물을 등록하시겠습니까?")){
 		return;
@@ -37,7 +40,6 @@ function register(){
 	debugger;
 	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
-	$("#fileInsert").val("Y");
 	
 	var form = new FormData(document.getElementById('animalsForm'));
 	var form_data = new FormData();
@@ -116,6 +118,7 @@ function setFile(){
             } 
 
 	        $(this).siblings('.upload-name').val(filename);
+	        $("#titleInsert").val('Y');
 	    });
 
 	    //preview image 
@@ -162,6 +165,7 @@ function sendFile(file, el) {
    	success: function(response) {
    		debugger;
    		if(response.responseCode='success'){
+   			$("#fileInsert").val("Y");
    			var fileIdArray;
    			fileIdArray = $("#fileIdArray").val();
    			fileIdArray+=","+response.attach_id;
@@ -233,6 +237,8 @@ $(document).ready(function() {
 						<article>
 							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
 								<input type="hidden" id="postType" name="postType" value="animals" />
+								<input type="hidden" id ="titleInsert" name ="titleInsert" value="N">
+								<input type="hidden" id ="titleChange" name ="titleChange" value="N">
 								<input type="hidden" id="fileInsert" name="fileInsert" value="N" />
 								<input type="hidden" id="fileIdArray" name="fileIdArray" value="" />
 								<input type="hidden" id="loginUserId" name="loginUserId" th:if="${session.life == null}"  th:value="noUser">
@@ -248,7 +254,7 @@ $(document).ready(function() {
 												<th style="width: 120px;">대표사진</th>
 												<td>
 													 <div class="filebox bs3-primary preview-image">
-											              <input class="upload-name" value="대표 이미지 선택" disabled="disabled" style="width: 200px;">
+											              <input id="input_file_nm" class="upload-name" value="대표 이미지 선택" disabled="disabled" style="width: 200px;">
 											              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
 											              <input type="file" id="input_file" class="upload-hidden"> 
 											         </div>

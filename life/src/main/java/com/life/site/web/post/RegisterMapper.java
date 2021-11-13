@@ -13,9 +13,11 @@ import com.life.site.model.FileVo;
 @Repository
 @Mapper
 public interface RegisterMapper {
-	public int insertEidtSave(FileVo file);
+	public int insertAttachSave(FileVo file);
 	public int insertTitleSave(FileVo file);
+	public int changeTitleSave (Map<String, Object> param);
 	public FileVo loadById(Long attach_id);
 	public int insertAnimals (Map<String, Object> param);
+	public int updateAnimals (Map<String, Object> param);
 	public int updateEditorAttach (Map<String, Object> param);
 }

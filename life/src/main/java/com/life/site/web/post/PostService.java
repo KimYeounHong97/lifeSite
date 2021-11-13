@@ -156,6 +156,11 @@ public class PostService {
 			cnt = postMapper.deleteAnimals(param);
 			break;
 		}
+    	
+    	if(cnt == 0)
+    		return cnt;
+    	//첨부파일 삭제
+    	cnt = postMapper.deletePostAttachList(param);
     	return cnt;
     }
 

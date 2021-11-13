@@ -75,6 +75,13 @@
 	ORDER BY ATTACH_ID
     </select>
     
+    <update  id="deletePostAttachList" parameterType="map"  >
+    UPDATE	/* post.PostMapper.deletePostAttachList */
+    		lifesite.magagine_attach
+    SET  REFFER_FLG = 'N'
+    WHERE POST_ID IN (SELECT POST_ID FROM  lifesite.animals WHERE  DEL_FLG='Y' AND POST_ID = #{postId})
+    </update>
+    
     <update  id="deleteAnimals" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteAnimals */
     			lifesite.animals
