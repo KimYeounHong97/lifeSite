@@ -4,14 +4,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.life.site.config.param.CommonConstants;
+import com.life.site.model.FileVo;
 import com.life.site.model.LoginInfo;
 import com.life.site.model.UserVo;
 import com.life.site.web.log.LoggerService;
+import com.life.site.web.post.RegisterService;
 import com.life.site.web.user.UserService;
 import com.life.site.web.util.session.SessionManager;
 
@@ -24,7 +28,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.io.IOUtils;
 
 @Controller
 @RequestMapping("/")
@@ -39,6 +42,13 @@ public class ViewController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    ResourceLoader resourceLoader;
+    
+    @Autowired
+    RegisterService registerService;
+    
     
     @Value("${env.editorimg-path}")
     private String editorimgPath;
@@ -128,30 +138,16 @@ public class ViewController {
         return "view/nsess/" + module + "/" + html;
     }
     
+    @GetMapping("{postType}/detail/{title}")
+    public String getPostDetailView(HttpServletRequest request, @PathVariable String postType, @PathVariable String title,
+                            @ModelAttribute HashMap<String, Object> param) throws Exception {
+        return "view/" + postType+ "/detail" ;
+    }
+    
     @GetMapping("{module}/{html}")
     public String getView(HttpServletRequest request, @PathVariable String module, @PathVariable String html,
                             @ModelAttribute HashMap<String, Object> param) throws Exception {
         return "view/" + module+ "/" + html ;
-    }
-
-    
-    /**
-     * @Date   : 2020. 8. 20.
-     * @method : getImageView
-     * @desc   : CKEditor에 의해 본문 첨부된 이미지 전송을 위한 뷰
-     *
-     * @param html
-     * @param param
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("editorimg/{board_cd}/{dir}/{file_nm}")
-    @ResponseBody
-    public byte[] getImageView(HttpServletRequest request, @PathVariable String board_cd, @PathVariable String dir, @PathVariable String file_nm) throws Exception {
-        
-        FileInputStream in = new FileInputStream(new File(editorimgPath) + "/" + board_cd + "/" + dir + "/" + file_nm);
-        
-        return IOUtils.toByteArray(in);
     }
 
     @GetMapping("view/{a}/{b}/{c}")
@@ -159,4 +155,11 @@ public class ViewController {
                             @ModelAttribute HashMap<String, Object> param) throws Exception {
         return "view/" + a + "/" + b + "/" + c;
     }
+    
+    @GetMapping("image/{fileId}")                                                         
+	public ResponseEntity<?> serveFile(@PathVariable Long fileId){
+		FileVo uploadFile = registerService.loadById(fileId);
+		Resource resource = resourceLoader.getResource("file:" + uploadFile.getATTACH_DIR());
+		return ResponseEntity.ok().body(resource);
+	}
 }

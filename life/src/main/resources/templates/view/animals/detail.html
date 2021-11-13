@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
+</th:block>
+<!-- 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+	function setData() {
+		var title = window.location.href.split('detail/')[1];
+		title = decodeURI(title);
+		title = title.split("?")[0];
+		$("#titleTxt").text(title);
+		var postId = window.location.href.split('postid=')[1];
+		$("#postId").val(postId);
+	}
+	
+	function moveMore(){
+		window.location.href='/animals/info';
+	}
+	
+	function postData() {
+		var postId = window.location.href.split("?postId=")[1];
+		$("#postId").val(postId);
+
+		$.ajax({
+			url : "/api/post/info",
+			type : "POST",
+			async : true,
+			data : $("#animalsForm").serialize(),
+			success : function(result) {
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("정보 조회 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					var data = result.data;
+					var attach = data.postAttaches;
+					$.each(attach, function(index, item){
+						if(item.TITLE_FL == 'Y'){
+							// 이미지 변경
+							$("#title").attr('src','/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM);
+						}
+					});
+					  $('#postContent').append(data.CONTENT);
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus + '\n'
+							+ 'errorThrown: ' + errorThrown);
+					console.log('HTTP message body (jqXHR.responseText): '
+							+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+	}
+	
+	function morePostData() {
+		$("#morePostYn").val('Y');
+		$.ajax({
+			url : "/api/post/list",
+			type : "POST",
+			async : true,
+			data : $("#animalsForm").serialize(),
+			success : function(result) {
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("정보 조회 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					var data = result.data;
+					var Count = data.posts.length;
+					var trCount = 2;
+					var tdCount;
+					var insertTr ="";
+					
+					//테이블 생성
+					for(var i=0; i< trCount; i++){
+						if(i==trCount-1){
+							tdCount = Count%3==0?3:Count%3;
+						}else{
+							tdCount = Count<3?Count:3;
+						}
+						insertTr = "<tr>";
+						for(var j=0; j<tdCount; j++){
+							debugger;
+							var attach = data.posts[j+(i*3)].postAttaches;
+							var imgSrc;
+							$.each(attach, function(index, item){
+								if(item.TITLE_FL == 'Y'){
+									imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+								}
+							});
+							
+							insertTr += " <td>";
+							insertTr += " 	 <div class='category-card'>";
+							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;'  src='"+imgSrc+"'";
+							insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
+							insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
+							insertTr += "       <h3><a style='color:black;text-align:center;'  class='black' href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "     </div>"; 
+							insertTr += "  </td>";
+						}
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
+					}
+					
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus + '\n'
+							+ 'errorThrown: ' + errorThrown);
+					console.log('HTTP message body (jqXHR.responseText): '
+							+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+	}
+	
+	function updatePost(){
+		if(!confirm("게시물을 수정하시겠습니까?")){
+			return;
+		}
+		var postId = $("#postId").val();
+		window.location.href='/animals/update?postId='+postId;
+	}
+	
+	function deletePost(){
+		if(!confirm("게시물을 삭제하시겠습니까?")){
+			return;
+		}
+		$.ajax({
+			url : "/api/post/delete",
+			type : "POST",
+			async : true,
+			data : $("#animalsForm").serialize(),
+			success : function(result) {
+				debugger;
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("삭제시도 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					if(result == 0){
+						alert("삭제 된 건이 없습니다.");
+						return;
+					}
+					alert("삭제되었습니다.");
+					window.location.href='/animals/info';
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus + '\n'
+							+ 'errorThrown: ' + errorThrown);
+					console.log('HTTP message body (jqXHR.responseText): '
+							+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+	}
+
+	$(document).ready(function() {
+		setData();
+		postData();
+		morePostData();
+	});
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="hfeed site grid-container container grid-parent" style="margin: 0;padding: 0;">
+		<div id="content" class="site-content" style="width: 100vw;">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="category-container">
+						<div class="category-header">
+							<img id="title" class="featured-image-large lazyloaded"
+								src=""
+								data-lazy-src=""
+								data-was-processed="true">
+							<div class="category-info">
+								<h1 class="entry-title" id="titleTxt"
+									style="padding-top: 350px;"></h1>
+							</div>
+						</div>
+						<article>
+							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="postType" name="postType" value="animals" /> 
+								<input type="hidden" id="postId" name="postId"/>
+								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
+								<div class="entry-content">
+									<div style="float: right; margin-bottom: 20px; margin-top:50px; margin-left:800px;" >
+										<button class="checkButton"  onclick="updatePost();" style="display: inline;">수정</button>
+										<button class="checkRedButton"  onclick="deletePost();" style="display: inline;">삭제</button>
+									</div>
+									<div id="postContent"></div>
+								</div>
+							</form>
+						</article>
+						<div class="article-card-container">
+							<hr>
+							<h4 style="display: inline; width: 90%;">More Like This</h4><button class="checkButton"  onclick="moveMore();">더보기</button>
+							<table style="margin-top: 25px;">
+								<tbody id="postTbody">
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<div th:if="${session.life == null}"
+						data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"
+						class="newsletter-container rocket-lazyload"
+						style="background-image: url(&quot;/wp-content/themes/generatepress-child/static/newsletter.jpg&quot;);"
+						data-was-processed="true">
+						<span th:text="${session.userId}"></span>
+						<h2>Let's make a magazine together</h2>
+						<p>서로의 이야기를 공유하여 새로운 잡지를 만들어가봐요</p>
+						<section>
+							<button>
+								<a href="/user/login" style="color: white; font-weight: bold;">Join
+									With Us</a>
+							</button>
+						</section>
+					</div>
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

@@ -80,7 +80,7 @@
 </script>
 </head>
 	<th:block layout:fragment="content">
-		<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="page" class="page">
 			<div id="content" class="site-content">
 				<div id="primary"
 					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
@@ -88,13 +88,9 @@
 						<div id="container">
 							<div class="header">
 								<img class="featured-image lazyloaded"
-									src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
-									data-lazy-src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png"
+									src="/img/picture/common/login-header.jpg"
+									data-lazy-src="/img/picture/common/login-header.jpg"
 									data-was-processed="true">
-								<noscript>
-									<img class="featured-image"
-										src="https://static.life.com/wp-content/uploads/2020/07/22202946/sitemapbg.png">
-								</noscript>
 							</div>
 						</div>
 						<div>
@@ -114,12 +110,12 @@
 									style="background-color: #f1f1f1; display: inline-block; width: 100%;">
 									<div style="float: left; margin-left: 20px;">
 										<button type="button" style="float: left; margin-right: 10px;"
-											class="forgotbtn" onclick="fnForegot('id');">아이디 찾기</button>
-										<button type="button" style="float: left;" class="forgotbtn"
+											class="checkRedButton" onclick="fnForegot('id');">아이디 찾기</button>
+										<button type="button" style="float: left;" class="checkRedButton"
 											onclick="fnForegot('pwd');">비밀번호 찾기</button>
 									</div>
 									<div style="float: right; margin-right: 20px;">
-										<button type="button" class="joinbtn" onclick="moveJoin();">회원가입</button>
+										<button type="button" class="checkButton" onclick="moveJoin();">회원가입</button>
 									</div>
 								</div>
 							</form>

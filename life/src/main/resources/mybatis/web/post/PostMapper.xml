@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.post.PostMapper">
+    <!-- 기본 사용자 검색 (아이디/이름 키워드 검색) -->
+    <select id="selectPostAnimalList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostAnimalList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.animals) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.animals a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+    <select id="selectPostAnimalInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostAnimalInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.animals
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+   
+    <select id="selectPostAttachList"  parameterType="map" resultType="map">
+         SELECT      /* post.PostMapper.selectPostAttachList */
+          	ATTACH_ID,
+			POST_ID,
+			TITLE_YN,
+	        ATTACH_TYPE,
+	        ATTACH_DIR,
+	        URL_PATH,
+	        FILE_ORIGIN_NM,
+	        FILE_STORE_NM,
+	        TITLE_YN,
+	        DEL_YN,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+	FROM lifesite.magagine_attach
+	WHERE POST_ID = #{postId}
+	AND DEL_YN ='N'
+	ORDER BY ATTACH_ID
+    </select>
+    
+    <update  id="deletePostAttachList" parameterType="map"  >
+    UPDATE	/* post.PostMapper.deletePostAttachList */
+    		lifesite.magagine_attach
+    SET  REFFER_FLG = 'N'
+    WHERE POST_ID IN (SELECT POST_ID FROM  lifesite.animals WHERE  DEL_FLG='Y' AND POST_ID = #{postId})
+    </update>
+    
+    <update  id="deleteAnimals" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteAnimals */
+    			lifesite.animals
+    	SET DEL_FLG = 'Y'
+    	WHERE POST_ID = #{postId}
+    </update>
+</mapper>
