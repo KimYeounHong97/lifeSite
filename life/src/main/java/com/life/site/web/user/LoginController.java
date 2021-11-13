@@ -256,12 +256,38 @@ public class LoginController {
             HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
         CommonResult result = new CommonResult();
         String returnUrl = "/user/login";
+        String type="USER";
         String passwd ="";
         try {
         	passwd = param.get("passwd").toString();
         	passwd = Base64.getEncoder().encodeToString(passwd.getBytes());
         	param.put("encodePswd", passwd);
-        	loginService.insertUser(param);
+        	loginService.insertUser(param,type);
+        	result.setData(returnUrl);
+        	result.setStatus(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage(e.getMessage());
+            result.setStatus(false);
+            return result;
+        }
+        return result;
+    }
+    
+    
+    @ResponseBody
+    @PostMapping("/join/admin-member")
+    public CommonResult insertAdminUser(HttpServletRequest request, HttpSession session,
+            HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        String returnUrl = "/user/login";
+        String passwd ="";
+        String type="ADMIN";
+        try {
+        	passwd = param.get("passwd").toString();
+        	passwd = Base64.getEncoder().encodeToString(passwd.getBytes());
+        	param.put("encodePswd", passwd);
+        	loginService.insertUser(param,type);
         	result.setData(returnUrl);
         	result.setStatus(true);
         } catch (Exception e) {
