@@ -167,6 +167,7 @@
           	A.USER_ID,
 	   		A.PASSWD,
 	        A.USER_GRADE,
+	         A.USER_GRADE_NM,
 	        A.USER_GENDER,
 	        A.FAVORITE_CD,
 	        A.FAVORITE_NM,

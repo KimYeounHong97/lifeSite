@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.user.AdminMapper">
+    <!-- 기본 사용자 검색 (아이디 키워드 검색) -->
+    <select id="selectUserList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectUserList */
+         				USER_ID ,
+         				USER_GENDER,
+         				USER_GRADE,
+         				USER_GRADE_NM, 
+         				PHONE,
+         				EMAIL, 
+         				ADDRESS, 
+         				INPUT_DT, 
+         				MOD_DT
+			FROM lifesite.member
+			WHERE USE_FLG ='Y'
+			AND DEL_FLG ='N' 
+            <if test='KEYWORD != null and KEYWORD != ""'>
+            AND (LOWER(USER_ID) LIKE '%' || LOWER(#{KEYWORD}) || '%'
+            </if>
+        ORDER BY USER_ID, INPUT_DT
+    </select>
+</mapper>
