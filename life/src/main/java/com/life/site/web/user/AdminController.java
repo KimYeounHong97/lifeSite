@@ -58,5 +58,36 @@ public class AdminController {
         return result;
     }
     
+    @PostMapping(value = "/codeList")
+    @ResponseBody
+    public CommonResult getCodeList(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(adminService.getCodeList(param));
+        return result;
+    }
     
+    
+    @PostMapping(value = "/addComCode")
+    @ResponseBody
+    public CommonResult addComCode(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(adminService.addComCode(param));
+        return result;
+    }
+    
+    @PostMapping(value = "/updateComCode")
+    @ResponseBody
+    public CommonResult updateComCode(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(adminService.updateComCode(param));
+        return result;
+    }
+    
+    @PostMapping(value = "/deleteComCode")
+    @ResponseBody
+    public CommonResult deleteComCode(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(adminService.deleteComCode(param));
+        return result;
+    }
 }

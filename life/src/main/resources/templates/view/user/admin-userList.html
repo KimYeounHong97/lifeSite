@@ -43,6 +43,7 @@ function makeTable(){
 	        viewrecords:true,
 	        sortorder:'asc',
 	        height: 250,
+	        rowNum :1000,
 	        search:true,
 	        refresh:true,
 	        colNames:['아이디','성별', '권한등급', '권한등급명','휴대폰','이메일','주소','등록시간','수정시간'],
@@ -64,6 +65,12 @@ function makeTable(){
 
 $(document).ready(function() {
 	makeTable();
+	document.addEventListener('keydown', function(event) {
+		  if (event.keyCode === 13) {
+			  search();
+		    event.preventDefault();
+		  };
+		}, true);
 });
 </script>
 </head>

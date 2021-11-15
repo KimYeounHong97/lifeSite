@@ -48,4 +48,99 @@
             	)
         ORDER BY INPUT_DT DESC, USER_ID
     </select>
+    
+     <!-- 공통 코드 검색  -->
+    <select id="selectCommCodeList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectCommCodeList */
+				GRP_ID,
+				CODE_CD,
+				CODE_NM,
+				CODE_SEQ,
+				REF01,
+				USE_YN,
+				INPUT_DT,
+				MOD_DT
+		FROM lifesite.tb_code
+		WHERE DEL_YN = 'N'
+		AND (
+            		GRP_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		CODE_CD LIKE CONCAT('%',#{keyword},'%')  OR
+            		CODE_NM LIKE CONCAT('%',#{keyword},'%')
+            	)
+        ORDER BY GRP_ID , CODE_SEQ, INPUT_DT DESC , MOD_DT DESC
+    </select>
+    
+     <!-- 코드 중복 체크  -->
+    <select id="selectCodeDuplicateChk" parameterType="hashMap" resultType="hashMap">
+         SELECT      /* user.AdminMapper.selectCodeDuplicateChk */
+			IF(COUNT(*)=0,'Y','N') AS CHK
+		FROM lifesite.tb_code
+		WHERE USE_YN='Y'
+		AND GRP_ID = #{grpId}
+		AND CODE_CD = #{codeCd}
+    </select>
+    
+     <!-- 코드 순서 중복 체크  -->
+    <select id="selectCodeSeqDuplicateChk" parameterType="hashMap" resultType="hashMap">
+         SELECT      /* user.AdminMapper.selectCodeSeqDuplicateChk */
+			group_concat(CODE_SEQ) AS CHK
+		FROM lifesite.tb_code
+		WHERE USE_YN='Y'
+		GROUP BY GRP_ID
+		HAVING GRP_ID = #{grpId}
+    </select>
+    
+    <insert  id="insertCommCodeList" parameterType="map">
+     insert  into 		/* user.AdminMapper.insertCommCodeList */
+    	lifesite.tb_code
+    	(
+    		GRP_ID,
+    		CODE_CD,
+    		CODE_NM,
+    		CODE_SEQ,
+    		USE_YN,
+    		DEL_YN,
+    		REF01,
+    		INPUT_DT,
+    		MOD_DT
+    	) 
+		values(
+				#{grpId},
+				#{codeCd},
+				#{codeNm},
+				cast(#{codeSeq} as unsigned),
+				'Y',
+				'N',
+				#{ref01},
+				SYSDATE(),
+				SYSDATE()
+				) 
+    
+    </insert>
+    
+    <update  id="updateCommCodeList" parameterType="map">
+     UPDATE 		/* user.AdminMapper.updateCommCodeList */
+    	lifesite.tb_code
+      SET	
+    		CODE_CD = #{codeCd} ,
+    		CODE_NM = #{codeNm},
+    		CODE_SEQ = cast(#{codeSeq} as unsigned),
+    		REF01 = #{ref01},
+    		USE_YN = #{useYn},
+    		MOD_DT = SYSDATE()
+	   WHERE GRP_ID = #{grpId}
+	   AND CODE_CD = #{originalCodeCd}
+    
+    </update>
+    
+     <update  id="deleteCommCodeList" parameterType="map">
+     UPDATE 		/* user.AdminMapper.deleteCommCodeList */
+    	lifesite.tb_code
+      SET	
+    		DEL_YN = 'Y',
+    		MOD_DT = SYSDATE()
+	   WHERE GRP_ID = #{grpId}
+	   AND CODE_CD = #{originalCodeCd}
+    
+    </update>
 </mapper>

@@ -26,4 +26,10 @@ import org.springframework.stereotype.Repository;
 public interface AdminMapper {
     public List<HashMap<String, Object>> selectUserList(Map<String, Object> param);
     public List<HashMap<String, Object>> selectUserAccessList(Map<String, Object> param);
+    public List<HashMap<String, Object>> selectCommCodeList(Map<String, Object> param);
+    public HashMap<String, Object> selectCodeDuplicateChk(Map<String, Object> param);
+    public HashMap<String, Object> selectCodeSeqDuplicateChk(Map<String, Object> param);
+    public int  insertCommCodeList(Map<String, Object> param);
+    public int  updateCommCodeList(Map<String, Object> param);
+    public int  deleteCommCodeList(Map<String, Object> param);
 }
