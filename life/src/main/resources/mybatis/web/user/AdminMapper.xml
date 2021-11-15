@@ -17,9 +17,35 @@
 			FROM lifesite.member
 			WHERE USE_FLG ='Y'
 			AND DEL_FLG ='N' 
-            <if test='KEYWORD != null and KEYWORD != ""'>
-            AND (LOWER(USER_ID) LIKE '%' || LOWER(#{KEYWORD}) || '%'
-            </if>
+			AND (
+            		USER_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		PHONE LIKE CONCAT('%',#{keyword},'%')  OR
+            		EMAIL LIKE CONCAT('%',#{keyword},'%') OR
+            		ADDRESS LIKE CONCAT('%',#{keyword},'%') 
+            	)
         ORDER BY USER_ID, INPUT_DT
+    </select>
+    
+    
+     <!-- 기본 사용자 접속 로그 검색 (아이디 키워드 검색) -->
+    <select id="selectUserAccessList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectUserAccessList */
+				USER_ID,
+				USER_GRADE_CD,
+				USER_GRADE_NM,
+				ACC_URL,
+				ACC_TYPE,
+				AGENT,
+				SUCCESS_FL,
+				INPUT_DT
+		FROM lifesite.sys_log_access_tb
+		WHERE 1=1
+		AND (
+            		USER_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		USER_GRADE_CD LIKE CONCAT('%',#{keyword},'%')  OR
+            		USER_GRADE_NM LIKE CONCAT('%',#{keyword},'%') OR
+            		ACC_URL LIKE CONCAT('%',#{keyword},'%') 
+            	)
+        ORDER BY INPUT_DT DESC, USER_ID
     </select>
 </mapper>

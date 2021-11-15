@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<title>관리자</title>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+<!-- 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+//유저정보 조회
+function infoGet(){
+	//session 및 로그인 여부 체크
+	debugger;
+	if($("#loginUserId").val()=="noUser" || $("#loginUserId").val() == undefined){
+		alert("로그인 및 세션 상태를 확인해주세요.");
+		location.href='/';
+		return;
+	}
+	
+	$.ajax({
+		url : "/api/user/info",
+		type : "POST",
+		async : false,
+		data : $("#infoForm").serialize(),
+		success : function(result) {
+			debugger;
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("정보 조회 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				var data = result.data;
+				if(data==null){
+					alert("회원정보가 존재하지 않습니다.");
+				}else{
+					//정보 세팅
+					var mobileTxt = data.PHONE;
+					var addresTxt = data.ADDRESS;
+					
+					$("#userId").val(data.USER_ID); //아이디
+					$("#gender").val(data.USER_GENDER).prop("selected", true); //성별
+					$("#inputDt").val(data.INPUT_DT); //가입일자
+					$("#modDt").val(data.MOD_DT); //수정일자
+					$("#email").val(data.EMAIL); //이메일
+					if(mobileTxt != null){//휴대전화
+						mobileSplit = mobileTxt.split('-');
+						$("#mobile1").val(mobileSplit[0]);
+						$("#mobile2").val(mobileSplit[1]);
+						$("#mobile3").val(mobileSplit[2]);
+					}
+					if(addresTxt != null){//주소
+						addresSplit = addresTxt.split('_');
+						$("#postcode1").val(addresSplit[0]);
+						$("#addr1").val(addresSplit[1]);
+						$("#addr2").val(addresSplit[2]);
+					}
+					if(data.FAVORITE_CD!=null){
+						$("#favoriteCat").val(data.FAVORITE_CD).prop("selected", true); //관심분야
+					}
+				}
+				
+				
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: '
+						+ jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus
+						+ '\n' + 'errorThrown: '
+						+ errorThrown);
+				console
+						.log('HTTP message body (jqXHR.responseText): '
+								+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+}
+
+//정보 가공
+function infoSplit(type){
+	if(type =='mobile'){
+		
+	}else if(type == 'addr'){
+		
+	}
+}
+
+//관리자 리스트 이동
+function movList(){
+	location.href='/user/admin-list';
+}
+
+//정보 수정
+function editMyInfo(type){
+	if(type == 'profile'){
+		if(confirm("프로필 정보를 수정하시겠습니까?")){
+			//입력창 edit
+			$("#gender").prop('disabled',false);
+			$("#profileEdit").hide();
+			$("#profileSave").show();
+		}
+	}else if(type == 'info'){
+		if(confirm("연락처 및 정보를 수정하시겠습니까?")){
+			//입력창 edit
+			$("input[type=text]").each(function(index, item){
+				if(item.id!='userId' && item.id!='inputDt' && item.id!='modDt'){
+					$("#"+item.id).attr('readonly',false);
+				}
+			});
+			$("#infoEdit").hide();
+			$("#infoSave").show();
+			$("#callAddress").show();
+			$("#email").focus();
+		}
+	}else if(type =='cat'){
+		if(confirm("관심분야를 수정하시겠습니까?")){
+			$("#favoriteCat").prop('disabled',false); 
+			$("#catEdit").hide();
+			$("#catSave").show();
+		}
+	}
+}
+
+//정보 저장
+function saveMyInfo(type){
+	var msg;
+	msg = "수정 정보를 저장하시겠습니까?";
+	if(type == 'profile'){
+		$("#editType").val('profile');
+	}else if(type == 'info'){
+		$("#editType").val('info');
+	}else if(type =='cat'){
+		$("#editType").val('cat');
+	}
+	//select disable 취소
+	$("#gender").prop('disabled',false);
+	$("#favoriteCat").prop('disabled',false);
+	
+	if(confirm(msg)){
+		//저장
+		$.ajax({
+			url : "/api/user/edit/info",
+			type : "POST",
+			async : false,
+			data : $("#infoForm").serialize(),
+			success : function(result) {
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("저장된건이 없습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+
+				} else {
+					alert("수정되었습니다.");
+					//새로고침
+					location.reload(true);
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: '
+							+ jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus
+							+ '\n' + 'errorThrown: '
+							+ errorThrown);
+					console
+							.log('HTTP message body (jqXHR.responseText): '
+									+ '\n' + jqXHR.responseText);
+				}
+			}
+		});
+	}
+}
+
+
+$(document).ready(function() {
+	//유저 정보 조회
+	infoGet();
+});
+
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="page">
+		<div id="content" class="site-content">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="container">
+						<div class="header">
+							<img class="featured-image lazyloaded"
+								src="/img/picture/common/mypage-header.jpg"
+								data-lazy-src="/img/picture/common/mypage-header.jpg"
+								data-was-processed="true">
+							<div class="article-info">
+								<h1 class="entry-title">MYPAGE</h1>
+							</div>
+						</div>
+						<div style="height: 1147px; background-color: #E7E7E7;">
+							<!-- CONTENTS -->
+							<form id="infoForm" name="infoForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="editType" name="editType" value=""/>
+								<input type="hidden" id="loginUserId" name="loginUserId" th:if="${session.life == null}"  th:value="noUser">
+								<input type="hidden" id="loginUserId" name="loginUserId" th:unless="${session.life == null}"  th:value="${session.life.user.USER_ID}">
+								<div id="content" class="section_home">
+									<button onclick="movList();">목록</button>
+									<div class="column">
+										<!-- 프로필 설정 -->
+										<div class="sh_group">
+											<div class="sh_header">
+												<h2>프로필</h2>
+											</div>
+											<table>
+												<tr>
+													<th>아이디</th>
+													<td>
+														<input id="userId" name="userId" 
+															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
+															fw-label="아이디" fw-msg="" class="inputTypeText" 
+															placeholder="" readonly="readonly" type="text"> 
+													</td>
+												</tr>
+												<tr>
+													<th>성별</th>
+													<td>
+														<select id="gender" name="gender" fw-filter="" fw-label="성별" fw-msg="" disabled="disabled">
+																<option value="" selected="selected">성별을 선택해주세요.</option>
+																<option value="M">남자</option>
+																<option value="FM" >여자</option>
+															</select>
+													</td>
+												</tr>
+												<tr>
+													<th>가입날짜</th>
+													<td>
+														<input id="inputDt" name="inputDt" 
+															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
+															fw-label="가입날짜" fw-msg="" class="inputTypeText"
+															placeholder="" readonly="readonly" type="text">
+													</td>
+												</tr>
+												<tr>
+													<th>수정 날짜</th>
+													<td>
+														<input id="modDt" name="modDt" 
+															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
+															fw-label="가입날짜" fw-msg="" class="inputTypeText" 
+															placeholder="" readonly="readonly" type="text">
+													</td>
+												</tr>
+											</table>
+											<p class="btn_area_btm">
+												<button class="forgotbtn" id="profileEdit" onclick="editMyInfo('profile');">수정</button>
+												<button class="forgotbtn" id="profileSave" onclick="saveMyInfo('profile');" style="display: none;">저장</button>
+											</p>
+										</div>
+									</div>
+									<div class="column">
+										<!-- 일반아이디 연락처 -->
+										<div class="sh_group ">
+											<div class="sh_header">
+												<h2>연락처 및 정보</h2>
+											</div>
+											<table>
+												<tr>
+													<th width="100px;">이메일</th>
+													<td>
+														<input id="email" name="email"
+															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
+															fw-label="이메일" fw-msg="" class="inputTypeText" 
+															placeholder="" readonly="readonly" type="text">
+													</td>
+												</tr>
+												<tr>
+													<th width="100px;">휴대전화</th>
+													<td>
+														<input id="mobile1"name="mobile1" fw-filter="isMin[3]&amp;isMax[3]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder="" style="width: 120px;"
+																	maxlength="3" type="text" onkeydown="checkNumber(event);" readonly="readonly"> 
+																<b>-</b> 
+															<input id="mobile2" name="mobile2" fw-filter="isMin[3]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder="" style="width: 120px;"
+																	maxlength="4" type="text" onkeydown="checkNumber(event);" readonly="readonly"> 
+																<b>-</b> 
+															<input id="mobile3" name="mobile3" fw-filter="isMin[4]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder="" style="width: 120px;"
+																	maxlength="4" type="text" onkeydown="checkNumber(event);" readonly="readonly">
+													</td>
+												</tr>
+												<tr>
+													<th width="100px;">주소</th>
+													<td>
+														<input id="postcode1" name="postcode1"  fw-filter="isLengthRange[1][14]" fw-label="우편번호1"fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" maxlength="14" type="text">
+														<button class="checkButton" id="callAddress" onclick="fnAddres('postcode1','addr1','addr2');" style="display: none; width: 130px;">우편 번호</button>
+														<input id="addr1" name="addr1" fw-filter="" fw-label="주소" fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" type="text">
+														<input id="addr2" name="addr2" fw-filter="" fw-label="주소" fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" type="text">
+													</td>
+												</tr>
+											</table>
+											<p class="btn_area_btm">
+												<button class="forgotbtn" id="infoEdit" onclick="editMyInfo('info');">수정</button>
+												<button class="forgotbtn" id="infoSave" onclick="saveMyInfo('info');" style="display: none;">저장</button>
+											</p>
+										</div>
+									</div>
+									<div class="column">
+										<div class="sh_group ">
+											<div class="sh_header">
+												<h2>관심 분야</h2>
+											</div>
+											<table>
+												<tr>
+													<th width="100px;">관심 분야</th>
+													<td>
+														<select id="favoriteCat" name="favorite" fw-filter="" fw-label="성별" fw-msg="" disabled="disabled">
+																<option th:each="result:${@CommCodeService.getCodeList('POST_CAT')}" 
+															                th:value="${result['CODE_CD']}" 
+															                th:text="${result['CODE_NM']}"
+															                th:selected="${(''+sel_val).equals(result['CODE_CD'])}"></option>
+															</select>
+													</td>
+												</tr>
+											</table>
+											<p class="btn_area_btm">
+												<button class="forgotbtn" id="catEdit" onclick="editMyInfo('cat');">수정</button>
+												<button class="forgotbtn" id="catSave" onclick="saveMyInfo('cat');" style="display: none;">저장</button>
+											</p>
+										</div>
+									</div>
+								</div>
+							</form>
+							<!-- //CONTENTS -->
+						</div>
+					</div>
+
+
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

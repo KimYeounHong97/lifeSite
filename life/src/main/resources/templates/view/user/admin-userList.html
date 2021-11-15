@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<title>관리자</title>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+	<!-- 고유 스크립트 추가 -->
+	<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+
+//관리자 리스트 이동
+function movList(){
+	location.href='/user/admin-list';
+}
+
+//회원검색
+function search(){
+	$("#jqGrid").jqGrid('setGridParam',{
+			url: '/api/admin/userList',
+			datatype: "json",
+			postData : $("#adminUserList").serialize()
+			}).trigger('reloadGrid');
+}
+
+function makeTable(){
+	 $("#jqGrid").jqGrid({ 
+	        //ajax 호출할 페이지
+	        url:'/api/admin/userList',
+	        //로딩중일때 출력시킬 로딩내용
+	        loadtext : '로딩중..',
+	        //응답값
+	        datatype: "json",
+	        mtype : "POST",
+	        postData: $("#adminUserList").serialize(),
+	        jsonReader :{
+	        	root    :    "data.result"
+	        },
+	        viewrecords:true,
+	        sortorder:'asc',
+	        height: 250,
+	        search:true,
+	        refresh:true,
+	        colNames:['아이디','성별', '권한등급', '권한등급명','휴대폰','이메일','주소','등록시간','수정시간'],
+	        colModel:[
+	            {name:'USER_ID' ,width:100 , align:"center"},
+	            {name:'USER_GENDER',align:"center"},
+	            {name:'USER_GRADE',align:"center"},
+	            {name:'USER_GRADE_NM',align:"center"},
+	            {name:'PHONE',align:"center"},
+	            {name:'EMAIL',align:"center"},   
+	            {name:'ADDRESS',width : 350, align:"center"},   
+	            {name:'INPUT_DT',align:"center"}, 
+	            {name:'MOD_DT', align:"center"}
+	        ],
+	        caption:"회원"
+	    });
+}
+
+
+$(document).ready(function() {
+	makeTable();
+});
+</script>
+</head>
+	<th:block layout:fragment="content">
+		<div id="page" class="page">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="container">
+							<div class="header">
+								<img class="featured-image lazyloaded"
+									src="/img/picture/common/sitemap-header.jpg"
+									data-lazy-src="/img/picture/common/sitemap-header.jpg"
+									data-was-processed="true">
+								<div class="article-info">
+                    				<h1 class="entry-title">회원 조회 및 검색</h1>
+                				</div>
+							</div>
+							<article>
+								<form id="adminUserList" name="adminUserList" , method="post" onsubmit="return false;">
+									<div id="content" class="section_home">
+										<div style="margin-top: 50px;">
+											<table class="ec-base-table">
+												<tr>
+													<th style="width: 150px;text-align: center;margin: 0;">검색조건</th>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;">
+														<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="keyword" name="keyword" placeholder="아이디,휴대폰,이메일"/>
+													</td>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;"><button onclick="search();">조회</button></td>
+												</tr>
+											</table>
+										</div>	
+										<div style="margin-top: 30px;">
+											<table id="jqGrid"></table> 
+											<div id="gridpager"></div>
+										</div>
+										<button onclick="movList();">목록</button>
+									</div>
+								</form>
+							</article>
+						
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+</html>

@@ -65,6 +65,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                              .excludePathPatterns("/**/**") // For index.html
                              .excludePathPatterns("/css/**") // For Resources
                              .excludePathPatterns("/js/**") // For Resources
+                             .excludePathPatterns("/jqGrid/**") // For Resources
+                             .excludePathPatterns("/jqueryui/**") // For Resources
                              .excludePathPatterns("/img/**") // For Resources
                              .excludePathPatterns("/plugins/**") // For Resources
                              .excludePathPatterns("/html/**") // For Resources

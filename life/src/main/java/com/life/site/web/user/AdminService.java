@@ -51,4 +51,10 @@ public class AdminService {
     	result.put("result", adminMapper.selectUserList(param));
     	 return result;
     }
+    
+    public Map<String, Object> getAccessList(HashMap<String, Object> param) throws IOException {
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	result.put("result", adminMapper.selectUserAccessList(param));
+    	 return result;
+    }
 }

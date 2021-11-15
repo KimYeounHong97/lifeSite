@@ -25,4 +25,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface AdminMapper {
     public List<HashMap<String, Object>> selectUserList(Map<String, Object> param);
+    public List<HashMap<String, Object>> selectUserAccessList(Map<String, Object> param);
 }

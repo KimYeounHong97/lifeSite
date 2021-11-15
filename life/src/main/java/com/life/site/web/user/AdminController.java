@@ -49,4 +49,14 @@ public class AdminController {
         result.setData(adminService.getUserList(param));
         return result;
     }
+    
+    @PostMapping(value = "/accessList")
+    @ResponseBody
+    public CommonResult getAccessList(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(adminService.getAccessList(param));
+        return result;
+    }
+    
+    
 }
