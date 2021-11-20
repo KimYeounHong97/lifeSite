@@ -133,7 +133,12 @@ $(document).ready(function() {
 							<input type="hidden" name="postType" value="destinations"/>
 							<input type="hidden" name="currentPage" id="currentPage"/>
 							<div style="margin-bottom: 20px;">
-								<h2>최신호</h2><button class="checkButton" style="margin-left: 1100px;" onclick="movPostReg();">포스트 등록</button>
+								<h2>최신호</h2>
+								<div  th:if="${session.life != null}">
+										<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
+											<button class="checkButton" style="margin-left: 1100px;" onclick="movPostReg();">포스트 등록</button>
+										</p>
+								</div>								
 							</div>
 							<div>
 								<table>

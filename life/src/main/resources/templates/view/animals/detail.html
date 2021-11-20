@@ -266,10 +266,13 @@
 								<input type="hidden" id="postId" name="postId"/>
 								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
 								<div class="entry-content">
-									<div style="float: right; margin-bottom: 20px; margin-top:50px; margin-left:690px;" >
-										<button class="checkButton"  onclick="pickPost();" style="display: inline;">메인화면 표시</button>
-										<button class="checkButton"  onclick="updatePost();" style="display: inline;">수정</button>
-										<button class="checkRedButton"  onclick="deletePost();" style="display: inline;">삭제</button>
+									<div  th:if="${session.life != null}"
+										style="float: right; margin-bottom: 20px; margin-top:50px; margin-left:690px;" >
+										<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
+											<button class="checkButton"  onclick="pickPost();" style="display: inline;">메인화면 표시</button>
+											<button class="checkButton"  onclick="updatePost();" style="display: inline;">수정</button>
+											<button class="checkRedButton"  onclick="deletePost();" style="display: inline;">삭제</button>
+										</p>
 									</div>
 									<div id="postContent"></div>
 								</div>
