@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface ComCodeMapper {
     
     public List<Map<String, Object>> getCodeList(Map<String, Object> param);
+    public Map<String, Object> getCodeInfo(Map<String, Object> param);
     
 }

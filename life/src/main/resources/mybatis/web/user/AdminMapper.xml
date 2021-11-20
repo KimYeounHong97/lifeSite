@@ -37,7 +37,7 @@
 				ACC_TYPE,
 				AGENT,
 				SUCCESS_FL,
-				INPUT_DT
+				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT
 		FROM lifesite.sys_log_access_tb
 		WHERE 1=1
 		AND (

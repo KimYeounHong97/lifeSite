@@ -107,8 +107,11 @@ $(document).ready(function() {
 							<img src="/img/picture/common/header.jpg">
 							<div class="article-info">
 								<h1 class="entry-title">
-									<a href="/">TheChamp, The Beatles and a Tearful Girl: The
-										Photography of BobGomel</a>
+									<a href="/">
+										<span type="text" th:each="result:${@CommCodeService.getCodeList('ADMIN_TITLE')}" 
+								                th:text="${result['CODE_NM']}"/>
+									
+									</a>
 								</h1>
 							</div>
 						</div>
