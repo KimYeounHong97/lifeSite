@@ -5,14 +5,14 @@
    margin: 0;
   }
 .info{
-	font-family: "Open Sans", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 25px;
 	font-weight: bold;
 	color: #353535;
 }
 
 .message{
-	font-family: "Open Sans", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 15px;
 	font-weight: normal;
 	color: black;
@@ -57,7 +57,7 @@ form button {
   width: 100%;
   font-size: 15px;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Nanum Gothic Coding";
 }
 
 /* Add a hover effect for buttons */

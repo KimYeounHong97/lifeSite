@@ -4,6 +4,11 @@
    width: 100% !important;
    height: 100% !important;
    margin: 0;
+   font-family: "Nanum Gothic Coding";
+  }
+  
+  html{
+  	font-family: "Nanum Gothic Coding";
   }
 
 img.wp-smiley, img.emoji {
@@ -21,6 +26,22 @@ img.wp-smiley, img.emoji {
 img {
     height: auto;
     max-width: 100%;
+}
+
+.pickPost img{
+	width:840px; 
+	height:500px; 
+	padding-right:20px;
+	padding-left:20px;
+	padding-bottom:20px;
+}
+
+.pickPostType{
+	position: absolute;
+    color: white;
+    background-color: red;
+    width: 100px;
+    padding:5px;
 }
 
 .post-navigation {
@@ -50,7 +71,7 @@ body .grid-container {
 }
 
 body, button, input, select, textarea {
-	font-family: "Open Sans", sans-serif;
+	font-family: "Nanum Gothic Coding";
 }
 
 .entry-content>[class*="wp-block-"]:not(:last-child) {
@@ -152,8 +173,8 @@ body, button, input, select, textarea {
 
 #main #home-container .home-header .entry-title a {
     color: white;
-    font-size: 35px;
-    font-family: "Folio", "Arial Narrow", "sans-serif";
+    font-size: 42px;
+    font-family: 'Nanum Gothic Coding'; 
     font-weight: bold;
 }
 
@@ -186,7 +207,7 @@ body, button, input, select, textarea {
     color: white;
     margin: 12px 0.5rem 16px;
     font-size: 2rem;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
 }
 
 #main #container ul {
@@ -202,7 +223,7 @@ body, button, input, select, textarea {
 
 #main #container ul li a {
     text-decoration: none;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 25px;
     font-weight:bold;
     color: black;
@@ -224,7 +245,7 @@ body, button, input, select, textarea {
 
 #main .newsletter-container section button {
     margin: 0 auto;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 14px;
     letter-spacing: 1px;
     padding: 0;
@@ -335,7 +356,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
     background: #e90000;
     text-transform: uppercase;
     font-size: 14px;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     letter-spacing: 1px;
 }
 
@@ -344,7 +365,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 }
 
 #main #home-container .home-card-container .article-card h3 {
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 30px;
@@ -359,7 +380,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 }
 
 #main #home-container .featured-issue-container h1 {
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 36px;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -373,14 +394,14 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 #main #home-container .featured-issue-container div section h2 {
     color: black;
     font-size: 1.35rem;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     text-transform: capitalize;
     margin-bottom: 0;
 }
 
 #main #home-container .featured-issue-container div section p {
     word-wrap: normal;
-    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 16px;
     margin: 0;
     line-height: 24px;
@@ -401,7 +422,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
     text-transform: uppercase;
     font-size: 14px;
     font-weight : bold;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     letter-spacing: 1px;
 }
 
@@ -426,7 +447,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 
 #main #home-container .tag-card-container h1 {
     width: 100%;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 36px;
     letter-spacing: 1px;
     text-align: center;
@@ -443,7 +464,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
     transition: 1s ease;
     margin: 1em 0.3em;
     text-align: center;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     color: white;
     font-size: 42px;
     width: 100%;
@@ -513,7 +534,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 }
 
 #main .newsletter-container p {
-    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 16px;
     margin-top: 2px;
     margin-bottom: 14px;
@@ -522,6 +543,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 #main .newsletter-container h2, #main .newsletter-container p, #main .newsletter-container section {
     color: white;
     width: 100%;
+    font-family: "Nanum Gothic Coding";
 }
 
 .entry-meta {
@@ -573,7 +595,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 
 #site-navigation .inside-navigation .nav-top-right-container a {
     text-transform: uppercase;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     color: white;
     font-size: 22px;
     letter-spacing: 0.5px;
@@ -657,14 +679,14 @@ button:hover, html input[type="button"]:hover, input[type="reset"]:hover,
 }
 
 @font-face {
-	font-family: "GeneratePress";
+	font-family:"Nanum Gothic Coding";
 	font-weight: normal;
 	font-style: normal;
 }
 
 .main-navigation .slideout-toggle a:before, .slide-opened .slideout-overlay .slideout-exit:before
 	{
-	font-family: GeneratePress;
+	font-family: "Nanum Gothic Coding";
 }
 
 .slideout-navigation .dropdown-menu-toggle:before {
@@ -727,6 +749,8 @@ button:hover, html input[type="button"]:hover, input[type="reset"]:hover,
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: "Nanum Gothic Coding";
+    font-size: 25px;
 }
 .footer-links{
 	margin-top: 50px;
@@ -785,7 +809,7 @@ hr{
 
 .menu {
     color: black !important;
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding";
     font-size: 24px;
     text-decoration: none;
     margin-left: 20px;
@@ -829,7 +853,7 @@ ul{
   height : 50px;
   font-size: 15px;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Nanum Gothic Coding";
 }
 
 .checkRedButton{
@@ -843,7 +867,7 @@ ul{
   height : 50px;
   font-size: 15px;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Nanum Gothic Coding";
 }
 
 .checkRedButton:hover{

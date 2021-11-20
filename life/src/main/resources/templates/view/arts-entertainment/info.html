@@ -10,15 +10,15 @@
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
-<title>Animals</title>
+<title>Art &amp;Entertainment</title>
 <script type="text/javascript">
 //페이지 이동
 function page(idx){
-	location.href='/animals/info?page='+idx;
+	location.href='/arts-entertainment/info?page='+idx;
 }
 
 function movPostReg(){
-	location.href='/animals/register';
+	location.href='/arts-entertainment/register';
 }
 
 function postData(){
@@ -30,7 +30,7 @@ function postData(){
 		url : "/api/post/list",
 		type : "POST",
 		async : true,
-		data : $("#animalsForm").serialize(),
+		data : $("#arts-entertainmentForm").serialize(),
 		success : function(result) {
 			if (result.status != true) {
 				if (result.message == "") {
@@ -61,9 +61,7 @@ function postData(){
 					for(var j=0; j<tdCount; j++){
 						var attach = data.posts[j+(i*3)].postAttaches;
 						var imgSrc;
-						debugger;
 						$.each(attach, function(index, item){
-							debugger;
 							if(item.TITLE_FL == 'Y'){
 								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
 							}
@@ -71,10 +69,10 @@ function postData(){
 						
 						insertTr += " <td>";
 						insertTr += " 	 <div class='category-card'>";
-						insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;' src='"+imgSrc+"'"; 
+						insertTr += " 	 	<a href='/arts-entertainment/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;' src='"+imgSrc+"'"; 
 						insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
 						insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-						insertTr += "       <h3><a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+						insertTr += "       <h3><a href='/arts-entertainment/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
 						insertTr += "     </div>"; 
 						insertTr += "  </td>";
 					}
@@ -123,16 +121,16 @@ $(document).ready(function() {
 					<div id="category-container">
 						<div class="category-header">
 							<img class="featured-image-large lazyloaded"
-								src="/img/picture/animals/animals-header.jpg"
-								data-lazy-src="/img/picture/animals/animals-header.jpg"
+								src="/img/picture/arts-entertainment/arts-entertainment-header.jpg"
+								data-lazy-src="/img/picture/arts-entertainment/arts-entertainment-header.jpg"
 								data-was-processed="true">
 							<div class="category-info">
-								<h1 class="entry-title">ANIMALS</h1>
+								<h1 class="entry-title">Art &amp;Entertainment</h1>
 							</div>
 						</div>
 						<div class="category-card-container">
-							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
-							<input type="hidden" name="postType" value="animals"/>
+							<form id="arts-entertainmentForm" name="arts-entertainmentForm" , method="post" onsubmit="return false;">
+							<input type="hidden" name="postType" value="arts-entertainment"/>
 							<input type="hidden" name="currentPage" id="currentPage"/>
 							<div style="margin-bottom: 20px;">
 								<h2>최신호</h2><button class="checkButton" style="margin-left: 1100px;" onclick="movPostReg();">포스트 등록</button>

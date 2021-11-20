@@ -69,6 +69,7 @@ public class RegisterService {
 		String str_filename = uuid.toString() +"."+originalFileExtension; // 랜덤 UUID+확장자로 저장될 savedFileName
 		log.info("원본 파일명 : " + org_filename);
 		log.info("저장할 파일명 : " + str_filename);
+		log.info("userId : "+userId);
 		
 		Date dt =new Date();
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM");
@@ -94,10 +95,12 @@ public class RegisterService {
         newFile.setFILE_ORIGIN_NM(org_filename);
         newFile.setATTACH_TYPE(originalFileExtension);
         newFile.setATTACH_DIR(filepath+"/"+ datafolder);
+        log.info("attach_dir :"+newFile.getATTACH_DIR());
         newFile.setFILE_SIZE(Long.toString(file.getSize()));
         newFile.setDEL_FL("N");
         newFile.setREG_USER_ID(userId);
         newFile.setURL_PATH(datafolder);
+        newFile.setPOST_TYPE(param.get("postType").toString());
         registerMapper.insertAttachSave(newFile);
 
 		return newFile;
@@ -121,10 +124,34 @@ public class RegisterService {
     	int cnt = 0;
     	//포스트 저장
     	switch (postType) {
-		case "animals":
-			cnt =  registerMapper.insertAnimals(param);
-			if(cnt == 0) return cnt;
-			break;
+			case "animals":
+				cnt =  registerMapper.insertAnimals(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "arts-entertainment":
+				cnt =  registerMapper.insertArtEntertainment(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "destinations":
+				cnt =  registerMapper.insertDestinations(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "history":
+				cnt =  registerMapper.insertHistory(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "lifeStyle":
+				cnt =  registerMapper.insertLifeStyle(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "nature":
+				cnt =  registerMapper.insertNature(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "people":
+				cnt =  registerMapper.insertPeople(param);
+				if(cnt == 0) return cnt;
+				break;
 		}
     	
     	//대표 이미지 저장
@@ -158,10 +185,34 @@ public class RegisterService {
     	int cnt = 0;
     	//포스트 수정
     	switch (postType) {
-		case "animals":
-			cnt =  registerMapper.updateAnimals(param);
-			if(cnt == 0) return cnt;
-			break;
+			case "animals":
+				cnt =  registerMapper.updateAnimals(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "arts-entertainment":
+				cnt =  registerMapper.updateArtEntertainment(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "destinations":
+				cnt =  registerMapper.updateDestinations(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "history":
+				cnt =  registerMapper.updateHistory(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "lifeStyle":
+				cnt =  registerMapper.updateLifeStyle(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "nature":
+				cnt =  registerMapper.updateNature(param);
+				if(cnt == 0) return cnt;
+				break;
+			case "people":
+				cnt =  registerMapper.updatePeople(param);
+				if(cnt == 0) return cnt;
+				break;
 		}
     	
     	//대표 이미지 저장
@@ -223,22 +274,15 @@ public class RegisterService {
 		
 		FileVo newFile = new FileVo();
 		newFile.setPOST_ID(Integer.parseInt(param.get("POST_ID")==null?param.get("postId").toString():param.get("POST_ID").toString()));
-		log.info(str_filename);
 		newFile.setFILE_STORE_NM(str_filename);
-		log.info(org_filename);
         newFile.setFILE_ORIGIN_NM(org_filename);
-        log.info(originalFileExtension);
         newFile.setATTACH_TYPE(originalFileExtension);
-        log.info(filepath+"/"+ datafolder);
         newFile.setATTACH_DIR(filepath+"/"+ datafolder);
-        log.info(Long.toString(multipartFile.getSize()));
         newFile.setFILE_SIZE(Long.toString(multipartFile.getSize()));
         newFile.setDEL_FL("N");
-        log.info(param.get("loginUserId").toString());
         newFile.setREG_USER_ID(param.get("loginUserId").toString());
-        log.info(datafolder);
         newFile.setURL_PATH(datafolder);
-        log.info(newFile.toString());
+        newFile.setPOST_TYPE(param.get("postType").toString());
         registerMapper.insertTitleSave(newFile);
         
         attachId = newFile.getATTACH_ID();

@@ -49,7 +49,14 @@ public class PostController {
     
     @Autowired
     PostService postService;
-
+    
+    
+    @PostMapping(value = "/postPicklist")
+    public CommonResult getpostPicklist(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(postService.getpostPicklist(param));
+        return result;
+    }
 
     @PostMapping(value = "/list")
     public CommonResult getPostList(HttpServletRequest request, @RequestParam HashMap<String, Object> param) throws Exception {
@@ -71,6 +78,13 @@ public class PostController {
     public CommonResult deletePost(HttpServletRequest request, HttpSession session,HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
         CommonResult result = new CommonResult();
         result.setData(postService.DeletePost(param));
+        return result;
+    }
+    
+    @PostMapping("/pickPost")
+    public CommonResult pickPost(HttpServletRequest request, HttpSession session,HttpServletResponse response, @RequestParam HashMap<String, Object> param, RedirectAttributes redirectAttributes) throws Exception {
+        CommonResult result = new CommonResult();
+        result.setData(postService.pickPost(param));
         return result;
     }
 

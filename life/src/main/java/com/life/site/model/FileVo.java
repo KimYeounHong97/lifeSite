@@ -16,6 +16,8 @@ import lombok.Setter;
 public class FileVo {
 	@JsonProperty("POST_ID")
 	private int POST_ID;
+	@JsonProperty("POST_TYPE")
+	private String POST_TYPE;
 	@JsonProperty("ATTACH_ID")
 	private int ATTACH_ID;
     @JsonProperty("FILE_STORE_NM")

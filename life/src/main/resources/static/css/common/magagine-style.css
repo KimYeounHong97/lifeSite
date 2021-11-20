@@ -34,7 +34,7 @@
 	color: white;
 	margin: 12px 0.5rem 16px;
 	font-size: 7rem;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	text-transform: uppercase;
 }
 
@@ -50,7 +50,7 @@
 
 #main #category-container .category-card-container h2 {
 	width: 100%;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 36px;
 	letter-spacing: 1px;
 	text-align: center;
@@ -74,7 +74,7 @@
 	background: #e90000;
 	text-transform: uppercase;
 	font-size: 14px;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	letter-spacing: 1px;
 }
 
@@ -84,7 +84,7 @@
 }
 
 #main #category-container .category-card-container .category-card h3 {
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 24px;
 	margin-top: 10px;
 	margin-bottom: 30px;
@@ -111,7 +111,7 @@
 	color: #e90000;
 	border: solid 2px #e90000;
 	font-size: 14px;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	letter-spacing: 1px;
 }
 
@@ -129,7 +129,7 @@
 }
 
 #main article .entry-content h4 {
-	font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 18px;
 	color: #7c878e;
 	font-style: italic;
@@ -160,7 +160,7 @@ dfn, cite, em, i {
 
 #main .article-card-container h4 {
 	width: 100%;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family:"Nanum Gothic Coding";
 	font-size: 36px;
 	letter-spacing: 1px;
 	text-align: center;
@@ -184,12 +184,12 @@ dfn, cite, em, i {
 	background: #e90000;
 	text-transform: uppercase;
 	font-size: 14px;
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	letter-spacing: 1px;
 }
 
 #main .article-card-container .article-card h3 {
-	font-family: "Folio", "Arial Narrow", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 24px;
 	margin-top: 14 px;
 	margin-bottom: 30 px;

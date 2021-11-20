@@ -2,7 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.life.site.web.post.PostMapper">
-    <!-- 기본 사용자 검색 (아이디/이름 키워드 검색) -->
+ 	<select id="selectPickPostList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+            
+		SELECT *		/* post.PostMapper.selectPickPostList */
+		FROM(SELECT    
+		           		 @num:=@num+1 AS NUM , T.*
+				 FROM(
+						SELECT 
+											    'Animals' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.animals a
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                UNION ALL 
+		                SELECT  
+											    'arts-entertainment' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.artentertainment b
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                UNION ALL 
+		                SELECT  
+											    'destinations' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.destinations c
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                 UNION ALL 
+		                SELECT  
+											    'history' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.history d
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                 UNION ALL 
+		                SELECT  
+											    'lifeStyle' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.lifeStyle e
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                 UNION ALL 
+		                SELECT  
+											    'nature' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.nature f
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+		                UNION ALL 
+		                SELECT  
+											    'people' as TYPE,
+												POST_ID,
+										        TITLE,
+										        CONTENT,
+										        REG_USER_ID,
+										        REG_DT,
+										        MOD_USER_ID,
+										        MOD_DT
+						FROM lifesite.people g
+						WHERE DEL_FLG = 'N'
+		                AND POST_PICK = 'Y'
+						ORDER BY MOD_DT DESC
+					) T ,(SELECT @num:=0) AS n) TT1
+		            WHERE  NUM >=1 AND NUM <=6]]>
+    </select>
     <select id="selectPostAnimalList" parameterType="map" resultType="hashmap">
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostAnimalList */
@@ -38,6 +138,216 @@
 		</choose>
     </select>
     
+    <select id="selectPostArtEntertainmentList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostArtEntertainmentList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.artEntertainment) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.artEntertainment a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+     <select id="selectPostDestinationsList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostDestinationsList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.destinations a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+     <select id="selectPostHistoryList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostHistoryList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.history a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+    <select id="selectPostLifeStyleList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostLifeStyleList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.lifeStyle a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+     <select id="selectPostNatureList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostNatureList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.nature) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.nature a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
+    <select id="selectPostPeopleList" parameterType="map" resultType="hashmap">
+       <![CDATA[
+         SELECT      /* post.PostMapper.selectPostPeopleList */
+           		T.*,
+           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+		 FROM(
+				SELECT  @num:=@num+1 AS NUM,
+										POST_ID,
+								        TITLE,
+								        CONTENT,
+								        REG_USER_ID,
+								        REG_DT,
+								        MOD_USER_ID,
+								        MOD_DT
+				FROM (SELECT @num:=0) AS n,  lifesite.people a
+				WHERE DEL_FLG = 'N'
+				ORDER BY POST_ID DESC
+			) T
+		WHERE 1=1]]>
+		<choose>
+			<when test='morePostYn!=null and morePostYn.equals("Y")' >
+				<![CDATA[
+						AND NUM >=1
+						AND NUM <=6
+				]]>
+			</when>
+			<otherwise>
+				 <![CDATA[
+						AND NUM >=1+((#{currentPage} - 1) * 12) 
+						AND NUM <=12+((#{currentPage} - 1) * 12)
+				]]>
+			</otherwise>
+		</choose>
+    </select>
+    
     <select id="selectPostAnimalInfo" parameterType="map" resultType="hashmap">
          SELECT      /* post.PostMapper.selectPostAnimalInfo */
             COUNT(*) AS COUNT ,
@@ -52,11 +362,102 @@
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
+    
+    <select id="selectPostArtEntertainmentInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostArtEntertainmentInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.artentertainment
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+    
+    <select id="selectPostDestinationsInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostDestinationsInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.destinations
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+    
+    <select id="selectPostHistoryInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostHistoryInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.history
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+    
+    <select id="selectPostLifeStyleInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostLifeStyleInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.lifeStyle
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+    
+    <select id="selectPostNatureInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostNatureInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.nature
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
+    
+    <select id="selectPostPeopleInfo" parameterType="map" resultType="hashmap">
+         SELECT      /* post.PostMapper.selectPostPeopleInfo */
+            COUNT(*) AS COUNT ,
+			POST_ID,
+	        TITLE,
+	        CONTENT,
+	        REG_USER_ID,
+	        REG_DT,
+	        MOD_USER_ID,
+	        MOD_DT
+		FROM lifesite.people
+		WHERE POST_ID = #{postId}
+		ORDER BY REG_DT DESC
+    </select>
    
     <select id="selectPostAttachList"  parameterType="map" resultType="map">
          SELECT      /* post.PostMapper.selectPostAttachList */
           	ATTACH_ID,
 			POST_ID,
+			POST_TYPE,
 			TITLE_YN,
 	        ATTACH_TYPE,
 	        ATTACH_DIR,
@@ -71,6 +472,7 @@
 	        MOD_DT
 	FROM lifesite.magagine_attach
 	WHERE POST_ID = #{postId}
+	AND POST_TYPE =#{postType}
 	AND DEL_YN ='N'
 	ORDER BY ATTACH_ID
     </select>
@@ -78,14 +480,107 @@
     <update  id="deletePostAttachList" parameterType="map"  >
     UPDATE	/* post.PostMapper.deletePostAttachList */
     		lifesite.magagine_attach
-    SET  REFFER_FLG = 'N'
+    SET  REFFER_FLG = 'N' , MOD_DT = SYSDATE()
     WHERE POST_ID IN (SELECT POST_ID FROM  lifesite.animals WHERE  DEL_FLG='Y' AND POST_ID = #{postId})
+    AND POST_TYPE =#{postType}
     </update>
     
     <update  id="deleteAnimals" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteAnimals */
     			lifesite.animals
-    	SET DEL_FLG = 'Y'
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    	
+    </update>
+    
+    <update  id="deleteArtEntertainment" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteAnimals */
+    			lifesite.artentertainment
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="deleteDestinations" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteDestinations */
+    			lifesite.destinations
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="deleteHistory" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteDestinations */
+    			lifesite.history
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="deleteLifeStyle" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteLifeStyle */
+    			lifesite.lifeStyle
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="deleteNature" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deleteLifeStyle */
+    			lifesite.lifeStyle
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="deletePeople" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.deletePeople */
+    			lifesite.people
+    	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+     <update  id="updatePostPickAnimals" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickAnimals */
+    			lifesite.animals
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickArtEntertainment" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickArtEntertainment */
+    			lifesite.artentertainment
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickDestinations" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickDestinations */
+    			lifesite.destinations
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickHistory" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickHistory */
+    			lifesite.history
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickLifeStyle" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickLifeStyle */
+    			lifesite.lifeStyle
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickNature" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickNature */
+    			lifesite.nature
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update  id="updatePostPickPeople" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickPeople */
+    			lifesite.people
+    	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
 </mapper>

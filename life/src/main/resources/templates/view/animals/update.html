@@ -10,6 +10,7 @@
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
+<title>Animals-수정</title>
 <script type="text/javascript">
 function movList(){
 	window.location.href='/animals/info';
@@ -202,6 +203,7 @@ function sendFile(file, el) {
 	var form_data = new FormData();
  	form_data.append('file', file);
  	form_data.append('loginUserId', $("#loginUserId").val());
+ 	form_data.append('postType', $("#postType").val());
  	$.ajax({
    	data: form_data,
    	type: "POST",

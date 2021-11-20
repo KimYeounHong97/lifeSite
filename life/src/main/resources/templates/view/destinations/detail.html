@@ -8,9 +8,9 @@
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
 </th:block>
+<TITLE>Destinations-상세</TITLE>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
-<TITLE>Animlas-상세</TITLE>
 <script type="text/javascript">
 	function setData() {
 		var title = window.location.href.split('detail/')[1];
@@ -22,10 +22,11 @@
 	}
 	
 	function moveMore(){
-		window.location.href='/animals/info';
+		window.location.href='/destinations/info';
 	}
 	
 	function postData() {
+		debugger;
 		var postId = window.location.href.split("?postId=")[1];
 		$("#postId").val(postId);
 
@@ -33,7 +34,7 @@
 			url : "/api/post/info",
 			type : "POST",
 			async : true,
-			data : $("#animalsForm").serialize(),
+			data : $("#destinationsForm").serialize(),
 			success : function(result) {
 				if (result.status != true) {
 					if (result.message == "") {
@@ -71,13 +72,15 @@
 	}
 	
 	function morePostData() {
+		debugger;
 		$("#morePostYn").val('Y');
 		$.ajax({
 			url : "/api/post/list",
 			type : "POST",
 			async : true,
-			data : $("#animalsForm").serialize(),
+			data : $("#destinationsForm").serialize(),
 			success : function(result) {
+				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("정보 조회 중 오류가 발생했습니다.");
@@ -102,7 +105,6 @@
 						}
 						insertTr = "<tr>";
 						for(var j=0; j<tdCount; j++){
-							debugger;
 							var attach = data.posts[j+(i*3)].postAttaches;
 							var imgSrc;
 							$.each(attach, function(index, item){
@@ -113,10 +115,10 @@
 							
 							insertTr += " <td>";
 							insertTr += " 	 <div class='category-card'>";
-							insertTr += " 	 	<a href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;'  src='"+imgSrc+"'";
+							insertTr += " 	 	<a href='/destinations/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;'  src='"+imgSrc+"'";
 							insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
 							insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-							insertTr += "       <h3><a style='color:black;text-align:center;'  class='black' href='/animals/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "       <h3><a style='color:black;text-align:center;'  class='black' href='/destinations/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
 							insertTr += "     </div>"; 
 							insertTr += "  </td>";
 						}
@@ -150,7 +152,7 @@
 			url : "/api/post/pickPost",
 			type : "POST",
 			async : true,
-			data : $("#animalsForm").serialize(),
+			data : $("#destinationsForm").serialize(),
 			success : function(result) {
 				debugger;
 				if (result.status != true) {
@@ -190,7 +192,7 @@
 			return;
 		}
 		var postId = $("#postId").val();
-		window.location.href='/animals/update?postId='+postId;
+		window.location.href='/destinations/update?postId='+postId;
 	}
 	
 	function deletePost(){
@@ -201,9 +203,8 @@
 			url : "/api/post/delete",
 			type : "POST",
 			async : true,
-			data : $("#animalsForm").serialize(),
+			data : $("#destinationsForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("삭제시도 중 오류가 발생했습니다.");
@@ -218,7 +219,7 @@
 						return;
 					}
 					alert("삭제되었습니다.");
-					window.location.href='/animals/info';
+					window.location.href='/destinations/info';
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -261,8 +262,8 @@
 							</div>
 						</div>
 						<article>
-							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
-								<input type="hidden" id="postType" name="postType" value="animals" /> 
+							<form id="destinationsForm" name="destinationsForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="postType" name="postType" value="destinations" /> 
 								<input type="hidden" id="postId" name="postId"/>
 								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
 								<div class="entry-content">

@@ -39,6 +39,9 @@ public class PostVo implements Serializable {
         
         @JsonProperty("TITLE")
         String TITLE;
+        
+        @JsonProperty("TYPE")
+        String TYPE;
 
         @JsonProperty("CONTENT")
         String CONTENT;

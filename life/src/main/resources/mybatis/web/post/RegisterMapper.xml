@@ -7,6 +7,7 @@
     insert  into 		/* post.RegisterMapper.insertAttachSave */
     	lifesite.magagine_attach
     	(
+    		POST_TYPE,
     		ATTACH_TYPE,
     		ATTACH_DIR,
     		URL_PATH,
@@ -22,6 +23,7 @@
     		MOD_DT
     	) 
 		values(
+				#{POST_TYPE},
 				#{ATTACH_TYPE},
 				#{ATTACH_DIR},
 				#{URL_PATH},
@@ -44,6 +46,7 @@
     	lifesite.magagine_attach
     	(
     		POST_ID,
+    		POST_TYPE,
     		ATTACH_TYPE,
     		ATTACH_DIR,
     		URL_PATH,
@@ -57,9 +60,10 @@
     		REG_DT,
     		MOD_USER_ID,
     		MOD_DT
-    	) 
+    	)
 		values(
 				#{POST_ID},
+				#{POST_TYPE},
 				#{ATTACH_TYPE},
 				#{ATTACH_DIR},
 				#{URL_PATH},
@@ -80,6 +84,7 @@
     UPDATE lifesite.magagine_attach
     SET TITLE_YN = 'N'
     WHERE POST_ID = #{postId}
+    AND POST_TYPE =#{postType}
     AND TITLE_YN ='Y'
     </update>
     
@@ -88,6 +93,7 @@
     	SELECT *    /* post.RegisterMapper.loadById */
     	FROM lifesite.magagine_attach
     	WHERE ATTACH_ID = #{fileId}
+    	AND POST_TYPE =#{postType}
     </select>
     
     
@@ -114,9 +120,201 @@
 				) 
     </insert>
     
-    <update id="updateAnimals" parameterType="map">
+    <insert id="insertArtEntertainment" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertArtEntertainment */
+    	lifesite.artentertainment
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+    <insert id="insertDestinations" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertDestinations */
+    	lifesite.destinations
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertHistory" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertHistory */
+    	lifesite.history
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertLifeStyle" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertLifeStyle */
+    	lifesite.lifeStyle
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+    <insert id="insertNature" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertNature */
+    	lifesite.nature
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertPeople" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertPeople */
+    	lifesite.people
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <update id="updateAnimals" parameterType="map">
     	UPDATE		/* post.RegisterMapper.updateAnimals */
     		lifesite.animals
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateArtEntertainment" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateArtEntertainment */
+    		lifesite.artentertainment
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateDestinations" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateDestinations */
+    		lifesite.destinations
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateHistory" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateHistory */
+    		lifesite.history
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateLifeStyle" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateLifeStyle */
+    		lifesite.lifeStyle
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateNature" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateNature */
+    		lifesite.nature
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updatePeople" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updatePeople */
+    		lifesite.people
     	SET 
     		TITLE =  #{TITLE},
 			CONTENT = #{CONTENT}    	
@@ -130,5 +328,6 @@
     		REFFER_FLG = 'Y' ,
 			POST_ID = #{POST_ID}    	
     	WHERE ATTACH_ID = #{attach_id}
+    	AND POST_TYPE =#{postType}
     </update>
 </mapper>

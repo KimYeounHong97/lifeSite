@@ -10,10 +10,10 @@
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
-<title>Animals-등록</title>
+<TITLE>Nature-등록</TITLE>
 <script type="text/javascript">
 function movList(){
-	window.location.href='/animals/info';
+	window.location.href='/nature/info';
 }
 
 function resetPost(){
@@ -42,7 +42,7 @@ function register(){
 	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
 	
-	var form = new FormData(document.getElementById('animalsForm'));
+	var form = new FormData(document.getElementById('natureForm'));
 	var form_data = new FormData();
 	var temp = $("#input_file")[0].files[0];
  	form_data.append('file', temp);
@@ -77,7 +77,7 @@ function register(){
 					return;
 				}
 				alert("등록되었습니다.");
-				window.location.href='/animals/info';
+				window.location.href='/nature/info';
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
@@ -228,17 +228,17 @@ $(document).ready(function() {
 					<div id="category-container">
 						<div class="category-header">
 							<img class="featured-image-large lazyloaded"
-								src="/img/picture/animals/animals-header.jpg"
-								data-lazy-src="/img/picture/animals/animals-header.jpg"
+								src="/img/picture/nature/nature-header.jpg"
+								data-lazy-src="/img/picture/nature/nature-header.jpg"
 								data-was-processed="true">
 							<div class="category-info">
 								<h1 class="entry-title" id="titleTxt"
-									style="padding-top: 350px;">ANIMALS</h1>
+									style="padding-top: 350px;">nature</h1>
 							</div>
 						</div>
 						<article>
-							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
-								<input type="hidden" id="postType" name="postType" value="animals" />
+							<form id="natureForm" name="natureForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="postType" name="postType" value="nature" />
 								<input type="hidden" id ="titleInsert" name ="titleInsert" value="N">
 								<input type="hidden" id ="titleChange" name ="titleChange" value="N">
 								<input type="hidden" id="fileInsert" name="fileInsert" value="N" />

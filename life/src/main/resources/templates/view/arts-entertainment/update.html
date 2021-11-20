@@ -10,10 +10,10 @@
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
-<title>Animals-등록</title>
+<title>Art &amp;Entertainment-수정</title>
 <script type="text/javascript">
 function movList(){
-	window.location.href='/animals/info';
+	window.location.href='/arts-entertainment/info';
 }
 
 function resetPost(){
@@ -21,10 +21,11 @@ function resetPost(){
 	if(!confirm("해당 게시글의 내용을 초기화 하시겠습니까?")){
 		return;
 	}
+	debugger;
 	$("#summernote").summernote('code','');
 }
 
-function register(){
+function update(){
 	if($("#TITLE").val()==""){
 		alert("제목을 입력해주세요.");
 		return;
@@ -35,67 +36,114 @@ function register(){
 		alert("대표이미지사진을 등록해주세요.");
 		return;
 	}
-	if(!confirm("게시물을 등록하시겠습니까?")){
+	
+	if(!confirm("게시물을 수정하시겠습니까?")){
 		return;
 	}
-	debugger;
 	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
 	
-	var form = new FormData(document.getElementById('animalsForm'));
+	var form = new FormData(document.getElementById('arts-entertainmentForm'));
 	var form_data = new FormData();
-	var temp = $("#input_file")[0].files[0];
- 	form_data.append('file', temp);
-	
+
 	for(var pair of form.entries()) {
 		 form_data.append(pair[0], pair[1]);
 		 console.log(pair[0]+ ', '+ pair[1]);
 	}
-	  
-	$.ajax({
-	 	data: form_data,
-	   	type: "POST",
-	   	url: '/api/register/save',
-	   	cache: false,
-	   	contentType: false,
-	   	enctype: 'multipart/form-data',
-	   	processData: false,
-		success : function(result) {
-			debugger;
-			if (result.status != true) {
-				if (result.message == "") {
-					alert("저장시도 중 오류가 발생했습니다.");
-					return;
-				} else {
-					alert(result.message);
-					return;
-				}
-			} else {
+	debugger;
+	if($("#titleChange").val() == "Y"){ //대표이미지 변경
+		var temp = $("#input_file")[0].files[0];
+	 	form_data.append('file', temp); 
+	 	enctyle = "";
+	 	contentType = false;
+	 	processData = false;
+	 	url="/update";
+	 	$.ajax({
+		 	data: form_data,
+		   	type: "POST",
+		   	url: '/api/register/update',
+		   	cache: false,
+		   	contentType: false,
+		   	enctype: 'multipart/form-data',
+		   	processData: false,
+			success : function(result) {
 				debugger;
-				if(result == 0){
-					alert("저장된건이 없습니다.");
-					return;
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("저장시도 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					debugger;
+					if(result == 0){
+						alert("저장된건이 없습니다.");
+						return;
+					}
+					alert("수정되었습니다.");
+					window.location.href='/arts-entertainment/info';
 				}
-				alert("등록되었습니다.");
-				window.location.href='/animals/info';
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: '
+							+ jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus
+							+ '\n' + 'errorThrown: '
+							+ errorThrown);
+					console
+							.log('HTTP message body (jqXHR.responseText): '
+									+ '\n' + jqXHR.responseText);
+				}
 			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
-			if (jqXHR.status == '401') {
-				location.href = "/common/sessionError.do";
-			} else {
-				alert("ERR=" + 'HTTP status code: '
-						+ jqXHR.status + '\n'
-						+ 'textStatus: ' + textStatus
-						+ '\n' + 'errorThrown: '
-						+ errorThrown);
-				console
-						.log('HTTP message body (jqXHR.responseText): '
-								+ '\n' + jqXHR.responseText);
+		});
+	}else{
+		$.ajax({
+		 	data: $("#arts-entertainmentForm").serialize(),
+		   	type: "POST",
+		   	url: '/api/register/update/noFile',
+			success : function(result) {
+				debugger;
+				if (result.status != true) {
+					if (result.message == "") {
+						alert("저장시도 중 오류가 발생했습니다.");
+						return;
+					} else {
+						alert(result.message);
+						return;
+					}
+				} else {
+					debugger;
+					if(result == 0){
+						alert("저장된건이 없습니다.");
+						return;
+					}
+					alert("수정되었습니다.");
+					window.location.href='/arts-entertainment/info';
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+				if (jqXHR.status == '401') {
+					location.href = "/common/sessionError.do";
+				} else {
+					alert("ERR=" + 'HTTP status code: '
+							+ jqXHR.status + '\n'
+							+ 'textStatus: ' + textStatus
+							+ '\n' + 'errorThrown: '
+							+ errorThrown);
+					console
+							.log('HTTP message body (jqXHR.responseText): '
+									+ '\n' + jqXHR.responseText);
+				}
 			}
-		}
-	});
+		});
+	}
 }
 
 function setFile(){
@@ -119,7 +167,7 @@ function setFile(){
             } 
 
 	        $(this).siblings('.upload-name').val(filename);
-	        $("#titleInsert").val('Y');
+	        $("#titleChange").val('Y');
 	    });
 
 	    //preview image 
@@ -212,9 +260,67 @@ function setSummernote(){
   });
 }
 
+function setPostData() {
+	var postId = window.location.href.split("?postId=")[1];
+	$("#postId").val(postId);
+
+	$.ajax({
+		url : "/api/post/info",
+		type : "POST",
+		async : true,
+		data : $("#arts-entertainmentForm").serialize(),
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("정보 조회 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				var data = result.data;
+				var attach = data.postAttaches;
+				var content = data.CONTENT;
+	   			
+				$.each(attach, function(index, item){
+					if(item.TITLE_FL == 'Y'){
+						// 이미지 변경
+						$("#title").attr('src','/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM);
+						$('.filebox .upload-hidden').siblings('.upload-name').val(item.FILE_ORIGIN_NM);
+						//preview image 
+					    var parent =  $('.preview-image .upload-hidden').parent();
+					    parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+'/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM+'" class="upload-thumb"></div></div>');
+					}
+				});
+				$("#TITLE").val(data.TITLE);
+				$("#summernote").summernote('code',content);
+				
+				
+				
+				
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus + '\n'
+						+ 'errorThrown: ' + errorThrown);
+				console.log('HTTP message body (jqXHR.responseText): '
+						+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+}
+
+
 $(document).ready(function() {
 	setSummernote();
 	setFile();
+	setPostData();
 });
 
 </script>
@@ -227,19 +333,20 @@ $(document).ready(function() {
 				<main id="main" class="site-main">
 					<div id="category-container">
 						<div class="category-header">
-							<img class="featured-image-large lazyloaded"
-								src="/img/picture/animals/animals-header.jpg"
-								data-lazy-src="/img/picture/animals/animals-header.jpg"
+							<img id="title" class="featured-image-large lazyloaded"
+								src=""
+								data-lazy-src=""
 								data-was-processed="true">
 							<div class="category-info">
 								<h1 class="entry-title" id="titleTxt"
-									style="padding-top: 350px;">ANIMALS</h1>
+									style="padding-top: 350px;">arts-entertainment</h1>
 							</div>
 						</div>
 						<article>
-							<form id="animalsForm" name="animalsForm" , method="post" onsubmit="return false;">
-								<input type="hidden" id="postType" name="postType" value="animals" />
-								<input type="hidden" id ="titleInsert" name ="titleInsert" value="N">
+							<form id="arts-entertainmentForm" name="arts-entertainmentForm" , method="post" onsubmit="return false;">
+								<input type="hidden" id="postType" name="postType" value="arts-entertainment" />
+								<input type="hidden" id="postId" name="postId"/>
+								<input type="hidden" id ="titleInsert" name ="titleInsert" value="Y">
 								<input type="hidden" id ="titleChange" name ="titleChange" value="N">
 								<input type="hidden" id="fileInsert" name="fileInsert" value="N" />
 								<input type="hidden" id="fileIdArray" name="fileIdArray" value="" />
@@ -256,7 +363,7 @@ $(document).ready(function() {
 												<th style="width: 120px;">대표사진</th>
 												<td>
 													 <div class="filebox bs3-primary preview-image">
-											              <input id="input_file_nm" class="upload-name" placeholder="대표 이미지 선택" value="" disabled="disabled" style="width: 200px;">
+											              <input id="input_file_nm" class="upload-name" value="대표 이미지 선택" disabled="disabled" style="width: 200px;">
 											              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
 											              <input type="file" id="input_file" class="upload-hidden"> 
 											         </div>
@@ -273,7 +380,7 @@ $(document).ready(function() {
 									</div>
 									<div>
 										<button type="button" class="checkRedButton" onclick="resetPost();">초기화</button>
-										<button type="button" class="checkButton" onclick="register();">등록</button>
+										<button type="button" class="checkButton" onclick="update();">수정</button>
 										<button type="button" class="checkButton" onclick="movList();">목록</button>
 									</div>
 								</div>
