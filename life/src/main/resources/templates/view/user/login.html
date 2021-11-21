@@ -45,7 +45,6 @@
 						async : false,
 						data : $("#loginForm").serialize(),
 						success : function(result) {
-							debugger;
 							if (result.status != true) {
 								if (result.message == "") {
 									alert("아이디랑 비밀번호를 확인해주세요.");

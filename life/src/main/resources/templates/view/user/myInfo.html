@@ -15,7 +15,6 @@
 //유저정보 조회
 function infoGet(){
 	//session 및 로그인 여부 체크
-	debugger;
 	if($("#loginUserId").val()=="noUser" || $("#loginUserId").val() == undefined){
 		alert("로그인 및 세션 상태를 확인해주세요.");
 		location.href='/';
@@ -28,7 +27,6 @@ function infoGet(){
 		async : false,
 		data : $("#infoForm").serialize(),
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("정보 조회 중 오류가 발생했습니다.");

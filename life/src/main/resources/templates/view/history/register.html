@@ -17,7 +17,6 @@ function movList(){
 }
 
 function resetPost(){
-	debugger;
 	if(!confirm("해당 게시글의 내용을 초기화 하시겠습니까?")){
 		return;
 	}
@@ -38,8 +37,6 @@ function register(){
 	if(!confirm("게시물을 등록하시겠습니까?")){
 		return;
 	}
-	debugger;
-	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
 	
 	var form = new FormData(document.getElementById('historyForm'));
@@ -61,7 +58,6 @@ function register(){
 	   	enctype: 'multipart/form-data',
 	   	processData: false,
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("저장시도 중 오류가 발생했습니다.");
@@ -71,7 +67,6 @@ function register(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result == 0){
 					alert("저장된건이 없습니다.");
 					return;
@@ -128,7 +123,6 @@ function setFile(){
 	    imgTarget.on('change', function(){
 	        var parent = $(this).parent();
 	        parent.children('.upload-display').remove();
-			 debugger;
 	        if(window.FileReader){
 	            //image 파일만
 	            if (!$(this)[0].files[0].type.match(/image\//)) return;
@@ -165,7 +159,6 @@ function sendFile(file, el) {
    	enctype: 'multipart/form-data',
    	processData: false,
    	success: function(response) {
-   		debugger;
    		if(response.responseCode='success'){
    			$("#fileInsert").val("Y");
    			var fileIdArray;

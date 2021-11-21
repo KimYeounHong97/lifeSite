@@ -150,7 +150,6 @@
 			async : true,
 			data : $("#peopleForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("처리 중 오류가 발생했습니다.");

@@ -52,7 +52,6 @@ function addCode(){
 		async : true,
 		data : $("#adminCodeList").serialize(),
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("저장 중 오류가 발생했습니다.");
@@ -62,7 +61,6 @@ function addCode(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result.data !=""){
 					alert(result.data);
 					return;
@@ -124,7 +122,6 @@ function makeTable(){
 	            {name:'MOD_DT',align:"center",width:200}  
 	        ],
 	        onSelectRow: function(rowid, status, e) {
-	        	debugger;
 	        	var rowData = $('#jqGrid').getRowData(rowid);
 	        	var grpId = rowData.GRP_ID;
 	        	var codeCd = rowData.CODE_CD;

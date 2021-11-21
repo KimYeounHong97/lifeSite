@@ -56,7 +56,6 @@ function updateCode(){
 		async : true,
 		data : $("#adminCodeList").serialize(),
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("저장 중 오류가 발생했습니다.");
@@ -66,7 +65,6 @@ function updateCode(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result.data !=""){
 					alert(result.data);
 					return;
@@ -107,7 +105,6 @@ function deleteCode(){
 		async : true,
 		data : $("#adminCodeList").serialize(),
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("삭제 중 오류가 발생했습니다.");
@@ -117,7 +114,6 @@ function deleteCode(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result.data !=""){
 					alert(result.data);
 					return;

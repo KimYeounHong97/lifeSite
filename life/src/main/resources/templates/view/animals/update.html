@@ -17,11 +17,9 @@ function movList(){
 }
 
 function resetPost(){
-	debugger;
 	if(!confirm("해당 게시글의 내용을 초기화 하시겠습니까?")){
 		return;
 	}
-	debugger;
 	$("#summernote").summernote('code','');
 }
 
@@ -50,7 +48,6 @@ function update(){
 		 form_data.append(pair[0], pair[1]);
 		 console.log(pair[0]+ ', '+ pair[1]);
 	}
-	debugger;
 	if($("#titleChange").val() == "Y"){ //대표이미지 변경
 		var temp = $("#input_file")[0].files[0];
 	 	form_data.append('file', temp); 
@@ -67,7 +64,6 @@ function update(){
 		   	enctype: 'multipart/form-data',
 		   	processData: false,
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("저장시도 중 오류가 발생했습니다.");
@@ -77,7 +73,6 @@ function update(){
 						return;
 					}
 				} else {
-					debugger;
 					if(result == 0){
 						alert("저장된건이 없습니다.");
 						return;
@@ -108,7 +103,6 @@ function update(){
 		   	type: "POST",
 		   	url: '/api/register/update/noFile',
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("저장시도 중 오류가 발생했습니다.");
@@ -118,7 +112,6 @@ function update(){
 						return;
 					}
 				} else {
-					debugger;
 					if(result == 0){
 						alert("저장된건이 없습니다.");
 						return;
@@ -176,7 +169,6 @@ function setFile(){
 	    imgTarget.on('change', function(){
 	        var parent = $(this).parent();
 	        parent.children('.upload-display').remove();
-			 debugger;
 	        if(window.FileReader){
 	            //image 파일만
 	            if (!$(this)[0].files[0].type.match(/image\//)) return;
@@ -213,7 +205,6 @@ function sendFile(file, el) {
    	enctype: 'multipart/form-data',
    	processData: false,
    	success: function(response) {
-   		debugger;
    		if(response.responseCode='success'){
    			$("#fileInsert").val("Y");
    			var fileIdArray;

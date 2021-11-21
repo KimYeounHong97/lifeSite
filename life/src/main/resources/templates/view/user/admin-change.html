@@ -21,7 +21,6 @@ function movList(){
 
 //기존 이미지 지정
 function setOriginal(event){
-	debugger;
 	// 이미지 변경
 	var imgUrl =event.target.value;
 	var imgNm = event.target.selectedOptions[0].label;
@@ -64,7 +63,6 @@ function change(){
 	   	enctype: 'multipart/form-data',
 	   	processData: false,
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("저장시도 중 오류가 발생했습니다.");
@@ -74,7 +72,6 @@ function change(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result == 0){
 					alert("변경 된 건이 없습니다.");
 					return;
@@ -134,7 +131,6 @@ function setFile(){
 	    imgTarget.on('change', function(){
 	        var parent = $(this).parent();
 	        parent.children('.upload-display').remove();
-			 debugger;
 	        if(window.FileReader){
 	            //image 파일만
 	            if (!$(this)[0].files[0].type.match(/image\//)) return;

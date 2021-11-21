@@ -26,7 +26,6 @@
 	}
 	
 	function postData() {
-		debugger;
 		var postId = window.location.href.split("?postId=")[1];
 		$("#postId").val(postId);
 
@@ -72,7 +71,6 @@
 	}
 	
 	function morePostData() {
-		debugger;
 		$("#morePostYn").val('Y');
 		$.ajax({
 			url : "/api/post/list",
@@ -80,7 +78,6 @@
 			async : true,
 			data : $("#historyForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("정보 조회 중 오류가 발생했습니다.");
@@ -154,7 +151,6 @@
 			async : true,
 			data : $("#historyForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("처리 중 오류가 발생했습니다.");

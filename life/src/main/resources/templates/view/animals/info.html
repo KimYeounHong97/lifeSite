@@ -61,9 +61,7 @@ function postData(){
 					for(var j=0; j<tdCount; j++){
 						var attach = data.posts[j+(i*3)].postAttaches;
 						var imgSrc;
-						debugger;
 						$.each(attach, function(index, item){
-							debugger;
 							if(item.TITLE_FL == 'Y'){
 								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
 							}

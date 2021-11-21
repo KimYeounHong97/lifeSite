@@ -102,7 +102,6 @@
 						}
 						insertTr = "<tr>";
 						for(var j=0; j<tdCount; j++){
-							debugger;
 							var attach = data.posts[j+(i*3)].postAttaches;
 							var imgSrc;
 							$.each(attach, function(index, item){
@@ -152,7 +151,6 @@
 			async : true,
 			data : $("#animalsForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("처리 중 오류가 발생했습니다.");
@@ -203,7 +201,6 @@
 			async : true,
 			data : $("#animalsForm").serialize(),
 			success : function(result) {
-				debugger;
 				if (result.status != true) {
 					if (result.message == "") {
 						alert("삭제시도 중 오류가 발생했습니다.");
