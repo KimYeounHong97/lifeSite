@@ -11,7 +11,7 @@
             , CODE_NM 
             , CODE_SEQ
         FROM
-            lifesite.tb_code
+            xorjf22.tb_code
         WHERE USE_YN = 'Y'
             <if test='GRP_ID != null and GRP_ID != ""'>
                 AND GRP_ID = #{GRP_ID}
@@ -26,7 +26,7 @@
             , CODE_NM 
             , CODE_SEQ
         FROM
-            lifesite.tb_code
+            xorjf22.tb_code
         WHERE USE_YN = 'Y'
             <if test='GRP_ID != null and GRP_ID != ""'>
                 AND GRP_ID = #{GRP_ID}

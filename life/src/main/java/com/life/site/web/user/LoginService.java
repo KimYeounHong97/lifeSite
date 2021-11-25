@@ -264,7 +264,7 @@ public class LoginService {
         user = loginService.getLoginUserAuth(request, loginInfo);
 
         //API Permission 설정
-        if(user.getUSER_GRADE()!=null || !user.getUSER_GRADE().isBlank()){
+        if(user.getUSER_GRADE()!=null || !user.getUSER_GRADE().isEmpty()){
 
             if(user.getUSER_GRADE().equals("GU")){
                 user.setAPI_PERMISSION_ROLE(ApiPermission.Role.MEMBER);

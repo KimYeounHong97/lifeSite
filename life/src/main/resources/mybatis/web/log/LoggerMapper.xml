@@ -4,7 +4,7 @@
 <mapper namespace="com.life.site.web.log.LoggerMapper">
     
 	<insert id="insertAccessLog" parameterType="hashMap">
-        INSERT INTO SYS_LOG_ACCESS_TB    /* log.LoggerMapper.insertAccessLog */
+        INSERT INTO sys_log_access_tb    /* log.LoggerMapper.insertAccessLog */
             (
             USER_ID
             , USER_GRADE_CD , USER_GRADE_NM

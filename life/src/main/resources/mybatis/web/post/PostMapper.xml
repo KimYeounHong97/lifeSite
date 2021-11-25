@@ -18,7 +18,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.animals a
+						FROM xorjf22.animals a
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                UNION ALL 
@@ -31,7 +31,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.artentertainment b
+						FROM xorjf22.artentertainment b
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                UNION ALL 
@@ -44,7 +44,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.destinations c
+						FROM xorjf22.destinations c
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                 UNION ALL 
@@ -57,7 +57,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.history d
+						FROM xorjf22.history d
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                 UNION ALL 
@@ -70,7 +70,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.lifeStyle e
+						FROM xorjf22.lifestyle e
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                 UNION ALL 
@@ -83,7 +83,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.nature f
+						FROM xorjf22.nature f
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 		                UNION ALL 
@@ -96,7 +96,7 @@
 										        REG_DT,
 										        MOD_USER_ID,
 										        MOD_DT
-						FROM lifesite.people g
+						FROM xorjf22.people g
 						WHERE DEL_FLG = 'N'
 		                AND POST_PICK = 'Y'
 						ORDER BY MOD_DT DESC
@@ -107,7 +107,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostAnimalList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.animals) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.animals) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -117,7 +117,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.animals a
+				FROM (SELECT @num:=0) AS n,  xorjf22.animals a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -140,9 +140,9 @@
     
     <select id="selectPostArtEntertainmentList" parameterType="map" resultType="hashmap">
        <![CDATA[
-         SELECT      /* post.PostMapper.selectPostArtEntertainmentList */
+         SELECT      /* post.PostMapper.selectPostartentertainmentList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.artEntertainment) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.artentertainment) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -152,7 +152,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.artEntertainment a
+				FROM (SELECT @num:=0) AS n,  xorjf22.artentertainment a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -177,7 +177,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostDestinationsList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -187,7 +187,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.destinations a
+				FROM (SELECT @num:=0) AS n,  xorjf22.destinations a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -212,7 +212,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostHistoryList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -222,7 +222,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.history a
+				FROM (SELECT @num:=0) AS n,  xorjf22.history a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -247,7 +247,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostLifeStyleList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -257,7 +257,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.lifeStyle a
+				FROM (SELECT @num:=0) AS n,  xorjf22.lifestyle a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -282,7 +282,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostNatureList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.nature) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.nature) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -292,7 +292,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.nature a
+				FROM (SELECT @num:=0) AS n,  xorjf22.nature a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -317,7 +317,7 @@
        <![CDATA[
          SELECT      /* post.PostMapper.selectPostPeopleList */
            		T.*,
-           		(SELECT COUNT(*) FROM lifesite.people) AS TOTAL_COUNT
+           		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
 										POST_ID,
@@ -327,7 +327,7 @@
 								        REG_DT,
 								        MOD_USER_ID,
 								        MOD_DT
-				FROM (SELECT @num:=0) AS n,  lifesite.people a
+				FROM (SELECT @num:=0) AS n,  xorjf22.people a
 				WHERE DEL_FLG = 'N'
 				ORDER BY POST_ID DESC
 			) T
@@ -358,13 +358,13 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.animals
+		FROM xorjf22.animals
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
     
     <select id="selectPostArtEntertainmentInfo" parameterType="map" resultType="hashmap">
-         SELECT      /* post.PostMapper.selectPostArtEntertainmentInfo */
+         SELECT      /* post.PostMapper.selectPostartentertainmentInfo */
             COUNT(*) AS COUNT ,
 			POST_ID,
 	        TITLE,
@@ -373,7 +373,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.artentertainment
+		FROM xorjf22.artentertainment
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -388,7 +388,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.destinations
+		FROM xorjf22.destinations
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -403,7 +403,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.history
+		FROM xorjf22.history
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -418,7 +418,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.lifeStyle
+		FROM xorjf22.lifestyle
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -433,7 +433,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.nature
+		FROM xorjf22.nature
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -448,7 +448,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-		FROM lifesite.people
+		FROM xorjf22.people
 		WHERE POST_ID = #{postId}
 		ORDER BY REG_DT DESC
     </select>
@@ -470,7 +470,7 @@
 	        REG_DT,
 	        MOD_USER_ID,
 	        MOD_DT
-	FROM lifesite.magagine_attach
+	FROM xorjf22.magagine_attach
 	WHERE POST_ID = #{postId}
 	AND POST_TYPE =#{postType}
 	AND DEL_YN ='N'
@@ -479,107 +479,107 @@
     
     <update  id="deletePostAttachList" parameterType="map"  >
     UPDATE	/* post.PostMapper.deletePostAttachList */
-    		lifesite.magagine_attach
+    		xorjf22.magagine_attach
     SET  REFFER_FLG = 'N' , MOD_DT = SYSDATE()
-    WHERE POST_ID IN (SELECT POST_ID FROM  lifesite.animals WHERE  DEL_FLG='Y' AND POST_ID = #{postId})
+    WHERE POST_ID IN (SELECT POST_ID FROM  xorjf22.animals WHERE  DEL_FLG='Y' AND POST_ID = #{postId})
     AND POST_TYPE =#{postType}
     </update>
     
     <update  id="deleteAnimals" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteAnimals */
-    			lifesite.animals
+    			xorjf22.animals
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     	
     </update>
     
-    <update  id="deleteArtEntertainment" parameterType="map"  >
+    <update  id="deleteartentertainment" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteAnimals */
-    			lifesite.artentertainment
+    			xorjf22.artentertainment
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="deleteDestinations" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteDestinations */
-    			lifesite.destinations
+    			xorjf22.destinations
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="deleteHistory" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteDestinations */
-    			lifesite.history
+    			xorjf22.history
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="deleteLifeStyle" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteLifeStyle */
-    			lifesite.lifeStyle
+    			xorjf22.lifestyle
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="deleteNature" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deleteLifeStyle */
-    			lifesite.lifeStyle
+    			xorjf22.nature
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="deletePeople" parameterType="map"  >
     	UPDATE		/* post.PostMapper.deletePeople */
-    			lifesite.people
+    			xorjf22.people
     	SET DEL_FLG = 'Y', MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
      <update  id="updatePostPickAnimals" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickAnimals */
-    			lifesite.animals
+    			xorjf22.animals
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
-    <update  id="updatePostPickArtEntertainment" parameterType="map"  >
-    	UPDATE		/* post.PostMapper.updatePostPickArtEntertainment */
-    			lifesite.artentertainment
+    <update  id="updatePostPickartentertainment" parameterType="map"  >
+    	UPDATE		/* post.PostMapper.updatePostPickartentertainment */
+    			xorjf22.artentertainment
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="updatePostPickDestinations" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickDestinations */
-    			lifesite.destinations
+    			xorjf22.destinations
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="updatePostPickHistory" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickHistory */
-    			lifesite.history
+    			xorjf22.history
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="updatePostPickLifeStyle" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickLifeStyle */
-    			lifesite.lifeStyle
+    			xorjf22.lifestyle
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="updatePostPickNature" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickNature */
-    			lifesite.nature
+    			xorjf22.nature
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
     
     <update  id="updatePostPickPeople" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickPeople */
-    			lifesite.people
+    			xorjf22.people
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()
     	WHERE POST_ID = #{postId}
     </update>
