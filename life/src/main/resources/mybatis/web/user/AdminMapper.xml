@@ -14,7 +14,7 @@
          				ADDRESS, 
          				INPUT_DT, 
          				MOD_DT
-			FROM xorjf2.member
+			FROM xorjf22.member
 			WHERE USE_FLG ='Y'
 			AND DEL_FLG ='N' 
 			AND (
@@ -38,7 +38,7 @@
 				AGENT,
 				SUCCESS_FL,
 				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT
-		FROM xorjf2.sys_log_access_tb
+		FROM xorjf22.sys_log_access_tb
 		WHERE 1=1
 		AND (
             		USER_ID LIKE CONCAT('%',#{keyword},'%')  OR
@@ -60,7 +60,7 @@
 				USE_YN,
 				INPUT_DT,
 				MOD_DT
-		FROM xorjf2.tb_code
+		FROM xorjf22.tb_code
 		WHERE DEL_YN = 'N'
 		AND (
             		GRP_ID LIKE CONCAT('%',#{keyword},'%')  OR
@@ -84,7 +84,7 @@
     <select id="selectCodeSeqDuplicateChk" parameterType="hashMap" resultType="hashMap">
          SELECT      /* user.AdminMapper.selectCodeSeqDuplicateChk */
 			group_concat(CODE_SEQ) AS CHK
-		FROM xorjf2.tb_code
+		FROM xorjf22.tb_code
 		WHERE USE_YN='Y'
 		GROUP BY GRP_ID
 		HAVING GRP_ID = #{grpId}
@@ -92,7 +92,7 @@
     
     <insert  id="insertCommCodeList" parameterType="map">
      insert  into 		/* user.AdminMapper.insertCommCodeList */
-    	xorjf2.tb_code
+    	xorjf22.tb_code
     	(
     		GRP_ID,
     		CODE_CD,
@@ -120,7 +120,7 @@
     
     <update  id="updateCommCodeList" parameterType="map">
      UPDATE 		/* user.AdminMapper.updateCommCodeList */
-    	xorjf2.tb_code
+    	xorjf22.tb_code
       SET	
     		CODE_CD = #{codeCd} ,
     		CODE_NM = #{codeNm},
@@ -135,7 +135,7 @@
     
      <update  id="deleteCommCodeList" parameterType="map">
      UPDATE 		/* user.AdminMapper.deleteCommCodeList */
-    	xorjf2.tb_code
+    	xorjf22.tb_code
       SET	
     		DEL_YN = 'Y',
     		MOD_DT = SYSDATE()
