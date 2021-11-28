@@ -222,11 +222,18 @@ public class LoginService {
      * @throws Exception
      */
     @Transactional(rollbackFor=Exception.class)	// CUD 작업시 반드시 추가해야 에러 발생시 롤백 됨
-    public void  insertUser(HashMap<String, Object> param) throws Exception {
+    public void  insertUser(HashMap<String, Object> param , String type) throws Exception {
+    	String typeNm ="";
+    	if(type.equals("USER")) {
+    		typeNm ="일반유저";
+    	}else if(type.equals("ADMIN")) {
+    		typeNm = "시스템관리자";
+    	}
+    	param.put("type", type);
+    	param.put("type_nm", typeNm);
+    	
     	 //유저 등록
     	 loginMapper.insertUser(param);
-    	//유저 권한 등록
-    	 //loginMapper.insertUserGrade(param);
     }
     
     /**
@@ -257,7 +264,7 @@ public class LoginService {
         user = loginService.getLoginUserAuth(request, loginInfo);
 
         //API Permission 설정
-        if(user.getUSER_GRADE()!=null || !user.getUSER_GRADE().isBlank()){
+        if(user.getUSER_GRADE()!=null || !user.getUSER_GRADE().isEmpty()){
 
             if(user.getUSER_GRADE().equals("GU")){
                 user.setAPI_PERMISSION_ROLE(ApiPermission.Role.MEMBER);

@@ -5,8 +5,9 @@
     
     <insert id="insertAttachSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
     insert  into 		/* post.RegisterMapper.insertAttachSave */
-    	lifesite.magagine_attach
+    	xorjf22.magagine_attach
     	(
+    		POST_TYPE,
     		ATTACH_TYPE,
     		ATTACH_DIR,
     		URL_PATH,
@@ -22,6 +23,7 @@
     		MOD_DT
     	) 
 		values(
+				#{POST_TYPE},
 				#{ATTACH_TYPE},
 				#{ATTACH_DIR},
 				#{URL_PATH},
@@ -41,9 +43,10 @@
     
      <insert id="insertTitleSave" parameterType="File" useGeneratedKeys="true" keyProperty="ATTACH_ID"  >
     insert  into 		/* post.RegisterMapper.insertTitleSave */
-    	lifesite.magagine_attach
+    	xorjf22.magagine_attach
     	(
     		POST_ID,
+    		POST_TYPE,
     		ATTACH_TYPE,
     		ATTACH_DIR,
     		URL_PATH,
@@ -57,9 +60,10 @@
     		REG_DT,
     		MOD_USER_ID,
     		MOD_DT
-    	) 
+    	)
 		values(
 				#{POST_ID},
+				#{POST_TYPE},
 				#{ATTACH_TYPE},
 				#{ATTACH_DIR},
 				#{URL_PATH},
@@ -77,23 +81,25 @@
     </insert>
     
     <update id="changeTitleSave" parameterType="map">
-    UPDATE lifesite.magagine_attach
+    UPDATE xorjf22.magagine_attach
     SET TITLE_YN = 'N'
     WHERE POST_ID = #{postId}
+    AND POST_TYPE =#{postType}
     AND TITLE_YN ='Y'
     </update>
     
     
     <select  id="loadById" parameterType="File" resultType="File">
     	SELECT *    /* post.RegisterMapper.loadById */
-    	FROM lifesite.magagine_attach
+    	FROM xorjf22.magagine_attach
     	WHERE ATTACH_ID = #{fileId}
+    	AND POST_TYPE =#{postType}
     </select>
     
     
     <insert id="insertAnimals" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
        insert  into 		/* post.RegisterMapper.insertAnimals */
-    	lifesite.animals
+    	xorjf22.animals
     	(
     		TITLE,
     		CONTENT,
@@ -114,9 +120,201 @@
 				) 
     </insert>
     
-    <update id="updateAnimals" parameterType="map">
+    <insert id="insertArtEntertainment" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertArtEntertainment */
+    	xorjf22.artentertainment
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+    <insert id="insertDestinations" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertDestinations */
+    	xorjf22.destinations
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertHistory" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertHistory */
+    	xorjf22.history
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertLifeStyle" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertLifeStyle */
+    	xorjf22.lifestyle
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+    <insert id="insertNature" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertNature */
+    	xorjf22.nature
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <insert id="insertPeople" parameterType="map" useGeneratedKeys="true" keyProperty="POST_ID"  >
+       insert  into 		/* post.RegisterMapper.insertPeople */
+    	xorjf22.people
+    	(
+    		TITLE,
+    		CONTENT,
+    		DEL_FLG,
+    		REG_USER_ID,
+    		REG_DT,
+    		MOD_USER_ID,
+    		MOD_DT
+    	) 
+		values(
+				#{TITLE},
+				#{CONTENT},
+				'N',
+				#{loginUserId},
+				SYSDATE(),
+				#{loginUserId},
+				SYSDATE()
+				) 
+    </insert>
+    
+     <update id="updateAnimals" parameterType="map">
     	UPDATE		/* post.RegisterMapper.updateAnimals */
-    		lifesite.animals
+    		xorjf22.animals
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateArtEntertainment" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateArtEntertainment */
+    		xorjf22.artentertainment
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateDestinations" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateDestinations */
+    		xorjf22.destinations
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateHistory" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateHistory */
+    		xorjf22.history
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateLifeStyle" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateLifeStyle */
+    		xorjf22.lifestyle
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updateNature" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updateNature */
+    		xorjf22.nature
+    	SET 
+    		TITLE =  #{TITLE},
+			CONTENT = #{CONTENT}    	
+    	WHERE POST_ID = #{postId}
+    </update>
+    
+    <update id="updatePeople" parameterType="map">
+    	UPDATE		/* post.RegisterMapper.updatePeople */
+    		xorjf22.people
     	SET 
     		TITLE =  #{TITLE},
 			CONTENT = #{CONTENT}    	
@@ -125,10 +323,11 @@
     
     <update id="updateEditorAttach" parameterType="map">
     	UPDATE		/* post.RegisterMapper.updateEditorAttach */
-    		lifesite.magagine_attach
+    		xorjf22.magagine_attach
     	SET 
     		REFFER_FLG = 'Y' ,
 			POST_ID = #{POST_ID}    	
     	WHERE ATTACH_ID = #{attach_id}
+    	AND POST_TYPE =#{postType}
     </update>
 </mapper>

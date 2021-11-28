@@ -4,6 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="~{/layout/default_layout}">
 <head>
+<title>로그인</title>
 <th:block th:replace="fragment/config :: configFragment"></th:block>
 <!-- html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -15,7 +16,7 @@
 	function fnForegot(type) {
 		var url;
 		if (type == 'id') {
-			url = "/user/Id";
+			url = "/user/id";
 	
 		} else if (type = 'pwd') {
 			url = "/user/pswd";
@@ -44,7 +45,6 @@
 						async : false,
 						data : $("#loginForm").serialize(),
 						success : function(result) {
-							debugger;
 							if (result.status != true) {
 								if (result.message == "") {
 									alert("아이디랑 비밀번호를 확인해주세요.");
@@ -100,7 +100,7 @@
 									<label for="uname"><b>아이디</b></label> <input type="text"
 										placeholder="아이디를 입력해주세요." name="USER_ID" id="USER_ID" style="width: 100%;"
 										required> <label for="psw"><b>비밀번호</b></label> <input
-										type="password" placeholder="비밀번호를 입력해주세요." name="PASSWD"
+										type="password" placeholder="비밀번호를 입력해주세요." name="PASSWD" style="width: 100%;"
 										id="PASSWD" required>
 
 									<button onclick="fnLogin();">로그인</button>
@@ -114,7 +114,7 @@
 										<button type="button" style="float: left;" class="checkRedButton"
 											onclick="fnForegot('pwd');">비밀번호 찾기</button>
 									</div>
-									<div style="float: right; margin-right: 20px;">
+									<div style="float: right; margin-right: 10px;">
 										<button type="button" class="checkButton" onclick="moveJoin();">회원가입</button>
 									</div>
 								</div>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/popup_layout}">
+<head>
+<title>관리자</title>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+	<!-- 고유 스크립트 추가 -->
+	<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+
+function setDat(){
+	var grpId = getParameterByName('grpId');
+	var codeCd = getParameterByName('code_cd');
+	var codeNm = getParameterByName('code_nm');
+	var codeSeq = getParameterByName('code_seq');
+	var ref01 = getParameterByName('ref01');
+	var useYn = getParameterByName('use_yn');
+	
+	$("#grpId").val(grpId);
+	$("#codeCd").val(codeCd);
+	$("#originalCodeCd").val(codeCd);
+	$("#codeNm").val(codeNm);
+	$("#codeSeq").val(codeSeq);
+	$("#originalCodeSeq").val(codeSeq);
+	$("#ref01").val(ref01);
+	$("#useYn").val(useYn).prop("selected", true);
+}
+
+function updateCode(){
+	if($("#grpId").val()==""){
+		alert("그룹아이디를 입력해주세요.");
+		return;
+	}else if($("#codeCd").val()==""){
+		alert("코드를 입력해주세요.");
+		return;
+	}else if($("#codeNm").val()==""){
+		alert("코드명 입력해주세요.");
+		return;
+	}else if($("#codeSeq").val()==""){
+		alert("코드 순서를 입력해주세요.");
+		return;
+	}
+	
+	if(!confirm("공통 코드를 수정 하시겠습니까?")){
+		return;
+	}
+	
+	$.ajax({
+		url : "/api/admin/updateComCode",
+		type : "POST",
+		async : true,
+		data : $("#adminCodeList").serialize(),
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("저장 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				if(result.data !=""){
+					alert(result.data);
+					return;
+				}else{
+					alert("수정 되었습니다.");
+					opener.search();
+					window.close();
+					window.open('about:blank','_self').close();
+				}
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus + '\n'
+						+ 'errorThrown: ' + errorThrown);
+				console.log('HTTP message body (jqXHR.responseText): '
+						+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+	
+}
+
+
+function deleteCode(){
+	
+	if(!confirm("공통 코드를 삭제 하시겠습니까?")){
+		return;
+	}
+	
+	$.ajax({
+		url : "/api/admin/deleteComCode",
+		type : "POST",
+		async : true,
+		data : $("#adminCodeList").serialize(),
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("삭제 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				if(result.data !=""){
+					alert(result.data);
+					return;
+				}else{
+					alert("삭제 되었습니다.");
+					opener.search();
+					window.close();
+					window.open('about:blank','_self').close();
+				}
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus + '\n'
+						+ 'errorThrown: ' + errorThrown);
+				console.log('HTTP message body (jqXHR.responseText): '
+						+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+	
+}
+
+
+
+$(document).ready(function() {
+	setDat();
+	document.addEventListener('keydown', function(event) {
+		  if (event.keyCode === 13) {
+		    event.preventDefault();
+		  };
+		}, true);
+});
+</script>
+</head>
+	<th:block layout:fragment="content">
+		<div id="page" class="page">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="container">
+							<article>
+								<form id="adminCodeList" name="adminCodeList" , method="post" onsubmit="return false;">
+									<input type="hidden" id="originalCodeCd" name="originalCodeCd" />
+									<input type="hidden" id="originalCodeSeq" name="originalCodeSeq" />
+									<div id="content" class="section_home">
+										<div style="border: 2px solid #747474;padding: 30px;margin-bottom: 50px;">
+											<table class="ec-base-table" style="margin-bottom: 20px;">
+												<tr>
+														<th style="width: 200px;text-align: center;margin: 0;"><span class="required">*</span>그룹 아이디</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="grpId" name="grpId" readonly="readonly"/>
+														</td>
+												</tr>
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeCd" name="codeCd" placeholder="코드를 입력해주세요."/>
+														</td>
+												</tr>
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드명</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeNm" name="codeNm" placeholder="코드명을 입력해주세요."/>
+														</td>
+												</tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드 순번</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeSeq" name="codeSeq" placeholder="코드 순번을 입력해주세요."/>
+														</td>
+												</tr>
+												</tr>
+														<th style="width: 150px;text-align: center;margin: 0;">사용 여부</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<select class="form-select" id="useYn" style="margin-left: 100px;width: 1000px;" name="useYn" fw-filter="" fw-label="사용여부" fw-msg="" >
+																<option value="" selected="selected">선택</option>
+																<option value="Y">예</option>
+																<option value="N" >아니오</option>
+															</select>
+														</td>
+												</tr>
+												</tr>
+														<th style="width: 150px;text-align: center;margin: 0;">비고란</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;">
+															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="ref01" name="ref01" placeholder="비고란을 입력해주세요."/>
+														</td>
+												</tr>
+											</table>
+											<button onclick="updateCode();" style="background-color: white;color: black;">공통 코드 수정</button>
+											<button onclick="deleteCode();" >공통 코드 삭제</button>
+										</div>
+									</div>
+								</form>
+							</article>
+						
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+</html>

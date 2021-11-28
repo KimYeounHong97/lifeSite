@@ -10,13 +10,13 @@
 </th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
+<title>Animals-등록</title>
 <script type="text/javascript">
 function movList(){
 	window.location.href='/animals/info';
 }
 
 function resetPost(){
-	debugger;
 	if(!confirm("해당 게시글의 내용을 초기화 하시겠습니까?")){
 		return;
 	}
@@ -37,7 +37,6 @@ function register(){
 	if(!confirm("게시물을 등록하시겠습니까?")){
 		return;
 	}
-	debugger;
 	
 	$('textarea[name="CONTENT"]').html($('#summernote').summernote('code'));
 	
@@ -60,7 +59,6 @@ function register(){
 	   	enctype: 'multipart/form-data',
 	   	processData: false,
 		success : function(result) {
-			debugger;
 			if (result.status != true) {
 				if (result.message == "") {
 					alert("저장시도 중 오류가 발생했습니다.");
@@ -70,7 +68,6 @@ function register(){
 					return;
 				}
 			} else {
-				debugger;
 				if(result == 0){
 					alert("저장된건이 없습니다.");
 					return;
@@ -127,7 +124,6 @@ function setFile(){
 	    imgTarget.on('change', function(){
 	        var parent = $(this).parent();
 	        parent.children('.upload-display').remove();
-			 debugger;
 	        if(window.FileReader){
 	            //image 파일만
 	            if (!$(this)[0].files[0].type.match(/image\//)) return;
@@ -154,6 +150,7 @@ function sendFile(file, el) {
 	var form_data = new FormData();
  	form_data.append('file', file);
  	form_data.append('loginUserId', $("#loginUserId").val());
+ 	form_data.append('postType', $("#postType").val());
  	$.ajax({
    	data: form_data,
    	type: "POST",
@@ -163,7 +160,6 @@ function sendFile(file, el) {
    	enctype: 'multipart/form-data',
    	processData: false,
    	success: function(response) {
-   		debugger;
    		if(response.responseCode='success'){
    			$("#fileInsert").val("Y");
    			var fileIdArray;
@@ -192,7 +188,6 @@ function sendFile(file, el) {
 
 function setSummernote(){
 	  $('#summernote').summernote({
-		  	 width:1200,
           height: 500,                 // set editor height
           minHeight: null,             // set minimum height of editor
           maxHeight: null,             // set maximum height of editor
@@ -248,13 +243,13 @@ $(document).ready(function() {
 										<table>
 											<tr>
 												<th style="width: 120px;">제목</th>
-												<td><input type="text" class="form-control" style="margin-bottom: 25px;" id="TITLE" name="TITLE"/></td>
+												<td><input type="text" class="form-control" style="margin-bottom: 25px; width: 90%;" id="TITLE" name="TITLE"/></td>
 											</tr>
 											<tr>
 												<th style="width: 120px;">대표사진</th>
 												<td>
 													 <div class="filebox bs3-primary preview-image">
-											              <input id="input_file_nm" class="upload-name" value="대표 이미지 선택" disabled="disabled" style="width: 200px;">
+											              <input id="input_file_nm" class="upload-name" placeholder="대표 이미지 선택" value="" disabled="disabled" style="width: 200px;">
 											              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
 											              <input type="file" id="input_file" class="upload-hidden"> 
 											         </div>

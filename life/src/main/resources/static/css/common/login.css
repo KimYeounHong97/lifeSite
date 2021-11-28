@@ -5,14 +5,14 @@
    margin: 0;
   }
 .info{
-	font-family: "Open Sans", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 25px;
 	font-weight: bold;
 	color: #353535;
 }
 
 .message{
-	font-family: "Open Sans", sans-serif;
+	font-family: "Nanum Gothic Coding";
 	font-size: 15px;
 	font-weight: normal;
 	color: black;
@@ -29,7 +29,7 @@ form {
 
 /* Full-width inputs */
 input[type=text], input[type=password] {
-  width: 100%;
+  width: 70%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -37,8 +37,31 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
+
+@media screen and (max-width: 700px) {
+    input[type=text]{
+	    font-size: 10px;
+	    width:90%;
+	}
+}
+@media screen and (max-width: 700px) {
+    input[type=password] {
+	    font-size: 10px;
+	    width:100%;
+	}
+}
+@media screen and (max-width: 700px) {
+    .checkButton-short {
+	    font-size: 9px;
+	    width:21%;
+	    margin: 0;
+	    padding: 0;
+	}
+}
+
+
 select {
-  width: 63%;
+  width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -57,7 +80,7 @@ form button {
   width: 100%;
   font-size: 15px;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Nanum Gothic Coding";
 }
 
 /* Add a hover effect for buttons */
@@ -74,12 +97,15 @@ button:hover {
 }
 
 
-input[type=text]{
-	 width: 400px;
-}
-
 .mobile input[type=text]{
    width: 200px;
+}
+
+@media screen and (max-width: 700px) {
+   .mobile input[type=text]{
+	   width: 20%;
+	   font-size: 5px;
+	}
 }
 
 .mobile b{
@@ -113,9 +139,6 @@ img.avatar {
   padding: 16px;
 }
 
-.find-container{
-	padding: 30px;
-}
 
 /* The "Forgot password" text */
 span.psw {
@@ -144,25 +167,34 @@ span.psw {
 
 
 table {
-    width: 100%;
+	font-family : "Nanum Gothic Coding";
+    margin: 0 auto;
     border: 0;
     border-spacing: 0;
     border-collapse: collapse;
+    max-width: 100%;;
 }
 
 .ec-base-table tbody th {
-    padding: 11px 0 10px 18px;
+	padding-left:3px;
     border: 1px solid #dfdfdf;
     border-bottom-width: 0;
     color: #353535;
-    text-align: left;
-    font-weight: normal;
     background-color: #fbfafa;
+    width: 20%;
+    text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+    .ec-base-table tbody th {
+	    font-size: 8px;
+	}
 }
 
 .ec-base-table tbody td {
-    padding: 10px 100px 10px 25px;
-    
+    padding: 10px 10px 10px 10px;
+    overflow-x:auto;
+    max-width:90vw;
 }
 
 .ec-base-help{
@@ -171,6 +203,7 @@ table {
 	background-color: black;
 	color : white;
 	padding: 20px;
+	font-family: "Nanum Gothic Coding";
 }
 .required{
 	color: red;
@@ -197,8 +230,9 @@ table {
 }
 
 .section_home .column {
-    float: left;
-    width: 50%;
+    max-width: 100%;
+    max-height:100%;
+    padding: 10px;
 }
 
 .sh_group, .sh_group2, .sh_group3, .sh_group4 {
@@ -208,7 +242,6 @@ table {
     border: 1px solid #dadada;
     border-radius: 2px;
     background: #fff;
-    height: 475px;
 }
 
 .desc_sub{

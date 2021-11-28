@@ -11,10 +11,28 @@
             , CODE_NM 
             , CODE_SEQ
         FROM
-            lifesite.tb_code
+            xorjf22.tb_code
         WHERE USE_YN = 'Y'
             <if test='GRP_ID != null and GRP_ID != ""'>
                 AND GRP_ID = #{GRP_ID}
+            </if>
+        ORDER BY CODE_SEQ
+    </select>
+    
+     <select id="getCodeInfo" parameterType="map" resultType="hashMap">
+        SELECT /* ComCodeMapper.getCodeInfo */
+              GRP_ID
+            , CODE_CD
+            , CODE_NM 
+            , CODE_SEQ
+        FROM
+            xorjf22.tb_code
+        WHERE USE_YN = 'Y'
+            <if test='GRP_ID != null and GRP_ID != ""'>
+                AND GRP_ID = #{GRP_ID}
+            </if>
+            <if test='CODE_CD != null and CODE_CD != ""'>
+                AND CODE_CD = #{CODE_CD}
             </if>
         ORDER BY CODE_SEQ
     </select>

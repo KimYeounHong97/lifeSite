@@ -24,5 +24,13 @@ public class ComCodeService {
         return mapper.getCodeList(param);
     }
     
+    // 그룹별 공통코드 가져오기 (called from thymeleaf combo)
+    public Map<String,Object> getCodeInfo(String code_grp_cd , String code_cd) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("GRP_ID", code_grp_cd);
+        param.put("CODE_CD", code_cd);
+        return mapper.getCodeInfo(param);
+    }
+    
 
 }

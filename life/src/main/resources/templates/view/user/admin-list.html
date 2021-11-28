@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<title>관리자</title>
+	<!--  고유 CSS 추가 -->
+	<th:block layout:fragment="css"></th:block>
+	<!-- 고유 스크립트 추가 -->
+	<th:block layout:fragment="script"></th:block>
+<title>사이트맵</title>
+</head>
+	<th:block layout:fragment="content">
+		<div id="page" class="page">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="container">
+							<div class="header">
+								<img class="featured-image lazyloaded"
+									src="/img/picture/admin/header.jpg"
+									data-lazy-src="/img/picture/admin/header.jpg"
+									data-was-processed="true">
+								<div class="article-info">
+                    				<h1 class="entry-title">관리자용</h1>
+                				</div>
+							</div>
+							<ul style="margin-top: 80px;">
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/user/admin-myInfo" >마이페이지</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/user/admin-userList" >회원 목록 조회</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/user/admin-accessList" >회원 접속 로그 조회</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/user/admin-codeList" >공통 코드 관리</a></li>
+								<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/user/admin-change" >이미지 및 로고 변경</a></li>
+							</ul>
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+</html>

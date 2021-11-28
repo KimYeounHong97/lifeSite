@@ -14,8 +14,12 @@
 	content="Experience LIFE's visual record of the 20th century by exploring the most iconic photographs from one of the most famous private photo collections in the world.">
 <meta name="twitter:title"
 	content="The Most Iconic Photographs of All Time - LIFE">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <!--headerFragment 선언-->
 <th:block th:fragment="headerFragment">
+<style type="text/css">
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css); 
+</style>
 	<!-- #site-navigation -->
 	<nav id="site-navigation"
 		class="has-branding main-navigation grid-container grid-parent sub-menu-left"
@@ -23,7 +27,7 @@
 		<div class="inside-navigation">
 			<div class="navigation-branding">
 				<div class="site-logo">
-					<a href="http://localhost:8080/" title="LIFE-MAGAGINE" rel="home">
+					<a href="/" title="LIFE-MAGAGINE" rel="home">
 						<img class="header-image lazyloaded" alt="LIFE"
 						src="/img/logo/SITE_LOGO.png"
 						title="LIFE"
@@ -51,12 +55,19 @@
 				<a th:if="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
 				    href="/user/login">로그인</a>
+				 <span th:unless="${session.life == null}">
+				 	<a th:if="${session.life.user.USER_GRADE != 'ADMIN'}"
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb" href="/user/myInfo">
+					<span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
+					<a th:unless="${session.life.user.USER_GRADE != 'ADMIN'}"
+						class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb" href="/user/admin-list">
+						<span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
+				 </span>
+	
+
 				<a th:unless="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
-					href="/user/myinfo"><span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
-				<a th:unless="${session.life == null}"
-					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
-					href="/user/logout"><span th:text="로그아웃"/></a>
+					href="/user/logout"><span>&nbsp;&nbsp;&nbsp;로그아웃</span></a>
 			</div>
 		</div>
 		<!-- .inside-navigation -->
@@ -76,11 +87,12 @@
 				<div class="main-nav">
 				
 					<ul id="menu-main" class=" slideout-menu">
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/" >HOME</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/animals/info" >Animals</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/arts-entertainment/info" >Art &amp;Entertainment</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/destinations/info" >Destinations</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/history/info" >History</a></li>
-						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifestyle/info" >LifeStyle</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifeStyle/info" >LifeStyle</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/nature/info" >Nature</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/people/info" >People</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/sitemap/info" >SiteMap</a></li>
@@ -90,8 +102,10 @@
 	      </div>
 	      <div class="modal-footer">
 	      	<div>
-	      		<a class="instagram" href="#" target="_blank"><i class="fab fa-instagram-square fa-3x"  style="float: left; margin : 20px;"></i></a>
-	      		<a class="youtube" href="#" target="_blank"><i class="fab fa-youtube fa-3x"  style="float: left; margin : 20px;"></i></a>
+	      		<a class="instagram" th:each="result:${@CommCodeService.getCodeList('ADMIN_INSTAGRAM')}" 
+								                th:href="${result['CODE_NM']}" target="_blank"><i class="fab fa-instagram-square fa-3x"  style="float: left; margin : 20px;"></i></a>
+	      		<a class="youtube" th:each="result:${@CommCodeService.getCodeList('ADMIN_YOUTUBE')}" 
+								                th:href="${result['CODE_NM']}"target="_blank"><i class="fab fa-youtube fa-3x"  style="float: left; margin : 20px;"></i></a>
 	      	</div>
 	      	
 	      </div>

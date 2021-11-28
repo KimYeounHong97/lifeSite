@@ -2,7 +2,7 @@ package com.life.site.config.param;
 
 public class CommonConstants {
     public static String UPLOAD_PATH = "";
-    public static String BLOCK_KEYWORD = "<script;</script>;<iframe";
+    public static String BLOCK_KEYWORD = "<script;</script>;";
 
     public static final String LIFE_SESSION = "life";
     public static final String COOKIE_REMEMBER_ID = "LOGIN_COOKIE";
@@ -114,8 +114,8 @@ public class CommonConstants {
     }
 
     public final class Email {
-        public static final String FROM_ADDR = "no-reply@hansol.com";
-        public static final String FROM_NAME = "웹표준 시스템";
+        public static final String FROM_ADDR = "";
+        public static final String FROM_NAME = "";
     }
     
     public final class History {

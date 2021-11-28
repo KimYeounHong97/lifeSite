@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<title>관리자</title>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+</th:block>
+	<!-- 고유 스크립트 추가 -->
+	<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+
+//관리자 리스트 이동
+function movList(){
+	location.href='/user/admin-list';
+}
+
+//공통 코드 검색
+function search(){
+	$("#jqGrid").jqGrid('setGridParam',{
+			url: '/api/admin/codeList',
+			datatype: "json",
+			postData : $("#adminCodeList").serialize()
+			}).trigger('reloadGrid');
+}
+
+function addCode(){
+	if($("#grpId").val()==""){
+		alert("그룹아이디를 입력해주세요.");
+		return;
+	}else if($("#codeCd").val()==""){
+		alert("코드를 입력해주세요.");
+		return;
+	}else if($("#codeNm").val()==""){
+		alert("코드명 입력해주세요.");
+		return;
+	}else if($("#codeSeq").val()==""){
+		alert("코드 순서를 입력해주세요.");
+		return;
+	}
+	
+	if(!confirm("공통 코드를 추가하시겠습니까?")){
+		return;
+	}
+	
+	$.ajax({
+		url : "/api/admin/addComCode",
+		type : "POST",
+		async : true,
+		data : $("#adminCodeList").serialize(),
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("저장 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				if(result.data !=""){
+					alert(result.data);
+					return;
+				}else{
+					alert("등록되었습니다.");
+					$("#grpId").val("");
+					$("#codeCd").val("");
+					$("#codeNm").val("");
+					$("#codeSeq").val("");
+					$("#ref01").val("");
+					search();
+				}
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: ' + jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus + '\n'
+						+ 'errorThrown: ' + errorThrown);
+				console.log('HTTP message body (jqXHR.responseText): '
+						+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+	
+}
+
+function makeTable(){
+	 $("#jqGrid").jqGrid({ 
+	        //ajax 호출할 페이지
+	        url:'/api/admin/codeList',
+	        //로딩중일때 출력시킬 로딩내용
+	        loadtext : '로딩중..',
+	        //응답값
+	        datatype: "json",
+	        mtype : "POST",
+	        postData: $("#adminCodeList").serialize(),
+	        jsonReader :{
+	        	root    :    "data.result"
+	        },
+	        viewrecords:true,
+	        sortorder:'asc',
+	        height: 350,
+	        rowNum :1000,
+	        search:true,
+	        refresh:true,
+	        colNames:['그룹 아이디','코드', '코드명', '코드 순번','비고란','사용 여부','입력 시간','수정 시간'],
+	        colModel:[
+	            {name:'GRP_ID' ,width:150 , align:"center"},
+	            {name:'CODE_CD',align:"center" ,width:250 },
+	            {name:'CODE_NM',align:"center",width:250},
+	            {name:'CODE_SEQ',align:"center",width:100},
+	            {name:'REF01',align:"center",width:250},
+	            {name:'USE_YN',align:"center",width:100},
+	            {name:'INPUT_DT',align:"center",width:200},
+	            {name:'MOD_DT',align:"center",width:200}  
+	        ],
+	        onSelectRow: function(rowid, status, e) {
+	        	var rowData = $('#jqGrid').getRowData(rowid);
+	        	var grpId = rowData.GRP_ID;
+	        	var codeCd = rowData.CODE_CD;
+	        	var codeNm = rowData.CODE_NM;
+	        	var codeSeq = rowData.CODE_SEQ;
+	        	var ref01 = rowData.REF01;
+	        	var useYn = rowData.USE_YN;
+	        	  window.open("/popup/admin-codeUpdate?grpId="+encodeURIComponent(grpId)+"&code_cd="+encodeURIComponent(codeCd)+"&code_nm="+encodeURIComponent(codeNm)+
+	        			  "&code_seq="+encodeURIComponent(codeSeq)+"&ref01="+encodeURIComponent(ref01)+"&use_yn="+encodeURIComponent(useYn)
+	        			  , "공통코드 수정", "width=1500, height=650, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+	          },
+	        caption:"공통 코드"
+	    });
+}
+
+$(document).ready(function() {
+	makeTable();
+	document.addEventListener('keydown', function(event) {
+		  if (event.keyCode === 13) {
+			  search();
+		    event.preventDefault();
+		  };
+		}, true);
+});
+</script>
+</head>
+	<th:block layout:fragment="content">
+		<div id="page" class="page">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="container">
+							<div class="header">
+								<img class="featured-image lazyloaded"
+									src="/img/picture/common/sitemap-header.jpg"
+									data-lazy-src="/img/picture/common/sitemap-header.jpg"
+									data-was-processed="true">
+								<div class="article-info">
+                    				<h1 class="entry-title">공통코드 관리</h1>
+                				</div>
+							</div>
+							<article>
+								<form id="adminCodeList" name="adminCodeList" , method="post" onsubmit="return false;">
+									<div id="content" class="section_home">
+										<div style="margin-top: 50px;">
+											<table class="ec-base-table">
+												<tr>
+													<th style="width: 150px;text-align: center;margin: 0;">검색조건</th>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+														<input type="text" class="form-control" style="width: 100vw;" id="keyword" name="keyword" placeholder="그룹 아이디,코드,코드명"/>
+													</td>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;"><button onclick="search();">조회</button></td>
+												</tr>
+											</table>
+										</div>	
+										<div style="margin-top: 30px;margin-bottom: 50px;max-width:90%;margin: 0 auto;">
+											<table id="jqGrid"></table> 
+											<div id="gridpager"></div>
+										</div>
+										<div style="border: 1.5px solid black;padding: 10px;margin-bottom: 50px;margin: 0 auto;width: 90%;">
+											<table class="ec-base-table" style="margin-bottom: 20px;">
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>그룹 아이디</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="grpId" name="grpId" placeholder="그룹 아이디를 입력해주세요."/>
+														</td>
+												</tr>
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeCd" name="codeCd" placeholder="코드를 입력해주세요."/>
+														</td>
+												</tr>
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드명</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeNm" name="codeNm" placeholder="코드명을 입력해주세요."/>
+														</td>
+												</tr>
+														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드 순번</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeSeq" name="codeSeq" placeholder="코드 순번을 입력해주세요."/>
+														</td>
+												</tr>
+												<tr>
+														<th style="width: 150px;text-align: center;margin: 0;">비고란</th>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="ref01" name="ref01" placeholder="비고란을 입력해주세요."/>
+														</td>
+												</tr>
+											</table>
+											<button onclick="addCode();" style="background-color: white;color: black;">공통 코드 추가</button>
+										</div>
+										
+										<button onclick="movList();">목록</button>
+									</div>
+								</form>
+							</article>
+						
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+</html>

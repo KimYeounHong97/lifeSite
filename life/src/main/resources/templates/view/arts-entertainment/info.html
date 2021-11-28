@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
+</th:block>
+<!-- 고유 스크립트 추가 -->
+<th:block layout:fragment="script"></th:block>
+<title>Art &amp;Entertainment</title>
+<script type="text/javascript">
+//페이지 이동
+function page(idx){
+	location.href='/arts-entertainment/info?page='+idx;
+}
+
+function movPostReg(){
+	location.href='/arts-entertainment/register';
+}
+
+function postData(){
+	var currentPage = window.location.href.split('?page=')[1];
+	currentPage = currentPage==undefined?1:currentPage;
+
+	$("#currentPage").val(currentPage);
+	$.ajax({
+		url : "/api/post/list",
+		type : "POST",
+		async : true,
+		data : $("#arts-entertainmentForm").serialize(),
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("정보 조회 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				var data = result.data;
+				var Count = data.posts.length;
+				var totalCount = data.posts[0].TOTAL_COUNT;
+				var trCount = Count%3==0?(Count/3):(parseInt(Count/3) + 1);
+				var tdCount;
+				var pagingCount= parseInt(totalCount / 12)==0?1:(totalCount / 12);
+				trCount = trCount>4?4:trCount;
+				var insertTr ="";
+				var mobileYn = screen.width<800?'Y':'N';
+				if(mobileYn=='Y'){
+					for(var i=0; i< Count; i++){
+						insertTr = "<tr>";
+						var attach = data.posts[i].postAttaches;
+						var imgSrc;
+						$.each(attach, function(index, item){
+							if(item.TITLE_FL == 'Y'){
+								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+							}
+						});
+						var postType = data.posts[i].TYPE;
+						
+						insertTr += " <td>";
+						insertTr += " 	 <div class='category-card'>";
+						insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+						insertTr += " 	 	<img style='width:150vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+						insertTr += "       ></a>";
+						insertTr += "       <h3 class='TitleMsg' ><a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'>"+data.posts[i].TITLE+"</a> </h3>";
+						insertTr += "     </div>"; 
+						insertTr += "  </td>";
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
+					}
+				}else{
+					//테이블 생성
+					for(var i=0; i< trCount; i++){
+						if(i==trCount-1){
+							tdCount = Count%3==0?3:Count%3;
+						}else{
+							tdCount = 3;
+						}
+						insertTr = "<tr>";
+						
+						
+						for(var j=0; j<tdCount; j++){
+							var attach = data.posts[j+(i*3)].postAttaches;
+							var imgSrc;
+							$.each(attach, function(index, item){
+								if(item.TITLE_FL == 'Y'){
+									imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+								}
+							});
+							
+							var postType = data.posts[j+(i*3)].TYPE;
+							
+							insertTr += " <td>";
+							insertTr += " 	 <div class='category-card'>";
+							insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+							insertTr += " 	 	<img style='width:30vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+							insertTr += "       ></a>";
+							insertTr += "       <h3 class='TitleMsg'><a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "     </div>"; 
+							insertTr += "  </td>";
+						}
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
+					}
+				}
+				
+				//페이징 처리
+				for(var i=0; i<pagingCount; i++ ){
+					insertTr ='<a  class="page-numbers" onclick="page('+(i+1)+')">'+(i+1)+'</a>';
+					$("#pagingNum").append(insertTr); 
+				}
+				
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: '
+						+ jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus
+						+ '\n' + 'errorThrown: '
+						+ errorThrown);
+				console
+						.log('HTTP message body (jqXHR.responseText): '
+								+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+}
+
+
+$(document).ready(function() {
+	postData();
+});
+</script>
+</head>
+<th:block layout:fragment="content">
+	<div id="page" class="page" >
+		<div id="content" class="site-content">
+			<div id="primary"
+				class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+				<main id="main" class="site-main">
+					<div id="category-container">
+						<div class="category-header">
+							<img class="featured-image-large lazyloaded"
+								src="/img/picture/arts-entertainment/arts-entertainment-header.jpg"
+								data-lazy-src="/img/picture/arts-entertainment/arts-entertainment-header.jpg"
+								data-was-processed="true">
+							<div class="category-info">
+								<h1 class="entry-title">Art &amp;Entertainment</h1>
+							</div>
+						</div>
+						<article>
+							<div class="inside-article">
+								<div class="entry-content" itemprop="text">
+									<div class="tag-card-container">
+										<form id="arts-entertainmentForm" name="arts-entertainmentForm" , method="post"
+											onsubmit="return false;">
+											<input type="hidden" name="postType" value="arts-entertainment" /> <input
+												type="hidden" name="currentPage" id="currentPage" />
+											<div style="margin-bottom: 20px;">
+												<h2 style="text-align: center;">최신호</h2>
+												<div style="float: right;" th:if="${session.life != null}">
+													<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
+														<button class="checkButton" onclick="movPostReg();">포스트
+															등록</button>
+													</p>
+												</div><br/><br/><br/>
+											</div>
+											<div>
+												<table>
+													<tbody id="postTbody"></tbody>
+												</table>
+											</div>
+										</form>
+									</div>
+
+								</div>
+								<div class="pagination-container" id="pagingNum"></div>
+							</div>
+						</article>
+					</div>
+					<div th:if="${session.life == null}"
+						data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"
+						class="newsletter-container rocket-lazyload"
+						style="background-image: url(&quot;/wp-content/themes/generatepress-child/static/newsletter.jpg&quot;);"
+						data-was-processed="true">
+						<span th:text="${session.userId}"></span>
+						<h2>Let's make a magazine together</h2>
+						<p>서로의 이야기를 공유하여 새로운 잡지를 만들어가봐요</p>
+						<section>
+							<button>
+								<a href="/user/login" style="color: white; font-weight: bold;">Join
+									With Us</a>
+							</button>
+						</section>
+					</div>
+				</main>
+				<!-- #main -->
+			</div>
+			<!-- #primary -->
+		</div>
+		<!-- #content -->
+	</div>
+</th:block>
+</html>

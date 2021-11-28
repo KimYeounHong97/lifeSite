@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.life.site.web.user.AdminMapper">
+    <!-- 기본 사용자 검색 (아이디 키워드 검색) -->
+    <select id="selectUserList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectUserList */
+         				USER_ID ,
+         				USER_GENDER,
+         				USER_GRADE,
+         				USER_GRADE_NM, 
+         				PHONE,
+         				EMAIL, 
+         				ADDRESS, 
+         				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT, 
+         				date_format(MOD_DT, '%Y-%m-%d %T')  AS MOD_DT
+			FROM xorjf22.member
+			WHERE USE_FLG ='Y'
+			AND DEL_FLG ='N' 
+			AND (
+            		USER_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		PHONE LIKE CONCAT('%',#{keyword},'%')  OR
+            		EMAIL LIKE CONCAT('%',#{keyword},'%') OR
+            		ADDRESS LIKE CONCAT('%',#{keyword},'%') 
+            	)
+        ORDER BY USER_ID, INPUT_DT
+    </select>
+    
+    
+     <!-- 기본 사용자 접속 로그 검색 (아이디 키워드 검색) -->
+    <select id="selectUserAccessList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectUserAccessList */
+				USER_ID,
+				USER_GRADE_CD,
+				USER_GRADE_NM,
+				ACC_URL,
+				ACC_TYPE,
+				AGENT,
+				SUCCESS_FL,
+				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT
+		FROM xorjf22.sys_log_access_tb
+		WHERE 1=1
+		AND (
+            		USER_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		USER_GRADE_CD LIKE CONCAT('%',#{keyword},'%')  OR
+            		USER_GRADE_NM LIKE CONCAT('%',#{keyword},'%') OR
+            		ACC_URL LIKE CONCAT('%',#{keyword},'%') 
+            	)
+        ORDER BY INPUT_DT DESC, USER_ID
+    </select>
+    
+     <!-- 공통 코드 검색  -->
+    <select id="selectCommCodeList" parameterType="hashMap" resultType="hashMap">
+         SELECT DISTINCT     /* user.AdminMapper.selectCommCodeList */
+				GRP_ID,
+				CODE_CD,
+				CODE_NM,
+				CODE_SEQ,
+				REF01,
+				USE_YN,
+				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT,
+				date_format(MOD_DT, '%Y-%m-%d %T')  AS MOD_DT
+		FROM xorjf22.tb_code
+		WHERE DEL_YN = 'N'
+		AND (
+            		GRP_ID LIKE CONCAT('%',#{keyword},'%')  OR
+            		CODE_CD LIKE CONCAT('%',#{keyword},'%')  OR
+            		CODE_NM LIKE CONCAT('%',#{keyword},'%')
+            	)
+        ORDER BY GRP_ID , CODE_SEQ, INPUT_DT DESC , MOD_DT DESC
+    </select>
+    
+     <!-- 코드 중복 체크  -->
+    <select id="selectCodeDuplicateChk" parameterType="hashMap" resultType="hashMap">
+         SELECT      /* user.AdminMapper.selectCodeDuplicateChk */
+			IF(COUNT(*)=0,'Y','N') AS CHK
+		FROM xorjf22.tb_code
+		WHERE USE_YN='Y'
+		AND GRP_ID = #{grpId}
+		AND CODE_CD = #{codeCd}
+    </select>
+    
+     <!-- 코드 순서 중복 체크  -->
+    <select id="selectCodeSeqDuplicateChk" parameterType="hashMap" resultType="hashMap">
+         SELECT      /* user.AdminMapper.selectCodeSeqDuplicateChk */
+			group_concat(CODE_SEQ) AS CHK
+		FROM xorjf22.tb_code
+		WHERE USE_YN='Y'
+		GROUP BY GRP_ID
+		HAVING GRP_ID = #{grpId}
+    </select>
+    
+    <insert  id="insertCommCodeList" parameterType="map">
+     insert  into 		/* user.AdminMapper.insertCommCodeList */
+    	xorjf22.tb_code
+    	(
+    		GRP_ID,
+    		CODE_CD,
+    		CODE_NM,
+    		CODE_SEQ,
+    		USE_YN,
+    		DEL_YN,
+    		REF01,
+    		INPUT_DT,
+    		MOD_DT
+    	) 
+		values(
+				#{grpId},
+				#{codeCd},
+				#{codeNm},
+				cast(#{codeSeq} as unsigned),
+				'Y',
+				'N',
+				#{ref01},
+				SYSDATE(),
+				SYSDATE()
+				) 
+    
+    </insert>
+    
+    <update  id="updateCommCodeList" parameterType="map">
+     UPDATE 		/* user.AdminMapper.updateCommCodeList */
+    	xorjf22.tb_code
+      SET	
+    		CODE_CD = #{codeCd} ,
+    		CODE_NM = #{codeNm},
+    		CODE_SEQ = cast(#{codeSeq} as unsigned),
+    		REF01 = #{ref01},
+    		USE_YN = #{useYn},
+    		MOD_DT = SYSDATE()
+	   WHERE GRP_ID = #{grpId}
+	   AND CODE_CD = #{originalCodeCd}
+    
+    </update>
+    
+     <update  id="deleteCommCodeList" parameterType="map">
+     UPDATE 		/* user.AdminMapper.deleteCommCodeList */
+    	xorjf22.tb_code
+      SET	
+    		DEL_YN = 'Y',
+    		MOD_DT = SYSDATE()
+	   WHERE GRP_ID = #{grpId}
+	   AND CODE_CD = #{originalCodeCd}
+    
+    </update>
+</mapper>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{/layout/default_layout}">
+<head>
+<title>관리자</title>
+<!--  고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/common/login.css}">
+	<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
+</th:block>
+	<!-- 고유 스크립트 추가 -->
+	<th:block layout:fragment="script"></th:block>
+<script type="text/javascript">
+var cnt=0;
+//관리자 리스트 이동
+function movList(){
+	location.href='/user/admin-list';
+}
+
+//기존 이미지 지정
+function setOriginal(event){
+	// 이미지 변경
+	var imgUrl =event.target.value;
+	var imgNm = event.target.selectedOptions[0].label;
+	$("#path").val(imgUrl);
+	$('#input_original_file_nm').val(imgNm);
+	//preview image 
+    var parent =  $('#input_original_file_nm').parent();
+    if(cnt==0){
+    	parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img id="previewImg" src="'+imgUrl+'" class="upload-thumb"></div></div>');
+    }else{
+    	$("#previewImg").attr('src',imgUrl);
+    }
+
+    cnt++;
+	
+}
+
+//이미지 변경
+function change(){
+	if($("#changeImg option:selected").val()==""){
+		alert("변경 목록을 선택해주세요.");
+		return;
+	}else if($("#input_file_nm").val()==""){
+		alert("변경이미지를 선택해주세요.");
+		return;
+	}else if(!confirm("이미지를 변경하시겠습니까?")){
+		return;
+	}
+	
+	var form = new FormData(document.getElementById('adminForm'));
+	var form_data = new FormData();
+	var temp = $("#input_file")[0].files[0];
+ 	form_data.append('file', temp);
+	
+	for(var pair of form.entries()) {
+		 form_data.append(pair[0], pair[1]);
+		 console.log(pair[0]+ ', '+ pair[1]);
+	}
+	  
+	$.ajax({
+	 	data: form_data,
+	   	type: "POST",
+	   	async:false,
+	   	url: '/api/admin/changeImageFile',
+	   	cache: false,
+	   	contentType: false,
+	   	enctype: 'multipart/form-data',
+	   	processData: false,
+		success : function(result) {
+			if (result.status != true) {
+				if (result.message == "") {
+					alert("저장시도 중 오류가 발생했습니다.");
+					return;
+				} else {
+					alert(result.message);
+					return;
+				}
+			} else {
+				if(result == 0){
+					alert("변경 된 건이 없습니다.");
+					return;
+				}
+				alert("변경되었습니다.");
+				location.href='/user/admin-change';
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//세션이나 쿠키가 없을 때는 LoginCheckAspect 에서 401 에러 발생
+			if (jqXHR.status == '401') {
+				location.href = "/common/sessionError.do";
+			} else {
+				alert("ERR=" + 'HTTP status code: '
+						+ jqXHR.status + '\n'
+						+ 'textStatus: ' + textStatus
+						+ '\n' + 'errorThrown: '
+						+ errorThrown);
+				console
+						.log('HTTP message body (jqXHR.responseText): '
+								+ '\n' + jqXHR.responseText);
+			}
+		}
+	});
+	
+	
+	
+}
+
+function setFile(){
+	 var fileTarget = $('.filebox .upload-hidden');
+
+	    fileTarget.on('change', function(){
+	        if(window.FileReader){
+	            // 파일명 추출
+	            var filename = $(this)[0].files[0].name;
+	        } 
+
+	        else {
+	            // Old IE 파일명 추출
+	            var filename = $(this).val().split('/').pop().split('\\').pop();
+	        };
+	        
+	        if (!$(this)[0].files[0].type.match(/image\//)){
+	        	alert("이미지 파일만 첨부 가능합니다.");
+	        	$(this).siblings('.upload-name').val('');
+				return;
+           } 
+
+	        $(this).siblings('.upload-name').val(filename);
+	        $("#titleInsert").val('Y');
+	    });
+
+	    //preview image 
+	    var imgTarget = $('.preview-image .upload-hidden');
+
+	    imgTarget.on('change', function(){
+	        var parent = $(this).parent();
+	        parent.children('.upload-display').remove();
+	        if(window.FileReader){
+	            //image 파일만
+	            if (!$(this)[0].files[0].type.match(/image\//)) return;
+	            var reader = new FileReader();
+	            reader.onload = function(e){
+	                var src = e.target.result;
+	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
+
+	        else {
+	            $(this)[0].select();
+	            $(this)[0].blur();
+	            var imgSrc = document.selection.createRange().text;
+	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+	            var img = $(this).siblings('.upload-display').find('img');
+	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
+	        }
+	    });
+}
+
+$(document).ready(function() {
+	setFile();
+});
+</script>
+</head>
+	<th:block layout:fragment="content">
+		<div id="page" class="page">
+			<div id="content" class="site-content">
+				<div id="primary"
+					class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
+					<main id="main" class="site-main">
+						<div id="container">
+							<div class="header">
+								<img class="featured-image lazyloaded"
+									src="/img/picture/admin/change-header.jpg"
+									data-lazy-src="/img/picture/admin/change-header.jpg"
+									data-was-processed="true">
+								<div class="article-info">
+                    				<h1 class="entry-title">이미지 및 로고 변경</h1>
+                				</div>
+							</div>
+							<article>
+								<form id="adminForm" name="adminForm" , method="post" onsubmit="return false;">
+									<input type="hidden" id="path" name="path">
+									<div id="content" class="section_home">
+										<button onclick="movList();">목록</button>
+										<div>
+											<table>
+												<tr>
+													<th>변경 목록 선택</th>
+													<td>
+														<select id="changeImg" name="changeImg" fw-filter="" fw-label="변경이미지" fw-msg="" onchange="setOriginal(event);">
+															<option value="">선택</option>
+															<option th:each="result:${@CommCodeService.getCodeList('ADMIN_CHANGE')}" 
+														                th:value="${result['CODE_CD']}" 
+														                th:text="${result['CODE_NM']}"
+														                th:selected="${(''+sel_val).equals(result['CODE_CD'])}">
+														     </option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th style="width: 120px;">기존 사진</th>
+													<td>
+														 <div class="filebox bs3-primary preview-image">
+												              <input id="input_original_file_nm" class="upload-name" value="기존 이미지" disabled="disabled" style="width: 200px;">
+												              <input type="file" id="input_original_file" class="upload-hidden"> 
+												         </div>
+													</td>
+												</tr>
+												<tr>
+													<th style="width: 120px;">변경 사진</th>
+													<td>
+														 <div class="filebox bs3-primary preview-image">
+												              <input id="input_file_nm" class="upload-name" value="" placeholder="변경 이미지 선택" disabled="disabled" style="width: 200px;">
+												              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
+												              <input type="file" id="input_file" class="upload-hidden"> 
+												         </div>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<div>
+											<button type="button" class="checkButton" onclick="change();">변경</button>
+										</div>
+									</div>
+								</form>
+							</article>
+					
+						</div>
+					</main>
+					<!-- #main -->
+				</div>
+				<!-- #primary -->
+			</div>
+			<!-- #content -->
+		</div>
+	</th:block>
+</html>
