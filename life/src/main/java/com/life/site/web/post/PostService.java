@@ -136,7 +136,8 @@ public class PostService {
 										.REG_DT(post.get("REG_DT").toString())
 										.MOD_USER_ID(post.get("MOD_USER_ID").toString())
 										.MOD_DT(post.get("MOD_DT").toString())
-										.TOTAL_COUNT(post.get("TOTAL_COUNT").toString());
+										.TOTAL_COUNT(post.get("TOTAL_COUNT").toString())
+										.TYPE(post.get("TYPE").toString());
 								 
 								 if(!morePostYn.equals("Y")) {
 									

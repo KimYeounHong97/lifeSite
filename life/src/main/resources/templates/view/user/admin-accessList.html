@@ -86,7 +86,7 @@ $(document).ready(function() {
 									data-lazy-src="/img/picture/common/sitemap-header.jpg"
 									data-was-processed="true">
 								<div class="article-info">
-                    				<h1 class="entry-title">회원 접속 로그 조회 및 검색</h1>
+                    				<h1 class="entry-title">회원 접속 로그</h1>
                 				</div>
 							</div>
 							<article>
@@ -96,14 +96,14 @@ $(document).ready(function() {
 											<table class="ec-base-table">
 												<tr>
 													<th style="width: 150px;text-align: center;margin: 0;">검색조건</th>
-													<td style="padding: 10px; border: 1px solid #D5D5D5;">
-														<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="keyword" name="keyword" placeholder="아이디,권한,접속URL"/>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+														<input type="text" class="form-control" style="width: 100vw;" id="keyword" name="keyword" placeholder="아이디,권한,접속URL"/>
 													</td>
-													<td style="padding: 10px; border: 1px solid #D5D5D5;"><button onclick="search();">조회</button></td>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;"><button onclick="search();">조회</button></td>
 												</tr>
 											</table>
 										</div>	
-										<div style="margin-top: 30px;margin-bottom: 50px;">
+										<div style="margin-top: 30px;margin-bottom: 50px;max-width:90%;margin: 0 auto;">
 											<table id="jqGrid"></table> 
 											<div id="gridpager"></div>
 										</div>

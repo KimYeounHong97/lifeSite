@@ -28,6 +28,9 @@ img {
     max-width: 100%;
 }
 
+iframe {
+	max-width: 100%;
+}
 .pickPost img{
 	width:840px; 
 	height:500px; 
@@ -171,11 +174,25 @@ body, button, input, select, textarea {
     text-align: center;
 }
 
+
+
+@media screen and (max-width: 700px) {
+    #main #home-container .home-header .article-info {
+	    bottom: 33rem;
+	}
+}
+
 #main #home-container .home-header .entry-title a {
     color: white;
-    font-size: 42px;
+    font-size: 55px;
     font-family: 'Nanum Gothic Coding'; 
     font-weight: bold;
+}
+
+@media screen and (max-width: 700px) {
+    #main #home-container .home-header .entry-title a{
+	    font-size: 45px;
+	}
 }
 
 #main #container .header .featured-image {
@@ -189,7 +206,7 @@ body, button, input, select, textarea {
 #main #container .header .article-info {
     width: 100%;
     position: absolute;
-    bottom: 30rem;
+    bottom: 42rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,11 +266,19 @@ body, button, input, select, textarea {
     font-size: 14px;
     letter-spacing: 1px;
     padding: 0;
-    width: 16.5%;
+    width: 16%;
     height: 40px;
     text-transform: uppercase;
     background-color: #e90000;
 }
+
+
+@media screen and (max-width: 700px) {
+    #main .newsletter-container section button  {
+        width: 30%;
+    }
+}
+
 
 button, html input[type=button], input[type=reset], input[type=submit] {
     border: 1px solid transparent;
@@ -523,9 +548,16 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 }
 
 #main .newsletter-container h2 {
-    font-family: "Folio", "Arial Narrow", sans-serif;
+    font-family: "Nanum Gothic Coding", sans-serif;
     font-size: 48px;
     margin-bottom: 0;
+}
+
+@media screen and (max-width: 700px) {
+   #main .newsletter-container h2 {
+	    font-size: 25px;
+	    font-weight: bold;
+	}
 }
 
 #main .newsletter-container h2, #main .newsletter-container p, #main .newsletter-container section {
@@ -593,6 +625,7 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
 	position: absolute;
 }
 
+
 #site-navigation .inside-navigation .nav-top-right-container a {
     text-transform: uppercase;
     font-family: "Nanum Gothic Coding";
@@ -600,6 +633,12 @@ button.menu-toggle:hover, button.menu-toggle:focus, .main-navigation .mobile-bar
     font-size: 22px;
     letter-spacing: 0.5px;
     display: flex;
+}
+
+@media screen and (max-width: 600px) {
+    #site-navigation .inside-navigation .nav-top-right-container a {
+	    font-size: 14px;
+	}
 }
 
 .footer-bar .widget_nav_menu .current-menu-item a {
@@ -737,7 +776,7 @@ button:hover, html input[type="button"]:hover, input[type="reset"]:hover,
 	position: absolute;
 	top: 8px;
 	right: 16px;
-	font-size: 18px;
+	font-size: 1.3rem;
 }
 
 
@@ -762,6 +801,14 @@ button:hover, html input[type="button"]:hover, input[type="reset"]:hover,
 	font-weight: bold;
 	font-size: 20px;
 }
+
+
+@media ( max-width : 700px) {
+		#footer span{
+			font-size: 17px;
+		}
+}
+
 
 @media ( max-width : 2570px) {
 	#site-navigation .navigation-branding, #sticky-navigation .navigation-branding
@@ -843,6 +890,21 @@ ul{
  }
  
 .checkButton{
+  background-color: white;
+  color: black;
+  padding: 14px 20px;
+  margin-left: 20px;
+  border: 1.5px solid black;
+  cursor: pointer;
+  width: 150px;
+  height : 50px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Nanum Gothic Coding";
+}
+
+
+.checkButton-short{
   background-color: white;
   color: black;
   padding: 14px 20px;
@@ -955,3 +1017,19 @@ ul{
   background-color: #337ab7;
   border-color: #2e6da4;
 }
+
+.ui-jqgrid.ui-widget.ui-widget-content.ui-corner-all {width:100% !important;}
+
+.ui-jqgrid-view {width:100% !important;}
+
+.ui-jqgrid-hdiv {width:100% !important;}
+
+.ui-jqgrid .ui-jqgrid-hbox {width:100% !important; padding:0 !important;}
+
+.ui-jqgrid-htable {width:100% !important;}
+
+.ui-jqgrid-bdiv {width:100% !important;}
+
+.ui-jqgrid-btable {width:100% !important;}
+
+.ui-jqgrid-pager {width:100% !important;}

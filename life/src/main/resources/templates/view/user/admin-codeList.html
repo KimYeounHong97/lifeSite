@@ -171,46 +171,46 @@ $(document).ready(function() {
 											<table class="ec-base-table">
 												<tr>
 													<th style="width: 150px;text-align: center;margin: 0;">검색조건</th>
-													<td style="padding: 10px; border: 1px solid #D5D5D5;">
-														<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="keyword" name="keyword" placeholder="그룹 아이디,코드,코드명"/>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+														<input type="text" class="form-control" style="width: 100vw;" id="keyword" name="keyword" placeholder="그룹 아이디,코드,코드명"/>
 													</td>
-													<td style="padding: 10px; border: 1px solid #D5D5D5;"><button onclick="search();">조회</button></td>
+													<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;"><button onclick="search();">조회</button></td>
 												</tr>
 											</table>
 										</div>	
-										<div style="margin-top: 30px;margin-bottom: 50px;">
+										<div style="margin-top: 30px;margin-bottom: 50px;max-width:90%;margin: 0 auto;">
 											<table id="jqGrid"></table> 
 											<div id="gridpager"></div>
 										</div>
-										<div style="border: 1px solid black;padding: 30px;margin-bottom: 50px;">
+										<div style="border: 1.5px solid black;padding: 10px;margin-bottom: 50px;margin: 0 auto;width: 90%;">
 											<table class="ec-base-table" style="margin-bottom: 20px;">
 												<tr>
 														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>그룹 아이디</th>
-														<td style="padding: 10px; border: 1px solid #D5D5D5;">
-															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="grpId" name="grpId" placeholder="그룹 아이디를 입력해주세요."/>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="grpId" name="grpId" placeholder="그룹 아이디를 입력해주세요."/>
 														</td>
 												</tr>
 												<tr>
 														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드</th>
-														<td style="padding: 10px; border: 1px solid #D5D5D5;">
-															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeCd" name="codeCd" placeholder="코드를 입력해주세요."/>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeCd" name="codeCd" placeholder="코드를 입력해주세요."/>
 														</td>
 												</tr>
 												<tr>
 														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드명</th>
-														<td style="padding: 10px; border: 1px solid #D5D5D5;">
-															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeNm" name="codeNm" placeholder="코드명을 입력해주세요."/>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeNm" name="codeNm" placeholder="코드명을 입력해주세요."/>
 														</td>
 												</tr>
 														<th style="width: 150px;text-align: center;margin: 0;"><span class="required">*</span>코드 순번</th>
-														<td style="padding: 10px; border: 1px solid #D5D5D5;">
-															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="codeSeq" name="codeSeq" placeholder="코드 순번을 입력해주세요."/>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="codeSeq" name="codeSeq" placeholder="코드 순번을 입력해주세요."/>
 														</td>
 												</tr>
-												</tr>
+												<tr>
 														<th style="width: 150px;text-align: center;margin: 0;">비고란</th>
-														<td style="padding: 10px; border: 1px solid #D5D5D5;">
-															<input type="text" class="form-control" style="width: 1000px;margin-left: 100px;" id="ref01" name="ref01" placeholder="비고란을 입력해주세요."/>
+														<td style="padding: 10px; border: 1px solid #D5D5D5;max-width: 60vw;">
+															<input type="text" class="form-control" style="width: 100vw;" id="ref01" name="ref01" placeholder="비고란을 입력해주세요."/>
 														</td>
 												</tr>
 											</table>

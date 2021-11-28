@@ -49,35 +49,64 @@ function postData(){
 				var pagingCount= parseInt(totalCount / 12)==0?1:(totalCount / 12);
 				trCount = trCount>4?4:trCount;
 				var insertTr ="";
-				
-				//테이블 생성
-				for(var i=0; i< trCount; i++){
-					if(i==trCount-1){
-						tdCount = Count%3==0?3:Count%3;
-					}else{
-						tdCount = 3;
-					}
-					insertTr = "<tr>";
-					for(var j=0; j<tdCount; j++){
-						var attach = data.posts[j+(i*3)].postAttaches;
+				var mobileYn = screen.width<800?'Y':'N';
+				if(mobileYn=='Y'){
+					for(var i=0; i< Count; i++){
+						insertTr = "<tr>";
+						var attach = data.posts[i].postAttaches;
 						var imgSrc;
 						$.each(attach, function(index, item){
 							if(item.TITLE_FL == 'Y'){
 								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
 							}
 						});
+						var postType = data.posts[i].TYPE;
 						
 						insertTr += " <td>";
 						insertTr += " 	 <div class='category-card'>";
-						insertTr += " 	 	<a href='/arts-entertainment/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;' src='"+imgSrc+"'"; 
-						insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
-						insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-						insertTr += "       <h3><a href='/arts-entertainment/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+						insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+						insertTr += " 	 	<img style='width:150vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+						insertTr += "       ></a>";
+						insertTr += "       <h3 class='TitleMsg' ><a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'>"+data.posts[i].TITLE+"</a> </h3>";
 						insertTr += "     </div>"; 
 						insertTr += "  </td>";
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
 					}
-					insertTr += "</tr>"; 
-					$("#postTbody").append(insertTr);
+				}else{
+					//테이블 생성
+					for(var i=0; i< trCount; i++){
+						if(i==trCount-1){
+							tdCount = Count%3==0?3:Count%3;
+						}else{
+							tdCount = 3;
+						}
+						insertTr = "<tr>";
+						
+						
+						for(var j=0; j<tdCount; j++){
+							var attach = data.posts[j+(i*3)].postAttaches;
+							var imgSrc;
+							$.each(attach, function(index, item){
+								if(item.TITLE_FL == 'Y'){
+									imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+								}
+							});
+							
+							var postType = data.posts[j+(i*3)].TYPE;
+							
+							insertTr += " <td>";
+							insertTr += " 	 <div class='category-card'>";
+							insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+							insertTr += " 	 	<img style='width:30vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+							insertTr += "       ></a>";
+							insertTr += "       <h3 class='TitleMsg'><a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "     </div>"; 
+							insertTr += "  </td>";
+						}
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
+					}
 				}
 				
 				//페이징 처리
@@ -128,28 +157,35 @@ $(document).ready(function() {
 								<h1 class="entry-title">Art &amp;Entertainment</h1>
 							</div>
 						</div>
-						<div class="category-card-container">
-							<form id="arts-entertainmentForm" name="arts-entertainmentForm" , method="post" onsubmit="return false;">
-							<input type="hidden" name="postType" value="arts-entertainment"/>
-							<input type="hidden" name="currentPage" id="currentPage"/>
-							<div style="margin-bottom: 20px;">
-								<h2>최신호</h2>
-								<div  th:if="${session.life != null}">
-										<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
-											<button class="checkButton" style="margin-left: 1100px;" onclick="movPostReg();">포스트 등록</button>
-										</p>
+						<article>
+							<div class="inside-article">
+								<div class="entry-content" itemprop="text">
+									<div class="tag-card-container">
+										<form id="arts-entertainmentForm" name="arts-entertainmentForm" , method="post"
+											onsubmit="return false;">
+											<input type="hidden" name="postType" value="arts-entertainment" /> <input
+												type="hidden" name="currentPage" id="currentPage" />
+											<div style="margin-bottom: 20px;">
+												<h2 style="text-align: center;">최신호</h2>
+												<div style="float: right;" th:if="${session.life != null}">
+													<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
+														<button class="checkButton" onclick="movPostReg();">포스트
+															등록</button>
+													</p>
+												</div><br/><br/><br/>
+											</div>
+											<div>
+												<table>
+													<tbody id="postTbody"></tbody>
+												</table>
+											</div>
+										</form>
+									</div>
+
 								</div>
+								<div class="pagination-container" id="pagingNum"></div>
 							</div>
-							<div>
-								<table>
-									<tbody id="postTbody"></tbody>
-								</table>
-							</div>
-							</form>
-						</div>
-						<div class="pagination-container" id="pagingNum">
-							
-						</div>
+						</article>
 					</div>
 					<div th:if="${session.life == null}"
 						data-bg="url(/wp-content/themes/generatepress-child/static/newsletter.jpg)"

@@ -14,6 +14,7 @@
 	content="Experience LIFE's visual record of the 20th century by exploring the most iconic photographs from one of the most famous private photo collections in the world.">
 <meta name="twitter:title"
 	content="The Most Iconic Photographs of All Time - LIFE">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <!--headerFragment 선언-->
 <th:block th:fragment="headerFragment">
 <style type="text/css">
@@ -26,7 +27,7 @@
 		<div class="inside-navigation">
 			<div class="navigation-branding">
 				<div class="site-logo">
-					<a href="http://localhost:8080/" title="LIFE-MAGAGINE" rel="home">
+					<a href="/" title="LIFE-MAGAGINE" rel="home">
 						<img class="header-image lazyloaded" alt="LIFE"
 						src="/img/logo/SITE_LOGO.png"
 						title="LIFE"
@@ -56,7 +57,7 @@
 				    href="/user/login">로그인</a>
 				 <span th:unless="${session.life == null}">
 				 	<a th:if="${session.life.user.USER_GRADE != 'ADMIN'}"
-					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb" href="/user/myinfo">
+					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb" href="/user/myInfo">
 					<span th:text="${session.life.user.USER_ID}"/>&nbsp;님</a>
 					<a th:unless="${session.life.user.USER_GRADE != 'ADMIN'}"
 						class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb" href="/user/admin-list">
@@ -66,7 +67,7 @@
 
 				<a th:unless="${session.life == null}"
 					class="nav-btn nav-latest-issue mt-editHTML-2f5e87bb"
-					href="/user/logout"><span th:text="로그아웃"/></a>
+					href="/user/logout"><span>&nbsp;&nbsp;&nbsp;로그아웃</span></a>
 			</div>
 		</div>
 		<!-- .inside-navigation -->
@@ -91,7 +92,7 @@
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/arts-entertainment/info" >Art &amp;Entertainment</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/destinations/info" >Destinations</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/history/info" >History</a></li>
-						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifestyle/info" >LifeStyle</a></li>
+						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/lifeStyle/info" >LifeStyle</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/nature/info" >Nature</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/people/info" >People</a></li>
 						<li><i class="far fa-bookmark fa-2x" aria-hidden="true"></i><a class="menu" href="/sitemap/info" >SiteMap</a></li>

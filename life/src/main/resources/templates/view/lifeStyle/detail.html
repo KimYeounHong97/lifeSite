@@ -93,34 +93,64 @@
 					var tdCount;
 					var insertTr ="";
 					
-					//테이블 생성
-					for(var i=0; i< trCount; i++){
-						if(i==trCount-1){
-							tdCount = Count%3==0?3:Count%3;
-						}else{
-							tdCount = Count<3?Count:3;
-						}
-						insertTr = "<tr>";
-						for(var j=0; j<tdCount; j++){
-							var attach = data.posts[j+(i*3)].postAttaches;
+					var mobileYn = screen.width<800?'Y':'N';
+					if(mobileYn=='Y'){
+						for(var i=0; i< Count; i++){
+							insertTr = "<tr>";
+							var attach = data.posts[i].postAttaches;
 							var imgSrc;
 							$.each(attach, function(index, item){
 								if(item.TITLE_FL == 'Y'){
 									imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
 								}
 							});
+							var postType = data.posts[i].TYPE;
 							
 							insertTr += " <td>";
 							insertTr += " 	 <div class='category-card'>";
-							insertTr += " 	 	<a href='/lifeStyle/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><img style='width:840px; height:500px;'  src='"+imgSrc+"'";
-							insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
-							insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-							insertTr += "       <h3><a style='color:black;text-align:center;'  class='black' href='/lifeStyle/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+							insertTr += " 	 	<img style='width:150vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+							insertTr += "       ></a>";
+							insertTr += "       <h3 class='TitleMsg' ><a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'>"+data.posts[i].TITLE+"</a> </h3>";
 							insertTr += "     </div>"; 
 							insertTr += "  </td>";
+							insertTr += "</tr>"; 
+							$("#postTbody").append(insertTr);
 						}
-						insertTr += "</tr>"; 
-						$("#postTbody").append(insertTr);
+					}else{
+						//테이블 생성
+						for(var i=0; i< trCount; i++){
+							if(i==trCount-1){
+								tdCount = Count%3==0?3:Count%3;
+							}else{
+								tdCount = 3;
+							}
+							insertTr = "<tr>";
+							
+							
+							for(var j=0; j<tdCount; j++){
+								var attach = data.posts[j+(i*3)].postAttaches;
+								var imgSrc;
+								$.each(attach, function(index, item){
+									if(item.TITLE_FL == 'Y'){
+										imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+									}
+								});
+								
+								var postType = data.posts[j+(i*3)].TYPE;
+								
+								insertTr += " <td>";
+								insertTr += " 	 <div class='category-card'>";
+								insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+								insertTr += " 	 	<img style='width:30vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+								insertTr += "       ></a>";
+								insertTr += "       <h3 class='TitleMsg'><a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+								insertTr += "     </div>"; 
+								insertTr += "  </td>";
+							}
+							insertTr += "</tr>"; 
+							$("#postTbody").append(insertTr);
+						}
 					}
 					
 				}
@@ -264,14 +294,14 @@
 								<input type="hidden" id="morePostYn" name="morePostYn" value="" />
 								<div class="entry-content">
 									<div  th:if="${session.life != null}"
-										style="float: right; margin-bottom: 20px; margin-top:50px; margin-left:690px;" >
+										style="float: right; margin-bottom: 20px; margin-top:50px;" >
 										<p th:if="${session.life.user.USER_GRADE == 'ADMIN'}">
 											<button class="checkButton"  onclick="pickPost();" style="display: inline;">메인화면 표시</button>
 											<button class="checkButton"  onclick="updatePost();" style="display: inline;">수정</button>
 											<button class="checkRedButton"  onclick="deletePost();" style="display: inline;">삭제</button>
 										</p>
 									</div>
-									<div id="postContent"></div>
+									<div id="postContent" style="max-width: 80%; margin: 0 auto; text-align: center;"></div>
 								</div>
 							</form>
 						</article>

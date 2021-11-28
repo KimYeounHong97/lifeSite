@@ -40,9 +40,16 @@ function setOriginal(event){
 
 //이미지 변경
 function change(){
-	if(!confirm("이미지를 변경하시겠습니까?")){
+	if($("#changeImg option:selected").val()==""){
+		alert("변경 목록을 선택해주세요.");
+		return;
+	}else if($("#input_file_nm").val()==""){
+		alert("변경이미지를 선택해주세요.");
+		return;
+	}else if(!confirm("이미지를 변경하시겠습니까?")){
 		return;
 	}
+	
 	var form = new FormData(document.getElementById('adminForm'));
 	var form_data = new FormData();
 	var temp = $("#input_file")[0].files[0];
@@ -208,7 +215,7 @@ $(document).ready(function() {
 													<th style="width: 120px;">변경 사진</th>
 													<td>
 														 <div class="filebox bs3-primary preview-image">
-												              <input id="input_file_nm" class="upload-name" value="변경 이미지 선택" disabled="disabled" style="width: 200px;">
+												              <input id="input_file_nm" class="upload-name" value="" placeholder="변경 이미지 선택" disabled="disabled" style="width: 200px;">
 												              <label  style="background-color: black; border: 1px solid black;" for="input_file"><i class="far fa-file-image fa-2x"></i></label> 
 												              <input type="file" id="input_file" class="upload-hidden"> 
 												         </div>

@@ -208,9 +208,9 @@ $(document).ready(function() {
 								<h1 class="entry-title">MYPAGE</h1>
 							</div>
 						</div>
-						<div style="height: 1147px; background-color: #E7E7E7;">
+						<div style="height: 100%; background-color: #E7E7E7;">
 							<!-- CONTENTS -->
-							<form id="infoForm" name="infoForm" , method="post" onsubmit="return false;">
+							<form id="infoForm" name="infoForm" , method="post" onsubmit="return false;"style="border: none;">
 								<input type="hidden" id="editType" name="editType" value=""/>
 								<input type="hidden" id="loginUserId" name="loginUserId" th:if="${session.life == null}"  th:value="noUser">
 								<input type="hidden" id="loginUserId" name="loginUserId" th:unless="${session.life == null}"  th:value="${session.life.user.USER_ID}">
@@ -221,9 +221,9 @@ $(document).ready(function() {
 											<div class="sh_header">
 												<h2>프로필</h2>
 											</div>
-											<table>
+											<table  style="margin: 10px;">
 												<tr>
-													<th>아이디</th>
+													<th width="100px;">아이디</th>
 													<td>
 														<input id="userId" name="userId" 
 															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
@@ -233,7 +233,7 @@ $(document).ready(function() {
 												</tr>
 												<tr>
 													<th>성별</th>
-													<td>
+													<td width="100px;">
 														<select id="gender" name="gender" fw-filter="" fw-label="성별" fw-msg="" disabled="disabled">
 																<option value="" selected="selected">성별을 선택해주세요.</option>
 																<option value="M">남자</option>
@@ -243,7 +243,7 @@ $(document).ready(function() {
 												</tr>
 												<tr>
 													<th>가입날짜</th>
-													<td>
+													<td width="100px;">
 														<input id="inputDt" name="inputDt" 
 															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
 															fw-label="가입날짜" fw-msg="" class="inputTypeText"
@@ -252,7 +252,7 @@ $(document).ready(function() {
 												</tr>
 												<tr>
 													<th>수정 날짜</th>
-													<td>
+													<td width="100px;">
 														<input id="modDt" name="modDt" 
 															fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
 															fw-label="가입날짜" fw-msg="" class="inputTypeText" 
@@ -272,7 +272,7 @@ $(document).ready(function() {
 											<div class="sh_header">
 												<h2>연락처 및 정보</h2>
 											</div>
-											<table>
+											<table  style="margin: 10px;">
 												<tr>
 													<th width="100px;">이메일</th>
 													<td>
@@ -300,7 +300,9 @@ $(document).ready(function() {
 													<td>
 														<input id="postcode1" name="postcode1"  fw-filter="isLengthRange[1][14]" fw-label="우편번호1"fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" maxlength="14" type="text">
 														<button class="checkButton" id="callAddress" onclick="fnAddres('postcode1','addr1','addr2');" style="display: none; width: 130px;">우편 번호</button>
+														<div style="font-size: 12px;"><b>기본주소</b></div>
 														<input id="addr1" name="addr1" fw-filter="" fw-label="주소" fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" type="text">
+														<div style="font-size: 12px;">나머지주소 <b style="color: red;">(선택입력가능)</b></div>
 														<input id="addr2" name="addr2" fw-filter="" fw-label="주소" fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" type="text">
 													</td>
 												</tr>
@@ -316,7 +318,7 @@ $(document).ready(function() {
 											<div class="sh_header">
 												<h2>관심 분야</h2>
 											</div>
-											<table>
+											<table  style="margin: 10px;">
 												<tr>
 													<th width="100px;">관심 분야</th>
 													<td>

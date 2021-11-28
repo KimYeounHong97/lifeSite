@@ -10,7 +10,7 @@
 		           		 @num:=@num+1 AS NUM , T.*
 				 FROM(
 						SELECT 
-											    'Animals' as TYPE,
+											    'animals' as TYPE,
 												POST_ID,
 										        TITLE,
 										        CONTENT,
@@ -110,6 +110,7 @@
            		(SELECT COUNT(*) FROM xorjf22.animals) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'animals' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -145,6 +146,7 @@
            		(SELECT COUNT(*) FROM xorjf22.artentertainment) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'arts-entertainment' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -180,6 +182,7 @@
            		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'destinations' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -215,6 +218,7 @@
            		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'history' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -250,6 +254,7 @@
            		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'lifeStyle' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -285,6 +290,7 @@
            		(SELECT COUNT(*) FROM xorjf22.nature) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'nature' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -320,6 +326,7 @@
            		(SELECT COUNT(*) FROM xorjf22.people) AS TOTAL_COUNT
 		 FROM(
 				SELECT  @num:=@num+1 AS NUM,
+										'people' as TYPE,
 										POST_ID,
 								        TITLE,
 								        CONTENT,
@@ -542,7 +549,7 @@
     	WHERE POST_ID = #{postId}
     </update>
     
-    <update  id="updatePostPickartentertainment" parameterType="map"  >
+    <update  id="updatePostPickArtEntertainment" parameterType="map"  >
     	UPDATE		/* post.PostMapper.updatePostPickartentertainment */
     			xorjf22.artentertainment
     	SET POST_PICK = 'Y' , MOD_DT = SYSDATE()

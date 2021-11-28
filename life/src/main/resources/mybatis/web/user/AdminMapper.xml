@@ -12,8 +12,8 @@
          				PHONE,
          				EMAIL, 
          				ADDRESS, 
-         				INPUT_DT, 
-         				MOD_DT
+         				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT, 
+         				date_format(MOD_DT, '%Y-%m-%d %T')  AS MOD_DT
 			FROM xorjf22.member
 			WHERE USE_FLG ='Y'
 			AND DEL_FLG ='N' 
@@ -58,8 +58,8 @@
 				CODE_SEQ,
 				REF01,
 				USE_YN,
-				INPUT_DT,
-				MOD_DT
+				date_format(INPUT_DT, '%Y-%m-%d %T')  AS INPUT_DT,
+				date_format(MOD_DT, '%Y-%m-%d %T')  AS MOD_DT
 		FROM xorjf22.tb_code
 		WHERE DEL_YN = 'N'
 		AND (

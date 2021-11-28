@@ -5,7 +5,8 @@
 	<section class="footer-links">
 		<a class="footer" href="/sitemap/info" style="font-size: 30px;">SITE MAP</a>
 	</section>
-	<span type="text" th:each="result:${@CommCodeService.getCodeList('ADMIN_FOOTER')}" 
-								                th:text="${result['CODE_NM']}"/>
+	<span type="text"
+		th:each="result:${@CommCodeService.getCodeList('ADMIN_FOOTER')}" 
+		th:text="${result['CODE_NM']}"/>
 </div>
 </html>

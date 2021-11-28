@@ -40,7 +40,8 @@ public class AdminService {
     	String url = "static"+param.get("path").toString();
     	ClassPathResource resource = new ClassPathResource(url);
     	 Path targetPath = Paths.get(resource.getURI());
-    	 String projectPath = targetPath.toString().replace("target", "src").replace("classes", "main/resources");
+    	 String projectPath = targetPath.toString();
+    	 log.info("변경 path : "+projectPath);
     	 
     	 File projectFile = new File(projectPath);
     	 multipartFile.transferTo(projectFile);

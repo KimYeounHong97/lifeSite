@@ -153,6 +153,11 @@
 								src="/img/picture/common/join-header.jpg"
 								data-lazy-src="/img/picture/common/join-header.jpg"
 								data-was-processed="true">
+								<div class="article-info">
+									<h1 class="entry-title">
+										<span style="font-family : 'Nanum Gothic Coding';">회원가입</span>
+									</h1>
+								</div>
 						</div>
 					</div>
 					<div>
@@ -165,19 +170,15 @@
 							<div class="form-container">
 								<div id="find-container">
 									<fieldset class="find-container">
-										<table border="1" summary="" class="ec-base-table">
-											<colgroup>
-												<col style="width: 20%;">
-												<col style="width: 80%;">
-											</colgroup>
+										<table border="1" class="ec-base-table">
 											<tbody>
 												<tr>
 													<th scope="row">아이디</th>
 													<td><input id="userId" name="userId"
 														fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity"
 														fw-label="아이디" fw-msg="" class="inputTypeText"
-														placeholder="" value="" type="text"> 
-														<button class="checkButton" onclick="fnIdCheck();">중복 확인</button>
+														placeholder="" value="" type="text" style="max-width: 73%;"> 
+														<button class="checkButton-short" onclick="fnIdCheck();">중복 확인</button>
 													</td>
 												</tr>
 												<tr>
@@ -236,17 +237,19 @@
 												</tr>
 												<tr class="">
 													<th scope="row">주소</th>
-													<td><input id="postcode1" name="postcode1"
+													<td><input id="postcode1" name="postcode1"  style="max-width: 73%;"
 														fw-filter="isLengthRange[1][14]" fw-label="우편번호1"
 														fw-msg="" class="inputTypeText" placeholder=""
 														readonly="readonly" maxlength="14" type="text">
-														<button class="checkButton" onclick="fnAddres('postcode1' , 'addr1' , 'addr2');">우편 번호</button><br>
-														<input id="addr1" name="addr1" fw-filter="" fw-label="주소"
-														fw-msg="" class="inputTypeText" placeholder=""
-														readonly="readonly" type="text"> 기본주소<br>
-														<input id="addr2" name="addr2" fw-filter="" fw-label="주소"
-														fw-msg="" class="inputTypeText" placeholder=""
-														type="text"> 나머지주소 (선택입력가능)</td>
+														<button class="checkButton-short" onclick="fnAddres('postcode1' , 'addr1' , 'addr2');">우편 번호</button><br>
+														<div><b>기본주소</b></div>
+														<input id="addr1" name="addr1" fw-filter="" fw-label="기본주소" 
+														fw-msg="" class="inputTypeText" placeholder="기본주소"
+														readonly="readonly" type="text">
+														<div>나머지주소 <b style="color: red;">(선택입력가능)</b></div>
+														<input id="addr2" name="addr2" fw-filter="" fw-label="상세주소"
+														fw-msg="" class="inputTypeText" placeholder="상세주소"
+														type="text"></td>
 												</tr>
 												<tr class="">
 													<th scope="row">휴대전화 <span class="required">*</span></th>
@@ -254,7 +257,7 @@
 														<div id="mobileView" style=" margin: 0" class="mobile" >
 															<input id="mobile1"name="mobile1" fw-filter="isMin[3]&amp;isMax[3]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
 																maxlength="3" type="text" onkeydown="checkNumber(event);"> 
-															<b>-</b> 
+															<b style="">-</b> 
 														<input id="mobile2" name="mobile2" fw-filter="isMin[3]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile" placeholder=""
 																maxlength="4" type="text" onkeydown="checkNumber(event);"> 
 															<b>-</b> 
@@ -265,7 +268,7 @@
 												</tr>
 												<tr>
 													<th scope="row">이메일 <span class="required">*</span></th>
-													<td><input id="email" name="email"
+													<td><input id="email" name="email" style="max-width:100%;"
 														fw-filter="isFill&amp;isEmail" fw-label="이메일" fw-alone="N"
 														fw-msg="" value="" type="text"> <span
 														id="emailMsg"></span></td>

@@ -5,7 +5,9 @@
 	layout:decorator="~{/layout/default_layout}">
 <head>
 <!--  고유 CSS 추가 -->
-<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="css">
+<link rel="stylesheet" th:href="@{/css/common/magagine-style.css}">
+</th:block>
 <!-- 고유 스크립트 추가 -->
 <th:block layout:fragment="script"></th:block>
 <script type="text/javascript">
@@ -35,38 +37,68 @@ function postData(){
 				var tdCount;
 				trCount = trCount>4?4:trCount;
 				var insertTr ="";
+				var mobileYn = screen.width<800?'Y':'N';
 				
-				//테이블 생성
-				for(var i=0; i< trCount; i++){
-					if(i==trCount-1){
-						tdCount = Count%3==0?3:Count%3;
-					}else{
-						tdCount = 3;
-					}
-					insertTr = "<tr>";
-					for(var j=0; j<tdCount; j++){
-						var attach = data.posts[j+(i*3)].postAttaches;
+				if(mobileYn=='Y'){
+					for(var i=0; i< Count; i++){
+						insertTr = "<tr>";
+						var attach = data.posts[i].postAttaches;
 						var imgSrc;
 						$.each(attach, function(index, item){
 							if(item.TITLE_FL == 'Y'){
 								imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
 							}
 						});
+						var postType = data.posts[i].TYPE;
 						
-						var postType = data.posts[j+(i*3)].TYPE;
-						
-						insertTr += " <td st>";
+						insertTr += " <td>";
 						insertTr += " 	 <div class='category-card'>";
-						insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><span class='pickPostType'>"+postType+"</span><img style='width:840px; height:500px; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
-						insertTr += "              class='attachment-840x600 size-840x600 wp-post-image' loading='lazy'";
-						insertTr += "             	sizes='(max-width: 837px) 100vw, 837px'></a>";
-						insertTr += "       <h3><a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+						insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+						insertTr += " 	 	<img style='width:150vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+						insertTr += "       ></a>";
+						insertTr += "       <h3 class='TitleMsg' ><a href='/"+postType+"/detail/"+data.posts[i].TITLE+"?postId="+data.posts[i].POST_ID+"'>"+data.posts[i].TITLE+"</a> </h3>";
 						insertTr += "     </div>"; 
 						insertTr += "  </td>";
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
 					}
-					insertTr += "</tr>"; 
-					$("#postTbody").append(insertTr);
+				}else{
+					//테이블 생성
+					for(var i=0; i< trCount; i++){
+						if(i==trCount-1){
+							tdCount = Count%3==0?3:Count%3;
+						}else{
+							tdCount = 3;
+						}
+						insertTr = "<tr>";
+						
+						
+						for(var j=0; j<tdCount; j++){
+							var attach = data.posts[j+(i*3)].postAttaches;
+							var imgSrc;
+							$.each(attach, function(index, item){
+								if(item.TITLE_FL == 'Y'){
+									imgSrc = '/uploadTitleimg/'+item.URL_PATH+"/"+item.FILE_STORE_NM;
+								}
+							});
+							
+							var postType = data.posts[j+(i*3)].TYPE;
+							
+							insertTr += " <td>";
+							insertTr += " 	 <div class='category-card'>";
+							insertTr += " 	 	<a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'><span class='pickPostType'>"+postType+"</span>";
+							insertTr += " 	 	<img style='width:30vw; height:50vh; padding-right:20px;padding-left:20px; padding-bottom:20px;' src='"+imgSrc+"'"; 
+							insertTr += "       ></a>";
+							insertTr += "       <h3 class='TitleMsg'><a href='/"+postType+"/detail/"+data.posts[j+(i*3)].TITLE+"?postId="+data.posts[j+(i*3)].POST_ID+"'>"+data.posts[j+(i*3)].TITLE+"</a> </h3>";
+							insertTr += "     </div>"; 
+							insertTr += "  </td>";
+						}
+						insertTr += "</tr>"; 
+						$("#postTbody").append(insertTr);
+					}
 				}
+				
+				
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
@@ -113,19 +145,16 @@ $(document).ready(function() {
 								</h1>
 							</div>
 						</div>
-						<article id="post-156"
-							class="post-156 page type-page status-publish"
-							itemtype="https://schema.org/CreativeWork" itemscope="">
+						<article>
 							<div class="inside-article">
 								<div class="entry-content" itemprop="text">
-									<div class="home-card-container"></div>
 									<div class="tag-card-container">
 										<h1>Featured Topics</h1>
 										<form id="mainForm" name="mainForm" , method="post"
 											onsubmit="return false;">
 											<div>
 												<table>
-													<tbody id="postTbody"></tbody>
+													<tbody id="postTbody" style="max-width: 100%;"></tbody>
 												</table>
 											</div>
 										</form>
